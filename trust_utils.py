@@ -8,18 +8,18 @@ import streamlit as st
 
 
 def apply_dark_theme() -> None:
-    """Inject the global dark-theme CSS used across all pages."""
+    """Inject the global CSS used across all pages."""
     st.markdown(
         """
         <style>
         [data-testid="stAppViewContainer"] {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: #ffffff;
         }
         [data-testid="stSidebar"] {
-            background: #1e293b;
+            background: #f8fafc;
         }
         [data-testid="metric-container"] {
-            background: #1e3a5f;
+            background: #eff6ff;
             border: 1px solid #2563eb;
             border-radius: 10px;
             padding: 12px;
@@ -28,19 +28,19 @@ def apply_dark_theme() -> None:
             font-size: 1.05rem;
             font-weight: 600;
         }
-        h1, h2, h3 { color: #93c5fd !important; }
+        h1, h2, h3 { color: #1e40af !important; }
         .stAlert { border-radius: 10px; }
-        hr { border-color: #334155; }
+        hr { border-color: #e2e8f0; }
         .pillar-card {
-            background: #1e3a5f;
+            background: #eff6ff;
             border: 1px solid #2563eb;
             border-radius: 12px;
             padding: 18px 16px;
             text-align: center;
             height: 100%;
         }
-        .pillar-card h3 { color: #93c5fd !important; margin-bottom: 6px; }
-        .pillar-card p { color: #cbd5e1; font-size: 0.9rem; margin: 0; }
+        .pillar-card h3 { color: #1e40af !important; margin-bottom: 6px; }
+        .pillar-card p { color: #475569; font-size: 0.9rem; margin: 0; }
         </style>
         """,
         unsafe_allow_html=True,

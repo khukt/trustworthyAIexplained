@@ -17,16 +17,16 @@ col_hero, col_chart = st.columns([1.1, 1], gap="large")
 with col_hero:
     st.markdown(
         """
-        <h1 style='font-size:2.6rem; color:#93c5fd;'>🤖 Trustworthy AI — Explained</h1>
-        <p style='font-size:1.2rem; color:#94a3b8;'>An interactive overview for decision-makers</p>
+        <h1 style='font-size:2.6rem; color:#1e40af;'>🤖 Trustworthy AI — Explained</h1>
+        <p style='font-size:1.2rem; color:#64748b;'>An interactive overview for decision-makers</p>
         """,
         unsafe_allow_html=True,
     )
     st.markdown(
         """
-        <div style='background:#1e3a5f; border-left:4px solid #2563eb;
+        <div style='background:#eff6ff; border-left:4px solid #2563eb;
                     border-radius:8px; padding:16px 20px; margin:16px 0;'>
-        <p style='color:#cbd5e1; font-size:1rem; margin:0;'>
+        <p style='color:#475569; font-size:1rem; margin:0;'>
         <em>"We don't need perfect AI.<br>
         We need AI that fails safely, is reviewable, is governed,
         and earns public trust."</em>
@@ -47,10 +47,10 @@ with col_hero:
     for icon, title, desc in nav_items:
         st.markdown(
             f"<div style='display:flex; align-items:center; gap:10px; "
-            f"margin:6px 0; padding:8px 12px; background:#1e293b; "
-            f"border-radius:8px; border:1px solid #334155;'>"
+            f"margin:6px 0; padding:8px 12px; background:#f8fafc; "
+            f"border-radius:8px; border:1px solid #e2e8f0;'>"
             f"<span style='font-size:1.3rem;'>{icon}</span>"
-            f"<div><strong style='color:#e2e8f0;'>{title}</strong> "
+            f"<div><strong style='color:#1e293b;'>{title}</strong> "
             f"<span style='color:#64748b; font-size:0.85rem;'>— {desc}</span></div>"
             f"</div>",
             unsafe_allow_html=True,
@@ -78,14 +78,14 @@ with col_chart:
     ))
     fig.update_layout(
         polar=dict(
-            bgcolor="#0f172a",
-            radialaxis=dict(visible=True, range=[0, 1], color="#64748b"),
-            angularaxis=dict(color="#94a3b8"),
+            bgcolor="#f8fafc",
+            radialaxis=dict(visible=True, range=[0, 1], color="#475569"),
+            angularaxis=dict(color="#475569"),
         ),
-        paper_bgcolor="#1e293b",
-        plot_bgcolor="#1e293b",
-        legend=dict(font=dict(color="#cbd5e1"), bgcolor="#1e293b"),
+        paper_bgcolor="#ffffff",
+        plot_bgcolor="#ffffff",
+        legend=dict(font=dict(color="#334155"), bgcolor="#ffffff"),
         margin=dict(l=40, r=40, t=40, b=40),
-        title=dict(text="Trustworthy AI: Five Pillars", font=dict(color="#93c5fd", size=16)),
+        title=dict(text="Trustworthy AI: Five Pillars", font=dict(color="#1e40af", size=16)),
     )
     st.plotly_chart(fig, use_container_width=True)

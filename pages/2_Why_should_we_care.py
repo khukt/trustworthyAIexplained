@@ -8,7 +8,7 @@ apply_dark_theme()
 
 st.title("2\ufe0f\u20e3 Why should we care?")
 st.markdown(
-    "<p style='color:#94a3b8; font-size:1.05rem;'>For decision makers, the question is simple: "
+    "<p style='color:#64748b; font-size:1.05rem;'>For decision makers, the question is simple: "
     "<strong>If AI is wrong, who pays the price?</strong></p>",
     unsafe_allow_html=True,
 )
@@ -29,13 +29,13 @@ for col, icon, title, color, desc in risk_cards:
     with col:
         st.markdown(
             f"""
-            <div style='background:#1e293b; border:1px solid {color};
+            <div style='background:#f8fafc; border:1px solid {color};
                         border-top:4px solid {color}; border-radius:12px;
                         padding:22px 16px; text-align:center; min-height:160px;'>
               <div style='font-size:2.4rem;'>{icon}</div>
               <div style='color:{color}; font-weight:700; font-size:1rem;
                           margin:8px 0 6px;'>{title}</div>
-              <div style='color:#94a3b8; font-size:0.88rem;'>{desc}</div>
+              <div style='color:#475569; font-size:0.88rem;'>{desc}</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -74,10 +74,10 @@ with left:
     ))
     fig.update_layout(
         barmode="group",
-        paper_bgcolor="#1e293b",
-        plot_bgcolor="#1e293b",
-        font=dict(color="#cbd5e1"),
-        legend=dict(font=dict(color="#cbd5e1"), bgcolor="#1e293b"),
+        paper_bgcolor="#ffffff",
+        plot_bgcolor="#ffffff",
+        font=dict(color="#334155"),
+        legend=dict(font=dict(color="#334155"), bgcolor="#ffffff"),
         yaxis=dict(range=[0, 120], showgrid=False, title=""),
         xaxis=dict(showgrid=False, title=""),
         margin=dict(l=10, r=10, t=10, b=10),
@@ -102,16 +102,16 @@ with right:
         col_a, col_b = st.columns(2)
         with col_a:
             st.markdown(
-                f"<div style='background:#2d1515; border:1px solid #ef4444; "
-                f"border-radius:8px; padding:8px 12px; color:#fca5a5; "
-                f"font-size:0.85rem; margin:4px 0;'>\u274c {wo}</div>",
+                f"<div style='background:#fef2f2; border:1px solid #ef4444; "
+                f"border-radius:8px; padding:8px 12px; color:#dc2626; "
+                f"font-size:0.85rem; margin:4px 0;'>❌ {wo}</div>",
                 unsafe_allow_html=True,
             )
         with col_b:
             st.markdown(
-                f"<div style='background:#14291e; border:1px solid #22c55e; "
-                f"border-radius:8px; padding:8px 12px; color:#86efac; "
-                f"font-size:0.85rem; margin:4px 0;'>\u2705 {wi}</div>",
+                f"<div style='background:#f0fdf4; border:1px solid #22c55e; "
+                f"border-radius:8px; padding:8px 12px; color:#16a34a; "
+                f"font-size:0.85rem; margin:4px 0;'>✅ {wi}</div>",
                 unsafe_allow_html=True,
             )
 
@@ -120,15 +120,15 @@ st.divider()
 # ── Mindset quote ────────────────────────────────────────────────────────────
 st.markdown(
     """
-    <div style='background:#1e3a5f; border-left:4px solid #2563eb;
+    <div style='background:#eff6ff; border-left:4px solid #2563eb;
                 border-radius:8px; padding:20px 24px; margin:12px 0;'>
-      <h3 style='color:#93c5fd; margin-top:0;'>A useful mindset</h3>
-      <p style='color:#cbd5e1; margin:4px 0;'>We don\u2019t need <em>perfect</em> AI. We need AI that:</p>
-      <ul style='color:#cbd5e1; margin:8px 0;'>
-        <li><strong style='color:#22c55e;'>fails safely</strong></li>
-        <li><strong style='color:#3b82f6;'>is reviewable</strong></li>
-        <li><strong style='color:#f59e0b;'>is governed</strong></li>
-        <li><strong style='color:#a855f7;'>earns public trust</strong></li>
+      <h3 style='color:#1e40af; margin-top:0;'>A useful mindset</h3>
+      <p style='color:#334155; margin:4px 0;'>We don't need <em>perfect</em> AI. We need AI that:</p>
+      <ul style='color:#334155; margin:8px 0;'>
+        <li><strong style='color:#16a34a;'>fails safely</strong></li>
+        <li><strong style='color:#2563eb;'>is reviewable</strong></li>
+        <li><strong style='color:#d97706;'>is governed</strong></li>
+        <li><strong style='color:#7c3aed;'>earns public trust</strong></li>
       </ul>
     </div>
     """,
