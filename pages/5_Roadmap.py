@@ -2,6 +2,9 @@ import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
+from trust_utils import apply_dark_theme
+
+apply_dark_theme()
 
 st.title("5\ufe0f\u20e3 What we recommend \u2014 a decision-ready roadmap")
 st.caption("A simple, non-technical roadmap that leaders can act on.")

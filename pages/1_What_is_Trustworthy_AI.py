@@ -2,6 +2,9 @@ import streamlit as st
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
+from trust_utils import apply_dark_theme
+
+apply_dark_theme()
 
 st.title("1\ufe0f\u20e3 What is Trustworthy AI?")
 st.markdown(

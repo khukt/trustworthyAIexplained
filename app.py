@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
+from trust_utils import apply_dark_theme
 
 st.set_page_config(
     page_title="Trustworthy AI Explained",
@@ -8,49 +9,7 @@ st.set_page_config(
 )
 
 # ── Global custom CSS ────────────────────────────────────────────────────────
-st.markdown(
-    """
-    <style>
-    /* Page background */
-    [data-testid="stAppViewContainer"] {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    }
-    [data-testid="stSidebar"] {
-        background: #1e293b;
-    }
-    /* Metric cards */
-    [data-testid="metric-container"] {
-        background: #1e3a5f;
-        border: 1px solid #2563eb;
-        border-radius: 10px;
-        padding: 12px;
-    }
-    /* Expanders */
-    details summary {
-        font-size: 1.05rem;
-        font-weight: 600;
-    }
-    /* Headings colour */
-    h1, h2, h3 { color: #93c5fd !important; }
-    /* Info / success / warning / error boxes */
-    .stAlert { border-radius: 10px; }
-    /* Divider */
-    hr { border-color: #334155; }
-    /* Pillar cards */
-    .pillar-card {
-        background: #1e3a5f;
-        border: 1px solid #2563eb;
-        border-radius: 12px;
-        padding: 18px 16px;
-        text-align: center;
-        height: 100%;
-    }
-    .pillar-card h3 { color: #93c5fd !important; margin-bottom: 6px; }
-    .pillar-card p { color: #cbd5e1; font-size: 0.9rem; margin: 0; }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+apply_dark_theme()
 
 # ── Hero ─────────────────────────────────────────────────────────────────────
 col_hero, col_chart = st.columns([1.1, 1], gap="large")
