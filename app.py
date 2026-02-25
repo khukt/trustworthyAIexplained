@@ -7,7 +7,7 @@ st.set_page_config(
 )
 
 st.title("🤖 Trustworthy AI — Explained")
-st.subheader("An overview for politicians, managers and decision-makers")
+st.subheader("An overview for decision-makers")
 
 st.markdown(
     """
