@@ -41,5 +41,7 @@ streamlit run app.py
 MIT
 
 
-## Presenter mode
-Open **Guided Tour** page to present the demo in a simple, step-by-step story.
+
+
+## Story mode
+Open **Interactive mini-demo (story mode)** and click through: Reliable → Safe → Fair → Transparent → Accountable.

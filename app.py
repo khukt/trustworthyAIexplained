@@ -7,48 +7,25 @@ st.set_page_config(
 )
 
 st.title("🛡️ Trustworthy AI — Overview Demo")
-st.caption("A step-by-step, politician- and management-friendly demo: what it is, why it matters, and how safeguards reduce risk.")
+st.caption("A simple Streamlit demo for politicians and management: what Trustworthy AI is and why it matters.")
 
-st.success("Start here: open **Guided Tour** in the left menu (presenter mode).")
+st.success("Start here: open **Interactive mini-demo (story mode)** in the left menu.")
 
-col1, col2 = st.columns([1.25, 1])
-with col1:
-    st.markdown(
-        """
-### The main idea
-**Trustworthy AI** is AI that is **reliable, safe, fair, transparent, and accountable**.
+st.markdown(
+    """
+### Trustworthy AI in one line
+**Trustworthy AI** means AI that is **Reliable, Safe, Fair, Transparent, and Accountable**.
 
-For leaders, it's not a technical detail — it's **risk management**:
-- reduce harmful mistakes,
-- prevent unfair outcomes,
-- keep public trust,
-- and make accountability clear.
-
-### What you’ll see in this demo
-- A short guided story (**Guided Tour**)
-- A rich dashboard (**Interactive mini-demo**) with *what-if* controls
-- Realistic failure stories + a practical roadmap
-        """
-    )
-
-with col2:
-    st.info(
-        """
-**Tip for presentations**
-Use the **Guided Tour** page to walk the audience through the story in 5–7 minutes.
-        """
-    )
-    st.markdown("### Quick glossary")
-    st.write("- **Confidence**: how sure the AI is about its output.")
-    st.write("- **Out-of-context**: cases unlike what the AI has seen before.")
-    st.write("- **Fairness gap**: difference in outcomes between groups (a warning sign).")
+This demo helps you **explain those five ideas clearly** using one simple scenario and interactive visuals.
+"""
+)
 
 st.divider()
 st.markdown(
     """
-### Why this matters
-AI can be helpful — but when it fails, the cost is often **public safety**, **money**, and **trust**.
-
-Safeguards help AI **fail safely** and keep decisions **reviewable**.
+### Suggested 5–7 minute presentation flow
+1) Open **Interactive mini-demo (story mode)**  
+2) Click through: **Reliable → Safe → Fair → Transparent → Accountable**  
+3) End with the **Roadmap** page
 """
 )
