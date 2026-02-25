@@ -1,0 +1,121 @@
+case_id,sector,region,data_age_days,missing_rate,ood_score,sensitive_group,need_score,eligible_true
+C001,Transport,North,101,0.031,0.38,Group A,0.33,0
+C002,Public Services,East,106,0.034,0.255,Group B,0.595,1
+C003,Industry,North,26,0.0,0.255,Group A,0.878,1
+C004,Transport,East,107,0.053,0.261,Group A,0.253,0
+C005,Healthcare,East,13,0.018,0.09,Group B,0.319,0
+C006,Industry,North,62,0.039,0.198,Group A,0.474,0
+C007,Transport,West,56,0.025,0.197,Group A,0.456,0
+C008,Transport,South,37,0.056,0.278,Group B,0.696,1
+C009,Healthcare,West,2,0.0,0.37,Group B,0.593,1
+C010,Public Services,North,92,0.001,0.061,Group B,0.231,0
+C011,Public Services,North,40,0.145,0.201,Group A,0.643,1
+C012,Industry,South,79,0.009,0.442,Group A,0.446,0
+C013,Transport,North,49,0.016,0.108,Group B,0.779,1
+C014,Industry,South,44,0.133,0.097,Group A,0.437,0
+C015,Public Services,East,106,0.176,0.25,Group B,0.435,0
+C016,Healthcare,North,11,0.013,0.347,Group A,0.647,1
+C017,Public Services,East,88,0.045,0.222,Group A,0.687,1
+C018,Healthcare,North,89,0.074,0.419,Group A,0.631,1
+C019,Industry,North,45,0.129,0.349,Group B,0.247,0
+C020,Transport,East,31,0.021,0.346,Group A,0.647,1
+C021,Transport,West,0,0.05,0.303,Group A,0.364,0
+C022,Public Services,North,112,0.091,0.569,Group A,0.592,1
+C023,Industry,South,113,0.077,0.189,Group A,0.294,0
+C024,Industry,West,28,0.045,0.0,Group A,0.63,1
+C025,Transport,West,3,0.055,0.461,Group B,0.405,0
+C026,Healthcare,East,14,0.005,0.151,Group A,0.319,0
+C027,Public Services,South,8,0.05,0.236,Group B,0.678,1
+C028,Healthcare,South,99,0.049,0.416,Group B,0.593,1
+C029,Healthcare,East,107,0.069,0.0,Group A,0.439,0
+C030,Transport,East,18,0.038,0.032,Group A,0.811,1
+C031,Transport,South,89,0.079,0.0,Group B,0.471,1
+C032,Industry,North,21,0.101,0.101,Group A,0.556,1
+C033,Public Services,North,44,0.066,0.286,Group A,0.598,0
+C034,Public Services,West,71,0.074,0.299,Group B,0.438,0
+C035,Public Services,South,86,0.062,0.261,Group B,0.635,1
+C036,Healthcare,South,104,0.06,0.008,Group B,0.454,0
+C037,Healthcare,South,5,0.031,0.0,Group A,0.476,1
+C038,Public Services,West,23,0.073,0.228,Group B,0.795,1
+C039,Healthcare,North,33,0.056,0.149,Group B,0.363,0
+C040,Transport,North,37,0.144,0.289,Group A,0.116,0
+C041,Public Services,South,119,0.123,0.325,Group B,0.84,1
+C042,Industry,South,93,0.075,0.241,Group A,1.0,1
+C043,Transport,East,38,0.029,0.334,Group A,0.477,0
+C044,Public Services,South,116,0.016,0.254,Group A,0.201,0
+C045,Industry,South,59,0.108,0.3,Group A,0.494,1
+C046,Transport,West,60,0.071,0.114,Group A,0.498,1
+C047,Public Services,North,52,0.079,0.193,Group B,0.516,0
+C048,Public Services,East,17,0.0,0.25,Group B,0.35,0
+C049,Transport,East,112,0.097,0.343,Group B,0.654,1
+C050,Healthcare,South,1,0.078,0.161,Group B,0.644,1
+C051,Healthcare,West,20,0.016,0.298,Group B,0.281,0
+C052,Healthcare,South,27,0.041,0.18,Group A,0.676,1
+C053,Transport,West,33,0.071,0.202,Group A,0.919,1
+C054,Transport,South,15,0.062,0.344,Group A,0.581,1
+C055,Transport,East,2,0.048,0.0,Group A,0.489,0
+C056,Transport,East,81,0.056,0.026,Group B,0.524,0
+C057,Public Services,West,116,0.05,0.0,Group A,0.661,1
+C058,Public Services,South,14,0.066,0.0,Group A,0.238,0
+C059,Healthcare,South,35,0.119,0.118,Group A,0.58,0
+C060,Healthcare,North,60,0.0,0.332,Group A,0.48,1
+C061,Transport,South,111,0.051,0.177,Group B,0.883,1
+C062,Public Services,West,83,0.067,0.25,Group A,0.519,1
+C063,Public Services,North,91,0.072,0.383,Group A,0.85,1
+C064,Transport,West,69,0.045,0.419,Group A,0.351,0
+C065,Transport,East,50,0.0,0.21,Group A,0.656,1
+C066,Public Services,North,23,0.073,0.423,Group B,0.607,1
+C067,Public Services,South,103,0.129,0.234,Group A,0.394,0
+C068,Public Services,East,96,0.0,0.094,Group A,0.582,1
+C069,Healthcare,South,3,0.095,0.131,Group A,0.768,1
+C070,Public Services,North,85,0.047,0.0,Group B,0.492,0
+C071,Healthcare,East,10,0.058,0.087,Group B,0.245,0
+C072,Public Services,East,88,0.018,0.166,Group B,0.547,0
+C073,Industry,North,99,0.047,0.341,Group B,0.388,0
+C074,Healthcare,South,15,0.112,0.478,Group B,0.488,1
+C075,Healthcare,North,52,0.083,0.013,Group A,0.535,0
+C076,Public Services,East,14,0.129,0.279,Group A,0.243,0
+C077,Public Services,East,68,0.107,0.064,Group A,0.259,0
+C078,Transport,East,111,0.078,0.291,Group A,0.637,1
+C079,Public Services,West,9,0.13,0.2,Group B,0.456,0
+C080,Transport,West,47,0.078,0.0,Group A,0.088,0
+C081,Transport,South,116,0.093,0.359,Group B,0.691,1
+C082,Public Services,North,36,0.048,0.129,Group B,0.599,0
+C083,Transport,East,15,0.063,0.14,Group A,0.422,0
+C084,Healthcare,West,58,0.032,0.06,Group B,0.313,0
+C085,Healthcare,West,61,0.1,0.122,Group B,0.7,1
+C086,Healthcare,North,79,0.013,0.284,Group B,0.613,1
+C087,Transport,North,37,0.091,0.192,Group A,0.979,1
+C088,Public Services,North,114,0.052,0.269,Group A,0.626,1
+C089,Healthcare,North,62,0.107,0.274,Group A,0.62,1
+C090,Public Services,East,34,0.09,0.418,Group A,0.52,0
+C091,Healthcare,East,115,0.133,0.169,Group A,0.697,1
+C092,Transport,South,110,0.089,0.0,Group B,0.663,1
+C093,Public Services,South,59,0.0,0.38,Group B,0.775,1
+C094,Public Services,West,2,0.057,0.17,Group A,0.456,0
+C095,Public Services,South,71,0.013,0.387,Group A,0.472,1
+C096,Transport,West,66,0.039,0.278,Group A,0.464,1
+C097,Public Services,West,17,0.12,0.2,Group A,0.692,1
+C098,Healthcare,South,76,0.086,0.272,Group B,0.82,1
+C099,Healthcare,North,100,0.032,0.513,Group A,0.467,0
+C100,Industry,West,12,0.019,0.532,Group A,0.474,0
+C101,Industry,East,86,0.061,0.23,Group B,0.607,1
+C102,Transport,South,16,0.011,0.244,Group A,0.506,0
+C103,Healthcare,East,89,0.033,0.381,Group A,0.721,1
+C104,Industry,East,50,0.072,0.093,Group B,0.145,0
+C105,Transport,West,0,0.106,0.27,Group B,0.401,0
+C106,Transport,South,115,0.084,0.216,Group B,0.409,0
+C107,Public Services,West,19,0.0,0.267,Group B,0.132,0
+C108,Healthcare,West,71,0.072,0.095,Group A,0.377,0
+C109,Healthcare,North,21,0.063,0.0,Group B,0.385,0
+C110,Industry,North,111,0.077,0.0,Group B,0.514,0
+C111,Public Services,East,88,0.125,0.052,Group B,0.75,1
+C112,Healthcare,North,96,0.0,0.151,Group B,0.506,1
+C113,Public Services,South,51,0.036,0.176,Group B,0.364,0
+C114,Public Services,South,56,0.084,0.511,Group B,0.54,0
+C115,Healthcare,West,76,0.0,0.386,Group A,0.739,1
+C116,Industry,West,94,0.119,0.076,Group B,0.374,0
+C117,Transport,North,101,0.075,0.272,Group A,0.386,0
+C118,Transport,West,2,0.094,0.159,Group B,0.651,1
+C119,Public Services,North,79,0.037,0.177,Group B,0.51,1
+C120,Transport,East,13,0.093,0.248,Group B,0.667,0
