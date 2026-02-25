@@ -17,11 +17,11 @@ dfm = simulate_model_outputs(df)
 
 # ── Scenario selector ─────────────────────────────────────────────────────────
 st.markdown(
-    "<div style='background:#1e3a5f; border-left:4px solid #2563eb; "
+    "<div style='background:#eff6ff; border-left:4px solid #2563eb; "
     "border-radius:8px; padding:12px 16px; margin-bottom:12px;'>"
-    "<strong style='color:#93c5fd;'>\U0001f4cb Scenario:</strong> "
-    "<span style='color:#cbd5e1;'>AI helps prioritize cases for support (demo). "
-    "The goal is not to replace people \u2014 it is to support decisions safely.</span>"
+    "<strong style='color:#1e40af;'>📋 Scenario:</strong> "
+    "<span style='color:#334155;'>AI helps prioritize cases for support (demo). "
+    "The goal is not to replace people — it is to support decisions safely.</span>"
     "</div>",
     unsafe_allow_html=True,
 )
@@ -92,13 +92,13 @@ with st.expander("Case snapshot (what we know about this case)", expanded=False)
 
 active_color = step_colors[step]
 
-# ── Helper: dark-themed plotly layout ────────────────────────────────────────
+# ── Helper: light-themed plotly layout ────────────────────────────────────────
 def dark_layout(**kwargs):
     base = dict(
-        paper_bgcolor="#1e293b",
-        plot_bgcolor="#1e293b",
-        font=dict(color="#cbd5e1"),
-        legend=dict(font=dict(color="#cbd5e1"), bgcolor="#1e293b"),
+        paper_bgcolor="#ffffff",
+        plot_bgcolor="#f8fafc",
+        font=dict(color="#334155"),
+        legend=dict(font=dict(color="#334155"), bgcolor="#ffffff"),
     )
     base.update(kwargs)
     return base
@@ -237,9 +237,9 @@ elif step == "Safe":
         st.markdown("**What safe systems do:**")
         for item in ["Use thresholds", "Route risky cases to humans", "Log decisions and monitor issues"]:
             st.markdown(
-                f"<div style='background:#1e293b; border-left:3px solid #22c55e; "
-                f"border-radius:4px; padding:6px 10px; margin:4px 0; color:#cbd5e1;'>"
-                f"\u2714\ufe0f {item}</div>",
+                f"<div style='background:#f0fdf4; border-left:3px solid #22c55e; "
+                f"border-radius:4px; padding:6px 10px; margin:4px 0; color:#166534;'>"
+                f"✔️ {item}</div>",
                 unsafe_allow_html=True,
             )
 
@@ -336,7 +336,7 @@ elif step == "Fair":
     fig_g = go.Figure(go.Indicator(
         mode="gauge+number",
         value=round(gap * 100, 1),
-        title={"text": "Fairness gap (%)", "font": {"color": "#cbd5e1"}},
+        title={"text": "Fairness gap (%)", "font": {"color": "#334155"}},
         gauge={
             "axis": {"range": [0, 50], "tickcolor": "#64748b"},
             "bar": {"color": gauge_color},
@@ -345,10 +345,10 @@ elif step == "Fair":
                 {"range": [5, 15], "color": "rgba(245,158,11,0.2)"},
                 {"range": [15, 50], "color": "rgba(239,68,68,0.2)"},
             ],
-            "threshold": {"line": {"color": "white", "width": 2}, "value": gap * 100},
-            "bgcolor": "#0f172a",
+            "threshold": {"line": {"color": "#334155", "width": 2}, "value": gap * 100},
+            "bgcolor": "#f8fafc",
         },
-        number={"suffix": "%", "font": {"color": "#e2e8f0", "size": 30}},
+        number={"suffix": "%", "font": {"color": "#1e293b", "size": 30}},
     ))
     fig_g.update_layout(**dark_layout(height=260, margin=dict(l=30, r=30, t=40, b=10)))
     st.plotly_chart(fig_g, use_container_width=True)
@@ -400,12 +400,12 @@ elif step == "Transparent":
     with col1:
         decision_color = "#22c55e" if row["pred_label"] == 1 else "#ef4444"
         st.markdown(
-            f"<div style='background:#1e293b; border:1px solid {decision_color}; "
+            f"<div style='background:#f8fafc; border:1px solid {decision_color}; "
             f"border-radius:10px; padding:16px 20px; margin-bottom:12px;'>"
             f"<div style='color:#64748b; font-size:0.85rem;'>AI suggestion (demo)</div>"
             f"<div style='color:{decision_color}; font-size:1.4rem; font-weight:700;'>{decision}</div>"
-            f"<div style='color:#94a3b8; margin-top:6px;'>Confidence: "
-            f"<strong style='color:#e2e8f0;'>{float(row['confidence']):.2f}</strong></div>"
+            f"<div style='color:#475569; margin-top:6px;'>Confidence: "
+            f"<strong style='color:#1e293b;'>{float(row['confidence']):.2f}</strong></div>"
             f"</div>",
             unsafe_allow_html=True,
         )
@@ -419,9 +419,9 @@ elif step == "Transparent":
             else:
                 for r in reasons[:3]:
                     st.markdown(
-                        f"<div style='background:#1e293b; border-left:3px solid #3b82f6; "
-                        f"border-radius:4px; padding:8px 12px; margin:4px 0; color:#93c5fd;'>"
-                        f"\u2022 {r}</div>",
+                        f"<div style='background:#eff6ff; border-left:3px solid #3b82f6; "
+                        f"border-radius:4px; padding:8px 12px; margin:4px 0; color:#1e40af;'>"
+                        f"• {r}</div>",
                         unsafe_allow_html=True,
                     )
 
@@ -439,9 +439,9 @@ elif step == "Transparent":
             what_if = ["Changes are likely small for this case in the demo."]
         for w in what_if[:3]:
             st.markdown(
-                f"<div style='background:#2d1e10; border-left:3px solid #f59e0b; "
-                f"border-radius:4px; padding:8px 12px; margin:4px 0; color:#fcd34d;'>"
-                f"\U0001f4a1 {w}</div>",
+                f"<div style='background:#fffbeb; border-left:3px solid #f59e0b; "
+                f"border-radius:4px; padding:8px 12px; margin:4px 0; color:#92400e;'>"
+                f"💡 {w}</div>",
                 unsafe_allow_html=True,
             )
 
@@ -507,9 +507,9 @@ else:
         ]
         score = sum(1 for _, v in checklist if v)
         for label, ok in checklist:
-            icon = "\u2705" if ok else "\u274c"
-            color = "#86efac" if ok else "#fca5a5"
-            bg = "#14291e" if ok else "#2d1515"
+            icon = "✅" if ok else "❌"
+            color = "#16a34a" if ok else "#dc2626"
+            bg = "#f0fdf4" if ok else "#fef2f2"
             border = "#22c55e" if ok else "#ef4444"
             st.markdown(
                 f"<div style='background:{bg}; border:1px solid {border}; "
@@ -522,7 +522,7 @@ else:
         fig_g = go.Figure(go.Indicator(
             mode="gauge+number",
             value=score,
-            title={"text": "Accountability score", "font": {"color": "#cbd5e1"}},
+            title={"text": "Accountability score", "font": {"color": "#334155"}},
             gauge={
                 "axis": {"range": [0, 4], "tickvals": [0, 1, 2, 3, 4], "tickcolor": "#64748b"},
                 "bar": {"color": "#a855f7"},
@@ -531,9 +531,9 @@ else:
                     {"range": [2, 3], "color": "rgba(245,158,11,0.2)"},
                     {"range": [3, 4], "color": "rgba(34,197,94,0.2)"},
                 ],
-                "bgcolor": "#0f172a",
+                "bgcolor": "#f8fafc",
             },
-            number={"suffix": " / 4", "font": {"color": "#e2e8f0", "size": 30}},
+            number={"suffix": " / 4", "font": {"color": "#1e293b", "size": 30}},
         ))
         fig_g.update_layout(**dark_layout(height=230, margin=dict(l=30, r=30, t=40, b=10)))
         st.plotly_chart(fig_g, use_container_width=True)

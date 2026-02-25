@@ -7,7 +7,7 @@ apply_dark_theme()
 
 st.title("4\ufe0f\u20e3 Common AI Failure Stories")
 st.markdown(
-    "<p style='color:#94a3b8; font-size:1.05rem;'>"
+    "<p style='color:#64748b; font-size:1.05rem;'>"
     "Most AI incidents are <strong>not</strong> caused by 'evil AI'. "
     "They are caused by <strong>missing safeguards</strong>."
     "</p>",
@@ -61,18 +61,18 @@ for s in stories:
         col_text, col_bar = st.columns([2, 1], gap="large")
         with col_text:
             st.markdown(
-                f"<div style='background:#2d1515; border-left:4px solid #ef4444; "
+                f"<div style='background:#fef2f2; border-left:4px solid #ef4444; "
                 f"border-radius:6px; padding:12px 16px; margin-bottom:10px;'>"
-                f"<strong style='color:#fca5a5;'>\u26a0\ufe0f What went wrong:</strong><br>"
-                f"<span style='color:#fecaca;'>{s['what_went_wrong']}</span>"
+                f"<strong style='color:#dc2626;'>⚠️ What went wrong:</strong><br>"
+                f"<span style='color:#991b1b;'>{s['what_went_wrong']}</span>"
                 f"</div>",
                 unsafe_allow_html=True,
             )
             st.markdown(
-                f"<div style='background:#14291e; border-left:4px solid #22c55e; "
+                f"<div style='background:#f0fdf4; border-left:4px solid #22c55e; "
                 f"border-radius:6px; padding:12px 16px;'>"
-                f"<strong style='color:#86efac;'>\u2705 What prevents it:</strong><br>"
-                f"<span style='color:#bbf7d0;'>{s['what_prevents']}</span>"
+                f"<strong style='color:#16a34a;'>✅ What prevents it:</strong><br>"
+                f"<span style='color:#166534;'>{s['what_prevents']}</span>"
                 f"</div>",
                 unsafe_allow_html=True,
             )
@@ -90,9 +90,9 @@ for s in stories:
             )
             fig.update_traces(texttemplate="%{text}%", textposition="inside")
             fig.update_layout(
-                paper_bgcolor="#1e293b",
-                plot_bgcolor="#1e293b",
-                font=dict(color="#cbd5e1"),
+                paper_bgcolor="#ffffff",
+                plot_bgcolor="#ffffff",
+                font=dict(color="#334155"),
                 showlegend=False,
                 xaxis=dict(range=[0, 100], showgrid=False, title=""),
                 yaxis=dict(title=""),
@@ -122,9 +122,9 @@ fig_sum = px.scatter(
 )
 fig_sum.update_traces(textposition="top center", marker_sizemin=15)
 fig_sum.update_layout(
-    paper_bgcolor="#1e293b",
-    plot_bgcolor="#1e293b",
-    font=dict(color="#cbd5e1"),
+    paper_bgcolor="#ffffff",
+    plot_bgcolor="#ffffff",
+    font=dict(color="#334155"),
     coloraxis_showscale=False,
     xaxis=dict(range=[60, 100], title="Risk level (%)", showgrid=False),
     yaxis=dict(range=[70, 100], title="Prevention effectiveness (%)", showgrid=False),
@@ -134,9 +134,9 @@ fig_sum.update_layout(
 st.plotly_chart(fig_sum, use_container_width=True)
 
 st.markdown(
-    "<div style='background:#1e3a5f; border:1px solid #2563eb; border-radius:10px; "
-    "padding:16px 20px; color:#93c5fd; font-size:1rem;'>"
-    "\U0001f4a1 <strong>Key takeaway:</strong> Every failure story on this page has a known, "
+    "<div style='background:#eff6ff; border:1px solid #2563eb; border-radius:10px; "
+    "padding:16px 20px; color:#1e40af; font-size:1rem;'>"
+    "💡 <strong>Key takeaway:</strong> Every failure story on this page has a known, "
     "practical prevention. The question is whether organisations invest in safeguards <em>before</em> "
     "incidents occur."
     "</div>",
