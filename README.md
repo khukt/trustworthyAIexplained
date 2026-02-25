@@ -39,3 +39,7 @@ streamlit run app.py
 
 ## License
 MIT
+
+
+## Presenter mode
+Open **Guided Tour** page to present the demo in a simple, step-by-step story.
