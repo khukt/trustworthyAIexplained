@@ -4,7 +4,9 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
-from trust_utils import Safeguards, simulate_model_outputs, add_risk_columns, case_risk, overall_summary
+from trust_utils import Safeguards, simulate_model_outputs, add_risk_columns, case_risk, overall_summary, apply_dark_theme
+
+apply_dark_theme()
 
 st.title("3\ufe0f\u20e3 Interactive Mini-Demo")
 st.caption("One clear story that explains: Reliable \u2022 Safe \u2022 Fair \u2022 Transparent \u2022 Accountable")

@@ -1,6 +1,9 @@
 import streamlit as st
 import plotly.express as px
 import pandas as pd
+from trust_utils import apply_dark_theme
+
+apply_dark_theme()
 
 st.title("4\ufe0f\u20e3 Common AI Failure Stories")
 st.markdown(

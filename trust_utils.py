@@ -4,6 +4,47 @@ from dataclasses import dataclass
 from typing import Dict, Any, Optional
 import numpy as np
 import pandas as pd
+import streamlit as st
+
+
+def apply_dark_theme() -> None:
+    """Inject the global dark-theme CSS used across all pages."""
+    st.markdown(
+        """
+        <style>
+        [data-testid="stAppViewContainer"] {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        [data-testid="stSidebar"] {
+            background: #1e293b;
+        }
+        [data-testid="metric-container"] {
+            background: #1e3a5f;
+            border: 1px solid #2563eb;
+            border-radius: 10px;
+            padding: 12px;
+        }
+        details summary {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+        h1, h2, h3 { color: #93c5fd !important; }
+        .stAlert { border-radius: 10px; }
+        hr { border-color: #334155; }
+        .pillar-card {
+            background: #1e3a5f;
+            border: 1px solid #2563eb;
+            border-radius: 12px;
+            padding: 18px 16px;
+            text-align: center;
+            height: 100%;
+        }
+        .pillar-card h3 { color: #93c5fd !important; margin-bottom: 6px; }
+        .pillar-card p { color: #cbd5e1; font-size: 0.9rem; margin: 0; }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 @dataclass
