@@ -3,7 +3,7 @@ import streamlit as st
 st.title("1) What is Trustworthy AI?")
 st.markdown(
     """
-Trustworthy AI is AI you can **depend on** in real-world decisions — not just in a lab.
+Trustworthy AI is AI that is **reliable**, **safe**, **fair**, **transparent**, and **accountable** — designed to earn and maintain human trust across real-world applications.
 
 It focuses on five practical qualities:
 
