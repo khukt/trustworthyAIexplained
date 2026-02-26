@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 
 from trust_utils import apply_dark_theme
 
-apply_dark_theme()
+
 
 st.title("1️⃣ What is Trustworthy AI?")
 
