@@ -8,7 +8,7 @@ st.set_page_config(
     layout="wide",
 )
 
-apply_dark_theme()
+
 
 # -----------------------------------------------------------------------------
 # SIDEBAR NAV (story-first)
