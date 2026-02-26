@@ -134,59 +134,108 @@ st.markdown("<hr>", unsafe_allow_html=True)
 # 2) SIMPLE VISUAL STORY: Risk → Consequence → Control (Sankey)
 # -----------------------------------------------------------------------------
 st.markdown("## A simple way to explain it")
-st.markdown(
-    '<p class="muted">A practical narrative: risks lead to consequences; safeguards reduce exposure.</p>',
-    unsafe_allow_html=True,
-)
+st.markdown('<p class="muted">Risks lead to consequences; safeguards reduce exposure.</p>', unsafe_allow_html=True)
 
-left, right = st.columns([1.2, 0.8], gap="large")
+left, right = st.columns([1.25, 0.75], gap="large")
 
 with left:
+    # Short labels (readable)
     labels = [
-        "Uncertainty / low confidence",
-        "Hidden bias",
-        "Opaque decisions",
-        "Harm / safety incidents",
-        "Loss of trust",
-        "Legal & audit findings",
-        "Safeguards:\nHuman oversight",
-        "Safeguards:\nMonitoring & logging",
-        "Safeguards:\nFairness checks",
-        "Safeguards:\nDocumentation & governance",
+        "Uncertainty", "Hidden bias", "Opaque decisions",
+        "Harm", "Loss of trust", "Audit findings",
+        "Human oversight", "Monitoring & logging", "Fairness checks", "Docs & governance"
     ]
-    # Links: risk nodes → consequence nodes; safeguards also → consequences (reducing narrative)
+
+    # Optional: richer hover text
+    hover = [
+        "Uncertainty / low confidence cases",
+        "Hidden bias in data or model behavior",
+        "Opaque decisions without practical explanations",
+        "Safety incidents / harm",
+        "Public distrust / backlash / legitimacy loss",
+        "Legal & audit findings / enforcement risk",
+        "Safeguard: human review for high-impact or low-confidence cases",
+        "Safeguard: monitoring, logging, incident response",
+        "Safeguard: bias testing, fairness checks, documentation",
+        "Safeguard: policies, roles, approvals, traceability"
+    ]
+
     source = [0, 1, 2, 0, 1, 2, 6, 7, 8, 9]
     target = [3, 4, 5, 5, 5, 4, 3, 5, 4, 5]
     value  = [4, 3, 3, 2, 2, 2, 2, 2, 2, 2]
 
-    sankey = go.Figure(
-        data=[
-            go.Sankey(
-                node=dict(
-                    pad=18,
-                    thickness=18,
-                    line=dict(color="#e5e7eb", width=1),
-                    label=labels,
-                ),
-                link=dict(source=source, target=target, value=value),
-            )
-        ]
+    # Node colors (high contrast)
+    node_colors = [
+        "#2563eb", "#f59e0b", "#7c3aed",   # risks
+        "#ef4444", "#fb923c", "#0ea5e9",   # consequences
+        "#22c55e", "#22c55e", "#22c55e", "#22c55e"  # safeguards
+    ]
+
+    # Link colors: color by consequence for clarity
+    link_colors = []
+    for t in target:
+        if t == 3:   # Harm
+            link_colors.append("rgba(239,68,68,0.35)")
+        elif t == 4: # Loss of trust
+            link_colors.append("rgba(251,146,60,0.35)")
+        else:        # Audit findings
+            link_colors.append("rgba(14,165,233,0.30)")
+
+    fig = go.Figure(
+        data=[go.Sankey(
+            arrangement="snap",
+            node=dict(
+                pad=22,
+                thickness=22,
+                line=dict(color="#cbd5e1", width=1),
+                label=labels,
+                color=node_colors,
+                customdata=hover,
+                hovertemplate="%{customdata}<extra></extra>",
+            ),
+            link=dict(
+                source=source,
+                target=target,
+                value=value,
+                color=link_colors,
+                hovertemplate="Flow strength: %{value}<extra></extra>",
+            ),
+        )]
     )
-    sankey.update_layout(
-        height=360,
+
+    fig.update_layout(
+        height=460,
         margin=dict(l=10, r=10, t=10, b=10),
         paper_bgcolor="#ffffff",
-        font=dict(color="#0f172a"),
+        font=dict(color="#0f172a", size=16),  # bigger font
     )
-    st.plotly_chart(sankey, use_container_width=True)
+
+    st.plotly_chart(fig, use_container_width=True)
 
 with right:
     st.markdown(
         """
         <div class="card">
+          <div class="card-title">How to read the diagram</div>
+          <div class="card-desc">
+            <ul>
+              <li><strong>Left</strong>: common AI risks</li>
+              <li><strong>Middle/Right</strong>: consequences</li>
+              <li><strong>Bottom</strong>: safeguards that reduce exposure</li>
+            </ul>
+            <div class="small">Tip: hover over nodes to see the full explanation.</div>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <div class="card" style="margin-top:10px;">
           <div class="card-title">Leadership takeaway</div>
           <div class="card-desc">
-            You do not need “perfect AI”. You need AI that is:
+            You don’t need “perfect AI”. You need AI that is:
             <ul>
               <li><strong>controlled</strong> when uncertain</li>
               <li><strong>auditable</strong> after decisions</li>
@@ -197,8 +246,6 @@ with right:
         """,
         unsafe_allow_html=True,
     )
-
-st.markdown("<hr>", unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
 # 3) EU AI ACT: FINES (Article 99) + calculator
