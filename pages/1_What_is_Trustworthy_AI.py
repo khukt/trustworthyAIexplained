@@ -12,8 +12,8 @@ st.title("1️⃣ What is Trustworthy AI?")
 st.markdown(
     """
     <p style="color:#cbd5e1; font-size:1.05rem; line-height:1.55; margin-top:0.2rem;">
-      <strong>Trustworthy AI</strong> is AI that people can <strong>depend on</strong> in real-world decisions:
-      it is <strong>reliable</strong>, <strong>safe</strong>, <strong>fair</strong>,
+      <strong>Trustworthy AI</strong> is AI that people can <strong>depend on</strong> in real-world decisions.
+      It is designed to be <strong>reliable</strong>, <strong>safe</strong>, <strong>fair</strong>,
       <strong>transparent</strong>, and <strong>accountable</strong>.
     </p>
     """,
@@ -33,15 +33,23 @@ st.markdown(
 
 st.divider()
 
-# ── Five pillars (low cognitive load cards) ───────────────────────────────────
+# ── Simple interactive lens (low cognitive load) ──────────────────────────────
+view = st.radio(
+    "Choose how you want to learn this:",
+    ["Simple view (5 pillars)", "Framework view (EU • OECD • NIST • ISO)"],
+    horizontal=True,
+)
+
+# ── Five pillars cards (always central) ───────────────────────────────────────
 items = [
     ("✅", "Reliable", "#22c55e", "Gives consistent results in similar situations."),
-    ("🧯", "Safe", "#ef4444", "Does not automate risky decisions."),
+    ("🧯", "Safe", "#ef4444", "Does not automate risky decisions; failures avoid harm."),
     ("⚖️", "Fair", "#f59e0b", "Does not disadvantage groups."),
-    ("🔎", "Transparent", "#3b82f6", "Provides understandable reasons."),
-    ("🧾", "Accountable", "#a855f7", "Clear ownership and audit trail."),
+    ("🔎", "Transparent", "#3b82f6", "Provides understandable reasons for outcomes."),
+    ("🧾", "Accountable", "#a855f7", "Clear ownership, logging, and audit trail."),
 ]
 
+st.markdown("### Our simple model: 5 pillars (easy to follow)")
 cols = st.columns(5, gap="small")
 for col, (icon, label, color, desc) in zip(cols, items):
     with col:
@@ -54,7 +62,7 @@ for col, (icon, label, color, desc) in zip(cols, items):
                 border-radius: 12px;
                 padding: 16px 12px;
                 text-align: center;
-                height: 150px;
+                height: 155px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -71,93 +79,101 @@ for col, (icon, label, color, desc) in zip(cols, items):
             unsafe_allow_html=True,
         )
 
+st.caption(
+    "Why 5 pillars? Because they are easier to communicate and generalize across sectors, "
+    "while still matching the core themes used by major frameworks."
+)
+
 st.divider()
 
-# ── Progressive disclosure: frameworks + ISO ──────────────────────────────────
-with st.expander("How do major organizations describe Trustworthy AI? (EU • OECD • NIST • ISO)", expanded=False):
+# ── Framework view (only if user asks) ────────────────────────────────────────
+if view == "Framework view (EU • OECD • NIST • ISO)":
+    st.markdown("### Why do different organizations use different pillar sets?")
     st.markdown(
         """
-**Different organizations group the ideas differently**, but the core themes overlap strongly.
+They focus on different layers:
 
-- **EU (Ethics Guidelines for Trustworthy AI)** describes 7 requirements (e.g., human oversight, robustness/safety, privacy,
-  transparency, fairness, societal wellbeing, accountability).
-- **OECD AI Principles** are policy-focused (human rights, transparency, robustness/safety, accountability, etc.).
-- **NIST AI Risk Management Framework** describes “trustworthy characteristics” (valid/reliable, safe/secure/resilient,
-  explainable/interpretable, privacy-enhanced, fair, accountable/transparent).
-- **ISO/IEC standards** turn trust into **auditable management and risk practices** (e.g., AI management system and AI risk management).
+- **Policy frameworks** emphasize human rights and societal impacts (e.g., EU, OECD).  
+- **Engineering risk frameworks** emphasize measurable system properties (e.g., NIST).  
+- **Standards (ISO/IEC)** emphasize auditable management systems and risk processes.
+
+Despite different structures and wording, they converge on the same core ideas.
         """
     )
 
-    mapping = pd.DataFrame(
-        [
+    with st.expander("Show a simple mapping from our 5 pillars to major frameworks", expanded=True):
+        mapping = pd.DataFrame(
             [
-                "Reliable",
-                "Technical robustness & safety",
-                "Robustness, security & safety",
-                "Valid & reliable",
-                "Quality / management controls (supports reliability)",
+                [
+                    "Reliable",
+                    "Technical robustness & safety",
+                    "Robustness, security & safety",
+                    "Valid & reliable",
+                    "Quality / management controls supporting reliability",
+                ],
+                [
+                    "Safe",
+                    "Technical robustness & safety + Human oversight",
+                    "Robustness, security & safety",
+                    "Safe, secure & resilient",
+                    "Risk management processes supporting safety",
+                ],
+                [
+                    "Fair",
+                    "Diversity, non-discrimination & fairness",
+                    "Human rights & democratic values",
+                    "Fair (harmful bias managed)",
+                    "Bias-related risk controls (and related guidance)",
+                ],
+                [
+                    "Transparent",
+                    "Transparency",
+                    "Transparency & explainability",
+                    "Explainable/interpretable + transparent",
+                    "Documentation + governance supporting transparency",
+                ],
+                [
+                    "Accountable",
+                    "Accountability",
+                    "Accountability",
+                    "Accountable (governance)",
+                    "AI management system and governance practices",
+                ],
             ],
-            [
-                "Safe",
-                "Technical robustness & safety + Human oversight",
-                "Robustness, security & safety",
-                "Safe, secure & resilient",
-                "Risk management and controls (supports safety)",
+            columns=[
+                "Our 5 pillars (simple)",
+                "EU (Ethics Guidelines)",
+                "OECD (AI Principles)",
+                "NIST (AI RMF)",
+                "ISO/IEC (standards support)",
             ],
-            [
-                "Fair",
-                "Diversity, non-discrimination & fairness",
-                "Human rights & democratic values",
-                "Fair (harmful bias managed)",
-                "Bias considerations / risk controls (supports fairness)",
-            ],
-            [
-                "Transparent",
-                "Transparency",
-                "Transparency & explainability",
-                "Explainable/interpretable + transparent",
-                "Documentation and governance (supports transparency)",
-            ],
-            [
-                "Accountable",
-                "Accountability",
-                "Accountability",
-                "Accountable (governance)",
-                "AI management system / governance (supports accountability)",
-            ],
-        ],
-        columns=[
-            "Our 5 pillars",
-            "EU (7 requirements)",
-            "OECD (principles)",
-            "NIST (trustworthy characteristics)",
-            "ISO (standards support)",
-        ],
-    )
-    st.dataframe(mapping, use_container_width=True, hide_index=True)
+        )
+        st.dataframe(mapping, use_container_width=True, hide_index=True)
 
-    st.caption(
-        "This table is a communication aid: frameworks differ in structure, but they converge on these core ideas."
-    )
-
-st.divider()
-
-# ── References (with links) ───────────────────────────────────────────────────
-st.subheader("References (official sources)")
-st.markdown(
-    """
+    st.markdown("### References (official sources)")
+    st.markdown(
+        """
 - EU High-Level Expert Group on AI — *Ethics Guidelines for Trustworthy AI* (2019):  
   https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai
 
 - OECD — *OECD AI Principles*:  
   https://www.oecd.org/en/topics/ai-principles.html
 
-- NIST — *AI Risk Management Framework (AI RMF) resources* (trustworthy characteristics):  
+- NIST — *AI RMF resources* (trustworthy characteristics):  
   https://airc.nist.gov/airmf-resources/airmf/3-sec-characteristics/
 
-- ISO/IEC — *ISO/IEC 42001* (AI management system) overview page (useful as an entry point):  
+- ISO/IEC — *ISO/IEC 42001* (AI management system) overview page:  
   https://www.iso.org/standard/81230.html
-"""
-)
+        """
+    )
+else:
+    # In simple view, keep it minimal and avoid extra info.
+    with st.expander("Want to see how other organizations define Trustworthy AI?", expanded=False):
+        st.markdown(
+            """
+Different organizations use different “pillar sets”, but they converge on the same ideas.
+Open **Framework view** above to see a simple mapping to EU / OECD / NIST / ISO.
+            """
+        )
 
-st.caption("Tip: keep this page simple; use the Interactive mini-demo to show examples and visuals.")
+st.caption("Tip: Use the Interactive mini-demo page to show concrete examples of each pillar in action.")
