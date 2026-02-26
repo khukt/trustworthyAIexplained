@@ -8,7 +8,18 @@ st.set_page_config(
     layout="wide",
 )
 
-
+# Hide default Streamlit multipage navigation
+st.markdown(
+    """
+    <style>
+        /* Hide default page navigation */
+        section[data-testid="stSidebarNav"] {
+            display: none;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 # -----------------------------------------------------------------------------
 # SIDEBAR NAV (story-first)
