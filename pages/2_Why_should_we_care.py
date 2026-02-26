@@ -250,12 +250,17 @@ with right:
 # -----------------------------------------------------------------------------
 # 3) EU AI ACT: FINES (Article 99) + calculator
 # -----------------------------------------------------------------------------
-st.markdown("## Legal & financial risk (EU AI Act)")
+# -----------------------------------------------------------------------------
+# EU AI ACT — ADMINISTRATIVE FINES (LEGALLY PRECISE VERSION)
+# -----------------------------------------------------------------------------
+st.markdown("## Legal & financial exposure under the EU AI Act")
+
 st.markdown(
     """
     <p class="muted">
-      The EU AI Act formalizes obligations for certain AI uses. Under <strong>Article 99</strong>, authorities can impose
-      administrative fines depending on the infringement category.
+      Regulation (EU) 2024/1689 (AI Act) introduces administrative fines under <strong>Article 99</strong>.
+      The amounts below represent the <strong>maximum legal ceilings</strong>.
+      The actual fine is determined by the competent supervisory authority.
     </p>
     """,
     unsafe_allow_html=True,
@@ -263,17 +268,37 @@ st.markdown(
 
 colA, colB = st.columns([1.0, 1.2], gap="large")
 
+# --- Left: Legal summary (precise wording) ---
 with colA:
     st.markdown(
         """
         <div class="card">
-          <div class="card-title">Article 99 — fine categories (summary)</div>
+          <div class="card-title">Article 99 — Fine categories</div>
           <div class="card-desc">
             <ul>
-              <li><strong>Prohibited AI practices</strong> → up to €35M or 7% of global annual turnover (whichever is higher)</li>
-              <li><strong>High-risk requirements violations</strong> → up to €15M or 3%</li>
-              <li><strong>Incorrect or misleading information</strong> → up to €7.5M or 1%</li>
-              <li><strong>SMEs & startups</strong> → proportional approach to avoid disproportionate burden</li>
+              <li>
+                <strong>Art. 99(4)</strong> – Violations of Article 5 (Prohibited AI Practices):<br>
+                Up to <strong>€35 million</strong> or <strong>7% of total worldwide annual turnover</strong>,
+                whichever is higher.
+              </li>
+              <br>
+              <li>
+                <strong>Art. 99(5)</strong> – Violations of high-risk AI obligations:<br>
+                Up to <strong>€15 million</strong> or <strong>3% of total worldwide annual turnover</strong>,
+                whichever is higher.
+              </li>
+              <br>
+              <li>
+                <strong>Art. 99(6)</strong> – Supplying incorrect, incomplete, or misleading information:<br>
+                Up to <strong>€7.5 million</strong> or <strong>1% of total worldwide annual turnover</strong>,
+                whichever is higher.
+              </li>
+              <br>
+              <li>
+                <strong>Art. 99(7)</strong> – For SMEs and startups:<br>
+                Fines must be <strong>effective, proportionate, and dissuasive</strong>,
+                taking into account the size and economic capacity of the undertaking.
+              </li>
             </ul>
           </div>
         </div>
@@ -284,102 +309,97 @@ with colA:
     st.markdown(
         """
         <div class="card" style="margin-top:10px;">
-          <div class="card-title">Legal reference</div>
+          <div class="card-title">Important legal nuance</div>
           <div class="card-desc">
-            Regulation (EU) 2024/1689 (AI Act) — <strong>Article 99</strong> (Administrative fines):<br>
-            • Art. 99(4) Prohibited practices<br>
-            • Art. 99(5) High-risk requirements violations<br>
-            • Art. 99(6) Misleading information to authorities<br>
-            • Art. 99(7) SMEs & startups proportionality<br><br>
-            Official text (EUR-Lex): <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" target="_blank">
-            https://eur-lex.europa.eu/eli/reg/2024/1689/oj</a>
+            Under <strong>Art. 99(2)</strong>, fines must be effective, proportionate,
+            and dissuasive. Authorities consider factors such as:
+            <ul>
+              <li>Nature and gravity of the infringement</li>
+              <li>Intentional or negligent character</li>
+              <li>Mitigating actions taken</li>
+              <li>Size and economic capacity of the undertaking</li>
+            </ul>
+            The calculator below shows <strong>maximum exposure</strong>, not an automatic penalty.
           </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
+    st.caption(
+        "Official text: Regulation (EU) 2024/1689 — Article 99 (EUR-Lex): "
+        "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+    )
+
+
+# --- Right: Exposure calculator (renamed + clarified) ---
 with colB:
-    st.markdown("### Interactive fine calculator (communication tool)")
-    st.markdown('<p class="muted">Enter a rough turnover to translate “% of turnover” into an understandable number.</p>',
-                unsafe_allow_html=True)
+    st.markdown("### Maximum exposure under Article 99 (illustrative)")
+    st.markdown(
+        '<p class="muted">Enter estimated global annual turnover to visualize the legal ceiling.</p>',
+        unsafe_allow_html=True,
+    )
 
     turnover_m = st.number_input(
         "Global annual turnover (€ millions)",
         min_value=0.0,
         value=500.0,
         step=50.0,
-        help="This is a communication aid: maximum fines depend on the higher of a fixed cap or % of turnover.",
     )
+
     turnover = turnover_m * 1_000_000
 
     rules = [
-        {"Category": "Prohibited AI practices", "Article": "Art. 99(4)", "FixedCap": 35_000_000, "Pct": 0.07},
-        {"Category": "High-risk requirements violations", "Article": "Art. 99(5)", "FixedCap": 15_000_000, "Pct": 0.03},
-        {"Category": "Misleading info to authorities", "Article": "Art. 99(6)", "FixedCap": 7_500_000, "Pct": 0.01},
+        {"Category": "Art. 99(4) – Prohibited practices", "FixedCap": 35_000_000, "Pct": 0.07},
+        {"Category": "Art. 99(5) – High-risk violations", "FixedCap": 15_000_000, "Pct": 0.03},
+        {"Category": "Art. 99(6) – Misleading information", "FixedCap": 7_500_000, "Pct": 0.01},
     ]
 
     rows = []
     for r in rules:
         pct_val = turnover * r["Pct"]
-        max_fine = max(r["FixedCap"], pct_val)
-        rows.append(
-            {
-                "Category": r["Category"],
-                "Article": r["Article"],
-                "Fixed cap (€M)": r["FixedCap"] / 1_000_000,
-                "% of turnover (€M)": pct_val / 1_000_000,
-                "Maximum (€M)": max_fine / 1_000_000,
-            }
-        )
+        max_val = max(r["FixedCap"], pct_val)
+        rows.append({
+            "Category": r["Category"],
+            "Fixed cap (€M)": r["FixedCap"] / 1_000_000,
+            "% of turnover (€M)": pct_val / 1_000_000,
+            "Maximum exposure (€M)": max_val / 1_000_000,
+        })
+
     df = pd.DataFrame(rows)
 
-    # KPI row (clear)
-    k1, k2, k3 = st.columns(3)
-    with k1:
-        st.markdown(f'<div class="kpi"><div class="label">{df.loc[0,"Article"]}</div>'
-                    f'<div class="value">€{df.loc[0,"Maximum (€M)"]:.1f}M</div>'
-                    f'<div class="small">{df.loc[0,"Category"]}</div></div>', unsafe_allow_html=True)
-    with k2:
-        st.markdown(f'<div class="kpi"><div class="label">{df.loc[1,"Article"]}</div>'
-                    f'<div class="value">€{df.loc[1,"Maximum (€M)"]:.1f}M</div>'
-                    f'<div class="small">{df.loc[1,"Category"]}</div></div>', unsafe_allow_html=True)
-    with k3:
-        st.markdown(f'<div class="kpi"><div class="label">{df.loc[2,"Article"]}</div>'
-                    f'<div class="value">€{df.loc[2,"Maximum (€M)"]:.1f}M</div>'
-                    f'<div class="small">{df.loc[2,"Category"]}</div></div>', unsafe_allow_html=True)
+    # KPI summary
+    for i in range(len(df)):
+        st.metric(
+            label=df.loc[i, "Category"],
+            value=f"€{df.loc[i, 'Maximum exposure (€M)']:.1f}M",
+        )
 
-    st.markdown("")
-
-    # Chart: fixed vs % vs max
+    # Visual comparison
     fig = go.Figure()
     fig.add_trace(go.Bar(name="Fixed cap", x=df["Category"], y=df["Fixed cap (€M)"]))
     fig.add_trace(go.Bar(name="% of turnover", x=df["Category"], y=df["% of turnover (€M)"]))
     fig.add_trace(
         go.Scatter(
-            name="Maximum (higher of the two)",
+            name="Maximum (whichever higher)",
             x=df["Category"],
-            y=df["Maximum (€M)"],
+            y=df["Maximum exposure (€M)"],
             mode="markers+text",
-            text=[f"Max €{v:.1f}M" for v in df["Maximum (€M)"]],
+            text=[f"€{v:.1f}M" for v in df["Maximum exposure (€M)"]],
             textposition="top center",
-            marker=dict(size=11, symbol="diamond"),
         )
     )
+
     fig.update_layout(
         barmode="group",
         height=380,
-        margin=dict(l=10, r=10, t=10, b=10),
         paper_bgcolor="#ffffff",
         plot_bgcolor="#ffffff",
         font=dict(color="#0f172a"),
-        yaxis=dict(title="€ Millions", gridcolor="#eef2f7"),
-        xaxis=dict(title="", tickangle=0),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0.0),
+        yaxis=dict(title="€ Millions"),
     )
-    st.plotly_chart(fig, use_container_width=True)
 
-st.markdown("<hr>", unsafe_allow_html=True)
+    st.plotly_chart(fig, use_container_width=True)
 
 # -----------------------------------------------------------------------------
 # 4) What leaders should require (short, decision-ready)
