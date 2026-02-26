@@ -1,31 +1,29 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+
 from trust_utils import apply_dark_theme
 
 apply_dark_theme()
 
-# -----------------------------
-# Page: What is Trustworthy AI?
-# -----------------------------
 st.title("1️⃣ What is Trustworthy AI?")
 
+# -----------------------------------------------------------------------------
+# 1) Definition (academic + EU-aligned)
+# -----------------------------------------------------------------------------
 st.markdown(
     """
-    <p style="color:#cbd5e1; font-size:1.05rem; line-height:1.55; margin-top:0.2rem;">
-      <strong>Trustworthy AI</strong> is AI that people can <strong>depend on</strong> in real-world decisions.
-      It is designed to be <strong>reliable</strong>, <strong>safe</strong>, <strong>fair</strong>,
-      <strong>transparent</strong>, and <strong>accountable</strong>.
-    </p>
-    """,
-    unsafe_allow_html=True,
-)
-
-st.markdown(
-    """
-    <div style="background:rgba(37,99,235,0.10); border:1px solid rgba(37,99,235,0.35);
-                border-radius:10px; padding:12px 14px; margin-top:10px; color:#bfdbfe;">
-      <strong>Key idea:</strong> Trustworthy AI is <strong>not only accuracy</strong> — it is <strong>risk management</strong>
-      for AI-assisted decisions.
+    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(148,163,184,0.25);
+                border-radius:12px; padding:14px 16px;">
+      <div style="color:#e5e7eb; font-size:1.05rem; line-height:1.6;">
+        <strong>Trustworthy AI</strong> refers to AI systems that are developed, deployed, and governed
+        in a way that is <strong>lawful</strong>, <strong>ethical</strong>, and <strong>technically robust</strong>,
+        so they can be used responsibly in real-world contexts under appropriate oversight.
+      </div>
+      <div style="margin-top:10px; color:#cbd5e1;">
+        Different organizations structure “trustworthiness” differently, but the core concerns strongly overlap.
+      </div>
     </div>
     """,
     unsafe_allow_html=True,
@@ -33,147 +31,238 @@ st.markdown(
 
 st.divider()
 
-# ── Simple interactive lens (low cognitive load) ──────────────────────────────
-view = st.radio(
-    "Choose how you want to learn this:",
-    ["Simple view (5 pillars)", "Framework view (EU • OECD • NIST • ISO)"],
-    horizontal=True,
+tabs = st.tabs(
+    [
+        "Core dimensions",
+        "EU: 7 requirements",
+        "Compare frameworks",
+        "References",
+    ]
 )
 
-# ── Five pillars cards (always central) ───────────────────────────────────────
-items = [
-    ("✅", "Reliable", "#22c55e", "Gives consistent results in similar situations."),
-    ("🧯", "Safe", "#ef4444", "Does not automate risky decisions; failures avoid harm."),
-    ("⚖️", "Fair", "#f59e0b", "Does not disadvantage groups."),
-    ("🔎", "Transparent", "#3b82f6", "Provides understandable reasons for outcomes."),
-    ("🧾", "Accountable", "#a855f7", "Clear ownership, logging, and audit trail."),
-]
+# -----------------------------------------------------------------------------
+# TAB A — Core dimensions (neutral synthesis; low cognitive load)
+# -----------------------------------------------------------------------------
+with tabs[0]:
+    st.subheader("Common dimensions across major frameworks")
+    st.markdown(
+        """
+        Across policy (EU/OECD), engineering (NIST), standards (ISO/IEC), and sector frameworks,
+        several **recurring dimensions** appear repeatedly:
+        """
+    )
 
-st.markdown("### Our simple model: 5 pillars (easy to follow)")
-cols = st.columns(5, gap="small")
-for col, (icon, label, color, desc) in zip(cols, items):
-    with col:
+    dims = [
+        ("Technical robustness & reliability", "Consistent performance; resilience to errors and changing conditions."),
+        ("Safety & risk mitigation", "Failures do not cause harm; uncertain cases are controlled and reviewed."),
+        ("Fairness & non-discrimination", "Avoids unjustified disparities across individuals or groups."),
+        ("Transparency & explainability", "Practical explanations and traceability for outcomes and processes."),
+        ("Accountability & governance", "Clear responsibility, oversight, auditability, and decision ownership."),
+        ("Privacy & data governance", "Appropriate data handling, protection, and lifecycle governance."),
+        ("Societal & environmental impact", "Broader effects on society, institutions, and environment."),
+    ]
+
+    # Compact “dimension cards” (clean, readable)
+    for title, desc in dims:
         st.markdown(
             f"""
-            <div style="
-                background: rgba(255,255,255,0.03);
-                border: 1px solid rgba(148,163,184,0.25);
-                border-top: 4px solid {color};
-                border-radius: 12px;
-                padding: 16px 12px;
-                text-align: center;
-                height: 155px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            ">
-              <div style="font-size:2rem; line-height:1;">{icon}</div>
-              <div style="color:{color}; font-weight:800; font-size:1.05rem; margin:8px 0 6px;">
-                {label}
-              </div>
-              <div style="color:#cbd5e1; font-size:0.86rem; line-height:1.35;">
-                {desc}
-              </div>
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(148,163,184,0.20);
+                        border-radius:10px; padding:10px 12px; margin:8px 0;">
+              <div style="color:#e5e7eb; font-weight:700;">{title}</div>
+              <div style="color:#cbd5e1; margin-top:2px;">{desc}</div>
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-st.caption(
-    "Why 5 pillars? Because they are easier to communicate and generalize across sectors, "
-    "while still matching the core themes used by major frameworks."
-)
-
-st.divider()
-
-# ── Framework view (only if user asks) ────────────────────────────────────────
-if view == "Framework view (EU • OECD • NIST • ISO)":
-    st.markdown("### Why do different organizations use different pillar sets?")
+    st.markdown("### A simple mental model")
     st.markdown(
         """
-They focus on different layers:
-
-- **Policy frameworks** emphasize human rights and societal impacts (e.g., EU, OECD).  
-- **Engineering risk frameworks** emphasize measurable system properties (e.g., NIST).  
-- **Standards (ISO/IEC)** emphasize auditable management systems and risk processes.
-
-Despite different structures and wording, they converge on the same core ideas.
+        Trustworthy AI is often understood as the intersection of:
+        **(1) technical quality**, **(2) human oversight**, and **(3) governance** — with
+        **rights, privacy, and societal impact** explicitly considered in policy frameworks.
         """
     )
 
-    with st.expander("Show a simple mapping from our 5 pillars to major frameworks", expanded=True):
-        mapping = pd.DataFrame(
-            [
-                [
-                    "Reliable",
-                    "Technical robustness & safety",
-                    "Robustness, security & safety",
-                    "Valid & reliable",
-                    "Quality / management controls supporting reliability",
-                ],
-                [
-                    "Safe",
-                    "Technical robustness & safety + Human oversight",
-                    "Robustness, security & safety",
-                    "Safe, secure & resilient",
-                    "Risk management processes supporting safety",
-                ],
-                [
-                    "Fair",
-                    "Diversity, non-discrimination & fairness",
-                    "Human rights & democratic values",
-                    "Fair (harmful bias managed)",
-                    "Bias-related risk controls (and related guidance)",
-                ],
-                [
-                    "Transparent",
-                    "Transparency",
-                    "Transparency & explainability",
-                    "Explainable/interpretable + transparent",
-                    "Documentation + governance supporting transparency",
-                ],
-                [
-                    "Accountable",
-                    "Accountability",
-                    "Accountability",
-                    "Accountable (governance)",
-                    "AI management system and governance practices",
-                ],
-            ],
-            columns=[
-                "Our 5 pillars (simple)",
-                "EU (Ethics Guidelines)",
-                "OECD (AI Principles)",
-                "NIST (AI RMF)",
-                "ISO/IEC (standards support)",
-            ],
+    # Minimal, clear visual: triangle (not “busy”)
+    tri = go.Figure()
+    tri.add_trace(
+        go.Scatter(
+            x=[0, 1, 2, 0],
+            y=[0, 0, 0, 0],
+            mode="lines",
+            line=dict(width=0),
+            showlegend=False,
         )
-        st.dataframe(mapping, use_container_width=True, hide_index=True)
+    )
+    tri.add_shape(type="path", path="M 0 0 L 2 0 L 1 1.8 Z",
+                  line=dict(color="rgba(148,163,184,0.55)", width=2),
+                  fillcolor="rgba(37,99,235,0.08)")
+    tri.add_annotation(x=1, y=1.05, text="Trustworthy AI", showarrow=False,
+                       font=dict(size=16, color="#e5e7eb"))
+    tri.add_annotation(x=0, y=-0.15, text="Technical quality", showarrow=False,
+                       font=dict(color="#cbd5e1"))
+    tri.add_annotation(x=2, y=-0.15, text="Governance & accountability", showarrow=False,
+                       font=dict(color="#cbd5e1"))
+    tri.add_annotation(x=1, y=1.95, text="Human oversight", showarrow=False,
+                       font=dict(color="#cbd5e1"))
+    tri.update_layout(
+        height=280,
+        margin=dict(l=10, r=10, t=10, b=10),
+        xaxis=dict(visible=False),
+        yaxis=dict(visible=False),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+    )
+    st.plotly_chart(tri, use_container_width=True)
 
-    st.markdown("### References (official sources)")
+# -----------------------------------------------------------------------------
+# TAB B — EU: 7 requirements (policy-aligned; exactly 7 rows)
+# -----------------------------------------------------------------------------
+with tabs[1]:
+    st.subheader("EU Ethics Guidelines for Trustworthy AI: 7 key requirements (2019)")
+
+    eu7 = [
+        ("1) Human agency & oversight",
+         "AI should support human decision-making; appropriate oversight mechanisms should exist."),
+        ("2) Technical robustness & safety",
+         "Systems should be resilient, reliable, secure, and safe across expected and unexpected conditions."),
+        ("3) Privacy & data governance",
+         "Data should be handled responsibly (quality, integrity, access control, privacy protection)."),
+        ("4) Transparency",
+         "Appropriate traceability and explainability; people should know when they interact with AI where relevant."),
+        ("5) Diversity, non-discrimination & fairness",
+         "Avoid unfair bias; ensure accessibility and equal treatment."),
+        ("6) Societal & environmental well-being",
+         "Consider impacts on society, institutions, democracy, and environmental sustainability."),
+        ("7) Accountability",
+         "Clear responsibility, auditability, governance, and mechanisms for redress."),
+    ]
+
+    # 7-row table (clean) + short descriptions
+    df_eu = pd.DataFrame(eu7, columns=["EU requirement", "What it means (plain language)"])
+    st.dataframe(df_eu, use_container_width=True, hide_index=True)
+
+    st.caption(
+        "This is the EU structure (7 requirements). Other frameworks may group these topics differently."
+    )
+
+# -----------------------------------------------------------------------------
+# TAB C — Compare frameworks (visual, but honest: overlap + differences)
+# -----------------------------------------------------------------------------
+with tabs[2]:
+    st.subheader("How frameworks overlap (and why counts differ)")
+
     st.markdown(
         """
+        Frameworks differ because they emphasize different layers:
+        policy (rights & societal impact), engineering (measurable system properties),
+        and standards (auditable management systems).
+        """
+    )
+
+    # Heatmap: “coverage strength” (0 = not emphasized, 0.5 = indirect/partial, 1 = explicit/strong)
+    # NOTE: This is a communication aid, not a compliance claim.
+    dimensions = [
+        "Technical robustness & reliability",
+        "Safety & risk mitigation",
+        "Fairness & non-discrimination",
+        "Transparency & explainability",
+        "Accountability & governance",
+        "Privacy & data governance",
+        "Societal & environmental impact",
+    ]
+    frameworks = [
+        "EU (HLEG 2019)",
+        "OECD (2019+)",
+        "NIST AI RMF",
+        "ISO/IEC (42001/23894)",
+        "Ericsson (industry)",
+        "US VA (gov)",
+        "UCSF (health)",
+    ]
+
+    # Carefully chosen, non-1:1, non-identical values to reflect grouping differences.
+    # - EU explicitly includes all 7.
+    # - OECD emphasizes principles; societal/wellbeing is present via inclusive growth/wellbeing.
+    # - NIST emphasizes engineering properties; societal/environment not a primary “characteristic”.
+    # - ISO focuses on management system & risk mgmt; privacy often via other standards/family.
+    # - Ericsson emphasizes privacy, robustness/safety, transparency; societal/env appears.
+    # - VA explicitly includes purposeful + monitored; strong on governance/accountability.
+    # - UCSF highlights fairness/robustness/privacy/safety/accountability/transparency.
+    M = pd.DataFrame(
+        [
+            [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],  # EU
+            [0.8, 1.0, 1.0, 1.0, 1.0, 0.8, 0.8],  # OECD
+            [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.3],  # NIST
+            [0.8, 1.0, 0.5, 0.7, 1.0, 0.5, 0.4],  # ISO/IEC
+            [0.8, 1.0, 0.4, 0.8, 0.4, 1.0, 0.7],  # Ericsson
+            [0.7, 1.0, 1.0, 1.0, 1.0, 1.0, 0.6],  # VA
+            [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.4],  # UCSF
+        ],
+        index=frameworks,
+        columns=dimensions,
+    )
+
+    fig = px.imshow(
+        M,
+        color_continuous_scale="Blues",
+        zmin=0,
+        zmax=1,
+        labels=dict(x="Dimension", y="Framework", color="Coverage"),
+        title="Overlap across frameworks (0 = indirect, 1 = explicit)",
+    )
+    fig.update_layout(
+        height=420,
+        margin=dict(l=10, r=10, t=50, b=10),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#e5e7eb"),
+        coloraxis_colorbar=dict(tickcolor="#cbd5e1"),
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.caption(
+        "This heatmap is an interpretive summary to explain why different pillar counts exist. "
+        "It is not a certification/compliance statement."
+    )
+
+# -----------------------------------------------------------------------------
+# TAB D — References (official + the three examples you showed)
+# -----------------------------------------------------------------------------
+with tabs[3]:
+    st.subheader("References (official and commonly cited sources)")
+
+    st.markdown(
+        """
+**Policy / principles**
 - EU High-Level Expert Group on AI — *Ethics Guidelines for Trustworthy AI* (2019):  
   https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai
 
 - OECD — *OECD AI Principles*:  
   https://www.oecd.org/en/topics/ai-principles.html
 
-- NIST — *AI RMF resources* (trustworthy characteristics):  
+**Risk management / engineering**
+- NIST — AI Risk Management Framework resources (trustworthy characteristics):  
   https://airc.nist.gov/airmf-resources/airmf/3-sec-characteristics/
 
-- ISO/IEC — *ISO/IEC 42001* (AI management system) overview page:  
+**Standards**
+- ISO/IEC 42001 — AI management system (AIMS):  
   https://www.iso.org/standard/81230.html
+
+**Examples of differing “pillar sets” (as in your slide)**
+- Ericsson — Trustworthy AI (white paper / overview):  
+  https://www.ericsson.com/en/reports-and-papers/white-papers/trustworthy-ai
+
+- U.S. Department of Veterans Affairs — Trustworthy AI:  
+  https://department.va.gov/ai/trustworthy-ai/
+
+- UCSF — Trustworthy AI:  
+  https://ai.ucsf.edu/trustworthy
         """
     )
-else:
-    # In simple view, keep it minimal and avoid extra info.
-    with st.expander("Want to see how other organizations define Trustworthy AI?", expanded=False):
-        st.markdown(
-            """
-Different organizations use different “pillar sets”, but they converge on the same ideas.
-Open **Framework view** above to see a simple mapping to EU / OECD / NIST / ISO.
-            """
-        )
 
-st.caption("Tip: Use the Interactive mini-demo page to show concrete examples of each pillar in action.")
+    st.caption(
+        "Tip for presentations: keep the definition + EU 7 requirements on this page; "
+        "use the mini-demo to show concrete examples of risk, bias, transparency, and governance."
+    )
