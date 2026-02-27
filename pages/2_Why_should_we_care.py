@@ -133,53 +133,45 @@ st.markdown("<hr>", unsafe_allow_html=True)
 # -----------------------------------------------------------------------------
 # 2) SIMPLE VISUAL STORY: Risk → Consequence → Control (Sankey)
 # -----------------------------------------------------------------------------
+import plotly.graph_objects as go
+import streamlit as st
+
 st.markdown("## A simple way to explain it")
-st.markdown('<p class="muted">Risks lead to consequences; safeguards reduce exposure.</p>', unsafe_allow_html=True)
+st.markdown('<p class="muted">Risks can lead to consequences. Safeguards reduce the likelihood and impact.</p>', unsafe_allow_html=True)
 
 left, right = st.columns([1.25, 0.75], gap="large")
 
 with left:
-    # Short labels (readable)
+    # Only risks and consequences (no safeguards inside Sankey)
     labels = [
         "Uncertainty", "Hidden bias", "Opaque decisions",
-        "Harm", "Loss of trust", "Audit findings",
-        "Human oversight", "Monitoring & logging", "Fairness checks", "Docs & governance"
+        "Harm", "Loss of trust", "Audit findings"
     ]
 
-    # Optional: richer hover text
     hover = [
-        "Uncertainty / low confidence cases",
-        "Hidden bias in data or model behavior",
-        "Opaque decisions without practical explanations",
-        "Safety incidents / harm",
-        "Public distrust / backlash / legitimacy loss",
-        "Legal & audit findings / enforcement risk",
-        "Safeguard: human review for high-impact or low-confidence cases",
-        "Safeguard: monitoring, logging, incident response",
-        "Safeguard: bias testing, fairness checks, documentation",
-        "Safeguard: policies, roles, approvals, traceability"
+        "Low confidence / uncertain cases",
+        "Bias in data, model, or deployment context",
+        "Decisions cannot be practically explained or traced",
+        "Safety incidents / harm to people or services",
+        "Loss of legitimacy, backlash, reputation damage",
+        "Regulatory findings, audit issues, non-compliance"
     ]
 
-    source = [0, 1, 2, 0, 1, 2, 6, 7, 8, 9]
-    target = [3, 4, 5, 5, 5, 4, 3, 5, 4, 5]
-    value  = [4, 3, 3, 2, 2, 2, 2, 2, 2, 2]
+    # Risks → Consequences
+    source = [0, 0, 1, 1, 2, 2]
+    target = [3, 5, 4, 5, 4, 5]
+    value  = [4, 2, 3, 2, 2, 4]  # illustrative flow weights (not legal/real stats)
 
-    # Node colors (high contrast)
-    node_colors = [
-        "#2563eb", "#f59e0b", "#7c3aed",   # risks
-        "#ef4444", "#fb923c", "#0ea5e9",   # consequences
-        "#22c55e", "#22c55e", "#22c55e", "#22c55e"  # safeguards
-    ]
+    node_colors = ["#2563eb", "#f59e0b", "#7c3aed", "#ef4444", "#fb923c", "#0ea5e9"]
 
-    # Link colors: color by consequence for clarity
     link_colors = []
     for t in target:
-        if t == 3:   # Harm
-            link_colors.append("rgba(239,68,68,0.35)")
-        elif t == 4: # Loss of trust
-            link_colors.append("rgba(251,146,60,0.35)")
-        else:        # Audit findings
-            link_colors.append("rgba(14,165,233,0.30)")
+        if t == 3:
+            link_colors.append("rgba(239,68,68,0.35)")  # Harm
+        elif t == 4:
+            link_colors.append("rgba(251,146,60,0.35)")  # Loss of trust
+        else:
+            link_colors.append("rgba(14,165,233,0.30)")  # Audit findings
 
     fig = go.Figure(
         data=[go.Sankey(
@@ -198,16 +190,16 @@ with left:
                 target=target,
                 value=value,
                 color=link_colors,
-                hovertemplate="Flow strength: %{value}<extra></extra>",
+                hovertemplate="Flow strength (illustrative): %{value}<extra></extra>",
             ),
         )]
     )
 
     fig.update_layout(
-        height=460,
+        height=420,
         margin=dict(l=10, r=10, t=10, b=10),
         paper_bgcolor="#ffffff",
-        font=dict(color="#0f172a", size=16),  # bigger font
+        font=dict(color="#0f172a", size=16),
     )
 
     st.plotly_chart(fig, use_container_width=True)
@@ -216,37 +208,21 @@ with right:
     st.markdown(
         """
         <div class="card">
-          <div class="card-title">How to read the diagram</div>
+          <div class="card-title">Safeguards that reduce exposure</div>
           <div class="card-desc">
+            These controls reduce the likelihood and impact of the flows shown on the left:
             <ul>
-              <li><strong>Left</strong>: common AI risks</li>
-              <li><strong>Middle/Right</strong>: consequences</li>
-              <li><strong>Bottom</strong>: safeguards that reduce exposure</li>
+              <li><strong>Human oversight</strong> when uncertain or high-impact</li>
+              <li><strong>Fairness checks</strong> and bias monitoring</li>
+              <li><strong>Monitoring & logging</strong> for drift and incidents</li>
+              <li><strong>Documentation & governance</strong> for auditability</li>
             </ul>
-            <div class="small">Tip: hover over nodes to see the full explanation.</div>
+            <div class="small">The Sankey shows risk → consequence. Safeguards sit outside the flow and reduce it.</div>
           </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
-
-    st.markdown(
-        """
-        <div class="card" style="margin-top:10px;">
-          <div class="card-title">Leadership takeaway</div>
-          <div class="card-desc">
-            You don’t need “perfect AI”. You need AI that is:
-            <ul>
-              <li><strong>controlled</strong> when uncertain</li>
-              <li><strong>auditable</strong> after decisions</li>
-              <li><strong>governed</strong> with clear responsibility</li>
-            </ul>
-          </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
 # -----------------------------------------------------------------------------
 # 3) EU AI ACT: FINES (Article 99) + calculator
 # -----------------------------------------------------------------------------
