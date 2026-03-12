@@ -127,8 +127,8 @@ def inject_global_styles() -> None:
             border-right: 1px solid var(--border);
         }
         .block-container {
-            padding-top: 2rem;
-            padding-bottom: 3rem;
+            padding-top: 1.5rem;
+            padding-bottom: 3.5rem;
             max-width: 1180px;
         }
         [data-testid="metric-container"] {
@@ -162,6 +162,7 @@ def inject_global_styles() -> None:
             border-radius: 24px;
             padding: 24px 26px;
             box-shadow: var(--shadow);
+            margin-bottom: 0.35rem;
         }
         .hero-row {
             display: flex;
@@ -182,6 +183,13 @@ def inject_global_styles() -> None:
             color: var(--muted);
             font-size: 1rem;
             line-height: 1.6;
+        }
+        .hero-panel h1 {
+            line-height: 1.08;
+            margin-bottom: 0.35rem !important;
+        }
+        .hero-panel .muted {
+            max-width: 60rem;
         }
         .hero-kicker {
             color: var(--muted);
@@ -209,10 +217,11 @@ def inject_global_styles() -> None:
             padding: 14px 16px;
             border-radius: 14px;
             color: var(--text);
-            margin-top: 16px;
+            margin: 14px 0 2px;
+            box-shadow: 0 8px 22px rgba(37, 99, 235, 0.08);
         }
         .section-intro {
-            margin-bottom: 12px;
+            margin: 0.25rem 0 0.85rem;
         }
         .section-intro h2 {
             display: flex;
@@ -226,6 +235,7 @@ def inject_global_styles() -> None:
             padding: 16px 18px;
             background: rgba(255,255,255,0.95);
             box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+            height: 100%;
         }
         .card-title {
             font-weight: 750;
@@ -235,6 +245,16 @@ def inject_global_styles() -> None:
         .card-desc {
             color: var(--muted);
             line-height: 1.6;
+        }
+        .card p:last-child,
+        .card ul:last-child {
+            margin-bottom: 0;
+        }
+        .card ul {
+            padding-left: 1.1rem;
+        }
+        .card li + li {
+            margin-top: 0.28rem;
         }
         .sidebar-panel, .sidebar-note {
             background: rgba(255,255,255,0.9);
@@ -266,6 +286,38 @@ def inject_global_styles() -> None:
             background: rgba(255,255,255,0.92);
             border-radius: 18px;
             padding: 14px 18px;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+        }
+        [data-testid="stMain"] [data-testid="stPageLink"] {
+            margin-top: -0.55rem;
+            margin-bottom: 0.95rem;
+        }
+        [data-testid="stMain"] [data-testid="stPageLink"] a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            min-height: 2.6rem;
+            padding: 0.72rem 0.95rem;
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 16px 16px;
+            background: linear-gradient(180deg, #eff6ff 0%, #f8fbff 100%);
+            color: #1d4ed8;
+            font-weight: 600;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+        }
+        [data-testid="stMain"] [data-testid="stPageLink"] a:hover {
+            border-color: #bfdbfe;
+            background: linear-gradient(180deg, #dbeafe 0%, #eff6ff 100%);
+            color: #1d4ed8;
+        }
+        [data-testid="stSidebar"] [data-testid="stPageLink"] {
+            margin-top: 0;
+            margin-bottom: 0.35rem;
+        }
+        [data-testid="stSidebar"] [data-testid="stPageLink"] a {
+            border-radius: 12px;
         }
         </style>
         """,

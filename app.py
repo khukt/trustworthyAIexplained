@@ -59,25 +59,29 @@ with summary_left:
         "roadmap": "route",
     }
 
-    for key, path, label in NAV_ITEMS:
-        accent = accents[key]
-        st.markdown(
-            f"""
-            <div class='card' style='margin-bottom:12px;'>
-              <div style='display:flex; gap:12px; align-items:flex-start;'>
-                <div class='hero-icon' style='width:44px; height:44px; border-radius:14px; background:{accent}14;'>
-                  {material_icon(icons[key], 22, accent)}
-                </div>
-                <div style='flex:1;'>
-                  <div class='card-title'>{label}</div>
-                  <div class='card-desc'>{descriptions[key]}</div>
-                </div>
-              </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-        st.page_link(path, label=f"Open {label}", icon=PAGE_ICONS[key])
+    for start in range(0, len(NAV_ITEMS), 2):
+        row_items = NAV_ITEMS[start:start + 2]
+        row_columns = st.columns(2, gap="large")
+        for column, (key, path, label) in zip(row_columns, row_items):
+            accent = accents[key]
+            with column:
+                st.markdown(
+                    f"""
+                                        <div class='card' style='margin-bottom:0;'>
+                      <div style='display:flex; gap:12px; align-items:flex-start;'>
+                        <div class='hero-icon' style='width:44px; height:44px; border-radius:14px; background:{accent}14;'>
+                          {material_icon(icons[key], 22, accent)}
+                        </div>
+                        <div style='flex:1;'>
+                          <div class='card-title'>{label}</div>
+                          <div class='card-desc'>{descriptions[key]}</div>
+                        </div>
+                      </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+                st.page_link(path, label="Open page", icon=PAGE_ICONS[key])
 
 with summary_right:
     render_section_intro(
