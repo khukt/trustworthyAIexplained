@@ -32,7 +32,6 @@ with summary_left:
     )
 
     descriptions = {
-        "home": "Start with the overview.",
         "what_is": "See the core idea and key dimensions.",
         "why": "See the leadership, trust, and budget impact.",
         "risk": "See how the EU AI Act classifies risk.",
@@ -41,7 +40,6 @@ with summary_left:
         "roadmap": "Leave with a practical action plan.",
     }
     accents = {
-        "home": "#2563eb",
         "what_is": "#2563eb",
         "why": "#ea580c",
         "risk": "#7c3aed",
@@ -50,7 +48,6 @@ with summary_left:
         "roadmap": "#9333ea",
     }
     icons = {
-        "home": "home",
         "what_is": "verified_user",
         "why": "warning",
         "risk": "policy",
@@ -59,15 +56,17 @@ with summary_left:
         "roadmap": "route",
     }
 
-    for start in range(0, len(NAV_ITEMS), 2):
-        row_items = NAV_ITEMS[start:start + 2]
+    story_items = [item for item in NAV_ITEMS if item[0] != "home"]
+
+    for start in range(0, len(story_items), 2):
+        row_items = story_items[start:start + 2]
         row_columns = st.columns(2, gap="large")
         for column, (key, path, label) in zip(row_columns, row_items):
             accent = accents[key]
             with column:
                 st.markdown(
                     f"""
-                                        <div class='card' style='margin-bottom:0;'>
+                    <div class='card' style='margin-bottom:2px;'>
                       <div style='display:flex; gap:12px; align-items:flex-start;'>
                         <div class='hero-icon' style='width:44px; height:44px; border-radius:14px; background:{accent}14;'>
                           {material_icon(icons[key], 22, accent)}

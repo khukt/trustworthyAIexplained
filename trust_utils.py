@@ -105,19 +105,19 @@ def inject_global_styles() -> None:
         """
         <style>
         :root {
-            --bg: #f8fbff;
-            --surface: rgba(255, 255, 255, 0.92);
+            --bg: #f6f8fc;
+            --surface: rgba(255, 255, 255, 0.96);
             --surface-strong: #ffffff;
-            --border: #dbe5f1;
+            --border: #d6deeb;
             --text: #0f172a;
             --muted: #475569;
             --accent: #2563eb;
-            --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+            --shadow: 0 14px 34px rgba(15, 23, 42, 0.07);
         }
         .stApp {
             background:
-                radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 30%),
-                linear-gradient(180deg, #f8fbff 0%, #ffffff 38%, #f8fafc 100%);
+                radial-gradient(circle at top left, rgba(37, 99, 235, 0.06), transparent 34%),
+                linear-gradient(180deg, #f6f8fc 0%, #ffffff 42%, #f8fafc 100%);
         }
         [data-testid="stAppViewContainer"] {
             background: transparent;
@@ -127,16 +127,16 @@ def inject_global_styles() -> None:
             border-right: 1px solid var(--border);
         }
         .block-container {
-            padding-top: 1.5rem;
-            padding-bottom: 3.5rem;
+            padding-top: 1.15rem;
+            padding-bottom: 3rem;
             max-width: 1180px;
         }
         [data-testid="metric-container"] {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 14px;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+            border-radius: 14px;
+            padding: 13px;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
         }
         h1, h2, h3 {
             color: var(--text) !important;
@@ -157,10 +157,10 @@ def inject_global_styles() -> None:
             margin: 1.15rem 0;
         }
         .hero-panel {
-            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(248,250,252,0.98));
+            background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(248,250,252,0.95));
             border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 24px 26px;
+            border-radius: 20px;
+            padding: 20px 22px;
             box-shadow: var(--shadow);
             margin-bottom: 0.35rem;
         }
@@ -209,16 +209,16 @@ def inject_global_styles() -> None:
             border: 1px solid #bfdbfe;
             color: #1d4ed8;
             font-size: 0.92rem;
-            margin: 8px 8px 0 0;
+            margin: 7px 7px 0 0;
         }
         .callout {
             border-left: 4px solid var(--accent);
-            background: #eff6ff;
-            padding: 14px 16px;
-            border-radius: 14px;
+            background: #f1f5ff;
+            padding: 12px 14px;
+            border-radius: 12px;
             color: var(--text);
-            margin: 14px 0 2px;
-            box-shadow: 0 8px 22px rgba(37, 99, 235, 0.08);
+            margin: 12px 0 2px;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.08);
         }
         .section-intro {
             margin: 0.25rem 0 0.85rem;
@@ -231,10 +231,10 @@ def inject_global_styles() -> None:
         }
         .card {
             border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 16px 18px;
+            border-radius: 14px;
+            padding: 15px 16px;
             background: rgba(255,255,255,0.95);
-            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
             height: 100%;
         }
         .card-title {
@@ -259,9 +259,9 @@ def inject_global_styles() -> None:
         .sidebar-panel, .sidebar-note {
             background: rgba(255,255,255,0.9);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 14px 14px;
-            margin-bottom: 12px;
+            border-radius: 14px;
+            padding: 12px 12px;
+            margin-bottom: 10px;
         }
         .sidebar-title {
             display: flex;
@@ -284,32 +284,31 @@ def inject_global_styles() -> None:
         .surface-strip {
             border: 1px solid var(--border);
             background: rgba(255,255,255,0.92);
-            border-radius: 18px;
+            border-radius: 14px;
             padding: 14px 18px;
             box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
         }
         [data-testid="stMain"] [data-testid="stPageLink"] {
-            margin-top: -0.55rem;
-            margin-bottom: 0.95rem;
+            margin-top: 0.35rem;
+            margin-bottom: 0.9rem;
         }
         [data-testid="stMain"] [data-testid="stPageLink"] a {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            min-height: 2.6rem;
-            padding: 0.72rem 0.95rem;
+            gap: 0.35rem;
+            width: auto;
+            min-height: 2rem;
+            padding: 0.4rem 0.72rem;
             border: 1px solid var(--border);
-            border-top: none;
-            border-radius: 0 0 16px 16px;
-            background: linear-gradient(180deg, #eff6ff 0%, #f8fbff 100%);
+            border-radius: 999px;
+            background: #eef2ff;
             color: #1d4ed8;
             font-weight: 600;
-            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+            box-shadow: none;
         }
         [data-testid="stMain"] [data-testid="stPageLink"] a:hover {
             border-color: #bfdbfe;
-            background: linear-gradient(180deg, #dbeafe 0%, #eff6ff 100%);
+            background: #e0e7ff;
             color: #1d4ed8;
         }
         [data-testid="stSidebar"] [data-testid="stPageLink"] {
