@@ -158,71 +158,69 @@ with colA:
 # --- Right: Exposure calculator (renamed + clarified) ---
 with colB:
   st.markdown("### Article 99 exposure calculator")
-    st.markdown(
+  st.markdown(
     '<p class="muted">Enter global annual turnover to estimate the legal ceiling.</p>',
-        unsafe_allow_html=True,
-    )
+    unsafe_allow_html=True,
+  )
 
-    turnover_m = st.number_input(
+  turnover_m = st.number_input(
     "Annual turnover (€ millions)",
-        min_value=0.0,
-        value=500.0,
-        step=50.0,
+    min_value=0.0,
+    value=500.0,
+    step=50.0,
+  )
+
+  turnover = turnover_m * 1_000_000
+
+  rules = [
+    {"Category": "Art. 99(4) – Prohibited practices", "FixedCap": 35_000_000, "Pct": 0.07},
+    {"Category": "Art. 99(5) – High-risk violations", "FixedCap": 15_000_000, "Pct": 0.03},
+    {"Category": "Art. 99(6) – Misleading information", "FixedCap": 7_500_000, "Pct": 0.01},
+  ]
+
+  rows = []
+  for r in rules:
+    pct_val = turnover * r["Pct"]
+    max_val = max(r["FixedCap"], pct_val)
+    rows.append({
+      "Category": r["Category"],
+      "Fixed cap (€M)": r["FixedCap"] / 1_000_000,
+      "% of turnover (€M)": pct_val / 1_000_000,
+      "Maximum exposure (€M)": max_val / 1_000_000,
+    })
+
+  df = pd.DataFrame(rows)
+
+  for i in range(len(df)):
+    st.metric(
+      label=df.loc[i, "Category"],
+      value=f"€{df.loc[i, 'Maximum exposure (€M)']:.1f}M",
     )
 
-    turnover = turnover_m * 1_000_000
-
-    rules = [
-        {"Category": "Art. 99(4) – Prohibited practices", "FixedCap": 35_000_000, "Pct": 0.07},
-        {"Category": "Art. 99(5) – High-risk violations", "FixedCap": 15_000_000, "Pct": 0.03},
-        {"Category": "Art. 99(6) – Misleading information", "FixedCap": 7_500_000, "Pct": 0.01},
-    ]
-
-    rows = []
-    for r in rules:
-        pct_val = turnover * r["Pct"]
-        max_val = max(r["FixedCap"], pct_val)
-        rows.append({
-            "Category": r["Category"],
-            "Fixed cap (€M)": r["FixedCap"] / 1_000_000,
-            "% of turnover (€M)": pct_val / 1_000_000,
-            "Maximum exposure (€M)": max_val / 1_000_000,
-        })
-
-    df = pd.DataFrame(rows)
-
-    # KPI summary
-    for i in range(len(df)):
-        st.metric(
-            label=df.loc[i, "Category"],
-            value=f"€{df.loc[i, 'Maximum exposure (€M)']:.1f}M",
-        )
-
-    # Visual comparison
-    fig = go.Figure()
-    fig.add_trace(go.Bar(name="Fixed cap", x=df["Category"], y=df["Fixed cap (€M)"]))
-    fig.add_trace(go.Bar(name="% of turnover", x=df["Category"], y=df["% of turnover (€M)"]))
-    fig.add_trace(
-        go.Scatter(
-            name="Maximum (whichever higher)",
-            x=df["Category"],
-            y=df["Maximum exposure (€M)"],
-            mode="markers+text",
-            text=[f"€{v:.1f}M" for v in df["Maximum exposure (€M)"]],
-            textposition="top center",
-        )
+  fig = go.Figure()
+  fig.add_trace(go.Bar(name="Fixed cap", x=df["Category"], y=df["Fixed cap (€M)"]))
+  fig.add_trace(go.Bar(name="% of turnover", x=df["Category"], y=df["% of turnover (€M)"]))
+  fig.add_trace(
+    go.Scatter(
+      name="Maximum (whichever higher)",
+      x=df["Category"],
+      y=df["Maximum exposure (€M)"],
+      mode="markers+text",
+      text=[f"€{v:.1f}M" for v in df["Maximum exposure (€M)"]],
+      textposition="top center",
     )
+  )
 
-    fig.update_layout(
-        barmode="group",
-        height=380,
-        paper_bgcolor="#ffffff",
-        plot_bgcolor="#ffffff",
-        font=dict(color="#0f172a"),
-        yaxis=dict(title="€ Millions"),
-    )
+  fig.update_layout(
+    barmode="group",
+    height=380,
+    paper_bgcolor="#ffffff",
+    plot_bgcolor="#ffffff",
+    font=dict(color="#0f172a"),
+    yaxis=dict(title="€ Millions"),
+  )
 
-    st.plotly_chart(fig, use_container_width=True)
+  st.plotly_chart(fig, use_container_width=True)
 
 # -----------------------------------------------------------------------------
 # 4) What leaders should require (short, decision-ready)
