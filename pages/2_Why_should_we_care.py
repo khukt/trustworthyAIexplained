@@ -1,79 +1,24 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+from trust_utils import material_icon, render_callout, render_page_header, render_section_intro, setup_page
 
-st.set_page_config(page_title="Why it matters", page_icon="⚠️", layout="wide")
+setup_page("why", "Why it matters")
 
-# --- Style B: modern, clean, formal, high readability ---
-st.markdown(
-    """
-    <style>
-      .stApp { background:#ffffff; }
-      h1, h2, h3 { color:#0f172a; }
-      p, li, div { color:#111827; font-size:1.02rem; line-height:1.55; }
-      .muted { color:#475569; }
-      .hero {
-        border:1px solid #e5e7eb; border-radius:14px; padding:18px 18px;
-        background: linear-gradient(180deg, #ffffff, #f8fafc);
-      }
-      .callout {
-        border-left:4px solid #1d4ed8;
-        background:#eff6ff;
-        padding:12px 14px; border-radius:10px;
-        color:#0f172a;
-      }
-      .card {
-        border:1px solid #e5e7eb; border-radius:12px;
-        padding:14px 14px; background:#ffffff;
-      }
-      .card-title { font-weight:750; color:#0f172a; margin-bottom:6px; }
-      .card-desc { color:#475569; }
-      .pill { display:inline-block; padding:5px 10px; border-radius:999px;
-              background:#f1f5f9; border:1px solid #e2e8f0; color:#0f172a;
-              font-size:0.92rem; margin-right:8px; margin-top:6px; }
-      .kpi { border:1px solid #e5e7eb; border-radius:12px; padding:12px 14px; background:#ffffff; }
-      .kpi .label { color:#475569; font-size:0.92rem; }
-      .kpi .value { color:#0f172a; font-size:1.35rem; font-weight:800; margin-top:2px; }
-      .small { color:#64748b; font-size:0.95rem; }
-      hr { border:none; height:1px; background:#e5e7eb; margin:18px 0; }
-      a { color:#1d4ed8; text-decoration:none; }
-      a:hover { text-decoration:underline; }
-    </style>
-    """,
-    unsafe_allow_html=True,
+render_page_header(
+    title="Why it matters",
+  subtitle="If AI is wrong, people, budgets, and institutions pay the price.",
+    icon_name="warning",
+    accent="#ea580c",
+    chips=["Public harm", "Trust & legitimacy", "Legal & financial risk", "Operational resilience"],
+    eyebrow="Why leaders should care",
 )
 
-# -----------------------------------------------------------------------------
-# HERO
-# -----------------------------------------------------------------------------
-st.markdown(
-    """
-    <div class="hero">
-      <div style="display:flex; align-items:flex-start; gap:10px;">
-        <div style="font-size:1.8rem;">⚠️</div>
-        <div>
-          <h1 style="margin:0;">Why it matters</h1>
-          <p class="muted" style="margin:8px 0 0 0;">
-            For decision makers, the question is simple:
-            <strong>If AI is wrong, who pays the price?</strong>
-          </p>
-        </div>
-      </div>
-
-      <div style="margin-top:12px;" class="callout">
-        Trustworthy AI is a <strong>risk and governance</strong> issue — not a technical luxury.
-        It protects people, institutions, budgets, and compliance.
-      </div>
-
-      <div style="margin-top:10px;">
-        <span class="pill">Public harm</span>
-        <span class="pill">Trust & legitimacy</span>
-        <span class="pill">Legal & financial risk</span>
-        <span class="pill">Operational resilience</span>
-      </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
+render_callout(
+    title="Core message",
+  body="Trustworthy AI is a governance issue, not a technical luxury. It protects people, budgets, and compliance.",
+    icon_name="campaign",
+    accent="#1d4ed8",
 )
 
 st.markdown("<hr>", unsafe_allow_html=True)
@@ -81,10 +26,10 @@ st.markdown("<hr>", unsafe_allow_html=True)
 # -----------------------------------------------------------------------------
 # 1) WHAT CAN GO WRONG (3 clean cards)
 # -----------------------------------------------------------------------------
-st.markdown("## What can go wrong (plain language)")
-st.markdown(
-    '<p class="muted">These are the failure modes that matter most for leadership — because they create real consequences.</p>',
-    unsafe_allow_html=True,
+render_section_intro(
+  title="What can go wrong",
+  body="These are the failure modes leaders should care about most.",
+  icon_name="crisis_alert",
 )
 
 c1, c2, c3 = st.columns(3, gap="large")
@@ -92,7 +37,7 @@ with c1:
     st.markdown(
         """
         <div class="card">
-          <div class="card-title">🧯 Safety & harm</div>
+          <div class="card-title">""" + material_icon("health_and_safety", 18, "#dc2626") + """ Safety & harm</div>
           <div class="card-desc">
             Incorrect recommendations can trigger wrong actions and real harm.
             High-impact use cases require safeguards and human oversight.
@@ -105,7 +50,7 @@ with c2:
     st.markdown(
         """
         <div class="card">
-          <div class="card-title">💶 Operational & economic loss</div>
+          <div class="card-title">""" + material_icon("payments", 18, "#0f766e") + """ Operational & economic loss</div>
           <div class="card-desc">
             Unreliable AI creates rework, delays, misallocation, and late discovery of failures —
             which increases cost and reduces service quality.
@@ -118,7 +63,7 @@ with c3:
     st.markdown(
         """
         <div class="card">
-          <div class="card-title">🏛️ Trust & legitimacy</div>
+          <div class="card-title">""" + material_icon("account_balance", 18, "#1d4ed8") + """ Trust & legitimacy</div>
           <div class="card-desc">
             Unfair or unexplained decisions reduce public trust and institutional credibility,
             and can escalate into reputational and political risk.
@@ -138,17 +83,10 @@ st.markdown("<hr>", unsafe_allow_html=True)
 # -----------------------------------------------------------------------------
 # EU AI ACT — ADMINISTRATIVE FINES (LEGALLY PRECISE VERSION)
 # -----------------------------------------------------------------------------
-st.markdown("## Legal & financial exposure under the EU AI Act")
-
-st.markdown(
-    """
-    <p class="muted">
-      Regulation (EU) 2024/1689 (AI Act) introduces administrative fines under <strong>Article 99</strong>.
-      The amounts below represent the <strong>maximum legal ceilings</strong>.
-      The actual fine is determined by the competent supervisory authority.
-    </p>
-    """,
-    unsafe_allow_html=True,
+render_section_intro(
+    title="Legal & financial exposure under the EU AI Act",
+  body="Article 99 sets maximum fine levels. The figures below show legal ceilings, not automatic penalties.",
+    icon_name="gavel",
 )
 
 colA, colB = st.columns([1.0, 1.2], gap="large")
@@ -219,14 +157,14 @@ with colA:
 
 # --- Right: Exposure calculator (renamed + clarified) ---
 with colB:
-    st.markdown("### Maximum exposure under Article 99 (illustrative)")
+  st.markdown("### Article 99 exposure calculator")
     st.markdown(
-        '<p class="muted">Enter estimated global annual turnover to visualize the legal ceiling.</p>',
+    '<p class="muted">Enter global annual turnover to estimate the legal ceiling.</p>',
         unsafe_allow_html=True,
     )
 
     turnover_m = st.number_input(
-        "Global annual turnover (€ millions)",
+    "Annual turnover (€ millions)",
         min_value=0.0,
         value=500.0,
         step=50.0,
@@ -289,7 +227,11 @@ with colB:
 # -----------------------------------------------------------------------------
 # 4) What leaders should require (short, decision-ready)
 # -----------------------------------------------------------------------------
-st.markdown("## What leaders should require (minimum)")
+render_section_intro(
+  title="What leaders should require",
+  body="A minimum checklist for responsible adoption and oversight.",
+  icon_name="checklist",
+)
 st.markdown(
     """
     <div class="card">

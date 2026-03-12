@@ -4,26 +4,29 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
-from trust_utils import Safeguards, simulate_model_outputs, add_risk_columns, case_risk, overall_summary, apply_dark_theme
+from trust_utils import Safeguards, simulate_model_outputs, add_risk_columns, case_risk, overall_summary, material_icon, render_callout, render_page_header, render_section_intro, setup_page
 
-apply_dark_theme()
+setup_page("demo", "Interactive Mini-Demo")
 
-st.title("3\ufe0f\u20e3 Interactive Mini-Demo")
-st.caption("One clear story that explains: Reliable \u2022 Safe \u2022 Fair \u2022 Transparent \u2022 Accountable")
+render_page_header(
+    title="Interactive Mini-Demo",
+    subtitle="One clear story showing what trustworthy AI looks like in practice.",
+    icon_name="tune",
+    accent="#0f766e",
+    chips=["Reliable", "Safe", "Fair", "Transparent", "Accountable"],
+    eyebrow="Live walkthrough",
+)
 
 # ── Data ─────────────────────────────────────────────────────────────────────
 df = pd.read_csv("data/sample_cases.csv")
 dfm = simulate_model_outputs(df)
 
 # ── Scenario selector ─────────────────────────────────────────────────────────
-st.markdown(
-    "<div style='background:#eff6ff; border-left:4px solid #2563eb; "
-    "border-radius:8px; padding:12px 16px; margin-bottom:12px;'>"
-    "<strong style='color:#1e40af;'>📋 Scenario:</strong> "
-    "<span style='color:#334155;'>AI helps prioritize cases for support (demo). "
-    "The goal is not to replace people — it is to support decisions safely.</span>"
-    "</div>",
-    unsafe_allow_html=True,
+render_callout(
+    title="Scenario",
+    body="AI helps prioritize cases for support. The goal is to support people, not replace them.",
+    icon_name="assignment",
+    accent="#1d4ed8",
 )
 
 colA, colB, colC = st.columns([1, 1, 1.2])
@@ -36,7 +39,7 @@ if df_f.empty:
     st.warning("No cases found for this filter (demo data). Try another sector/region.")
     st.stop()
 with colC:
-    case_id = st.selectbox("Pick one case (example)", df_f["case_id"].tolist(), index=0)
+    case_id = st.selectbox("Choose a case", df_f["case_id"].tolist(), index=0)
 
 row = df_f[df_f["case_id"] == case_id].iloc[0]
 
@@ -61,7 +64,7 @@ step_colors = {
     "Accountable": "#a855f7",
 }
 steps = list(step_colors.keys())
-step = st.radio("Story step", steps, horizontal=True)
+step = st.radio("View", steps, horizontal=True)
 
 # Base safeguards
 base_s = Safeguards(
@@ -109,7 +112,7 @@ def dark_layout(**kwargs):
 # ===================================================================
 if step == "Reliable":
     st.markdown(
-        f"<h3 style='color:{active_color};'>\u2705 Reliable: works consistently and predictably</h3>",
+        f"<h3 style='color:{active_color}; display:flex; align-items:center; gap:8px;'>{material_icon('verified', 22, active_color)}<span>Reliable: works consistently and predictably</span></h3>",
         unsafe_allow_html=True,
     )
     st.write(
@@ -137,11 +140,11 @@ if step == "Reliable":
         st.metric("Stability rate", f"{stable_rate:.2f}")
 
         if stable_rate >= 0.85:
-            st.success("\u2705 Reliable: decision stays consistent most of the time.")
+            st.success("Reliable: decision stays consistent most of the time.")
         elif stable_rate >= 0.65:
-            st.warning("\u26a0\ufe0f Partly reliable: decision changes sometimes \u2014 risky for leadership use.")
+            st.warning("Partly reliable: decision changes sometimes — risky for leadership use.")
         else:
-            st.error("\u274c Not reliable: decision flips often \u2014 leaders cannot depend on it.")
+            st.error("Not reliable: decision flips often — leaders cannot depend on it.")
 
     with col2:
         df_plot = pd.DataFrame({
@@ -173,17 +176,14 @@ if step == "Reliable":
         ))
         st.plotly_chart(fig, use_container_width=True)
 
-        st.info(
-            "Message for decision makers: **Reliability** means the same input produces consistent outputs. "
-            "If a system is unstable, it is not ready for high-impact use."
-        )
+        st.info("Reliability means the same input gives a consistent result. If it flips often, it is not ready for high-impact use.")
 
 # ===================================================================
 # STEP 2 \u2014 SAFE
 # ===================================================================
 elif step == "Safe":
     st.markdown(
-        f"<h3 style='color:{active_color};'>\U0001f9ef Safe: failures do not create harm</h3>",
+        f"<h3 style='color:{active_color}; display:flex; align-items:center; gap:8px;'>{material_icon('health_and_safety', 22, active_color)}<span>Safe: failures do not create harm</span></h3>",
         unsafe_allow_html=True,
     )
     st.write(
@@ -228,18 +228,18 @@ elif step == "Safe":
         st.metric("Out-of-context", float(row["ood_score"]))
 
         if harm_risk == 0:
-            st.success("\u2705 Low harm risk: risky cases are not automatically actioned.")
+            st.success("Low harm risk: risky cases are not automatically actioned.")
         elif harm_risk == 1:
-            st.warning("\u26a0\ufe0f Medium harm risk: consider stricter thresholds or review.")
+            st.warning("Medium harm risk: consider stricter thresholds or review.")
         else:
-            st.error("\u274c High harm risk: uncertain/out-of-context cases are being automated.")
+            st.error("High harm risk: uncertain/out-of-context cases are being automated.")
 
         st.markdown("**What safe systems do:**")
         for item in ["Use thresholds", "Route risky cases to humans", "Log decisions and monitor issues"]:
             st.markdown(
                 f"<div style='background:#f0fdf4; border-left:3px solid #22c55e; "
                 f"border-radius:4px; padding:6px 10px; margin:4px 0; color:#166534;'>"
-                f"✔️ {item}</div>",
+                f"{material_icon('check', 16, '#16a34a')} {item}</div>",
                 unsafe_allow_html=True,
             )
 
@@ -279,17 +279,14 @@ elif step == "Safe":
         )
         st.plotly_chart(fig, use_container_width=True)
 
-        st.info(
-            "Message for decision makers: **Safe AI** means the system avoids harm by "
-            "not automating uncertain or out-of-context cases."
-        )
+        st.info("Safe AI avoids harm by not automating uncertain or out-of-context cases.")
 
 # ===================================================================
 # STEP 3 \u2014 FAIR
 # ===================================================================
 elif step == "Fair":
     st.markdown(
-        f"<h3 style='color:{active_color};'>\u2696\ufe0f Fair: decisions are not biased or discriminatory</h3>",
+        f"<h3 style='color:{active_color}; display:flex; align-items:center; gap:8px;'>{material_icon('balance', 22, active_color)}<span>Fair: decisions are not biased or discriminatory</span></h3>",
         unsafe_allow_html=True,
     )
     st.write(
@@ -354,26 +351,23 @@ elif step == "Fair":
     st.plotly_chart(fig_g, use_container_width=True)
 
     if not fairness_check:
-        st.warning("Fairness check is OFF \u2014 leaders may not detect unequal outcomes.")
+            st.warning("Fairness check is OFF — leaders may not detect unequal outcomes.")
     else:
         if gap <= 0.05:
-            st.success("\u2705 Fairness looks OK in this snapshot (small gap).")
+                st.success("Fairness looks OK in this snapshot (small gap).")
         elif gap <= 0.15:
-            st.warning("\u26a0\ufe0f Fairness warning: outcomes differ. Leaders should investigate.")
+                st.warning("Fairness warning: outcomes differ. Leaders should investigate.")
         else:
-            st.error("\u274c Fairness risk: large outcome gap between groups.")
+                st.error("Fairness risk: large outcome gap between groups.")
 
-    st.info(
-        "Message for decision makers: **Fair AI** requires measuring outcomes across groups. "
-        "If differences are large, policy and data must be reviewed."
-    )
+    st.info("Fair AI means checking outcomes across groups and investigating large gaps.")
 
 # ===================================================================
 # STEP 4 \u2014 TRANSPARENT
 # ===================================================================
 elif step == "Transparent":
     st.markdown(
-        f"<h3 style='color:{active_color};'>\U0001f50e Transparent: we can explain why a result happened</h3>",
+        f"<h3 style='color:{active_color}; display:flex; align-items:center; gap:8px;'>{material_icon('manage_search', 22, active_color)}<span>Transparent: we can explain why a result happened</span></h3>",
         unsafe_allow_html=True,
     )
     st.write(
@@ -441,7 +435,7 @@ elif step == "Transparent":
             st.markdown(
                 f"<div style='background:#fffbeb; border-left:3px solid #f59e0b; "
                 f"border-radius:4px; padding:8px 12px; margin:4px 0; color:#92400e;'>"
-                f"💡 {w}</div>",
+                f"{material_icon('lightbulb', 16, '#d97706')} {w}</div>",
                 unsafe_allow_html=True,
             )
 
@@ -474,16 +468,14 @@ elif step == "Transparent":
         )
         st.plotly_chart(fig, use_container_width=True)
 
-    st.info(
-        "Message for decision makers: **Transparent AI** provides understandable reasons and supports review."
-    )
+    st.info("Transparent AI gives understandable reasons and supports review.")
 
 # ===================================================================
 # STEP 5 \u2014 ACCOUNTABLE
 # ===================================================================
 else:
     st.markdown(
-        f"<h3 style='color:{active_color};'>\U0001f9fe Accountable: responsibilities, auditing, and governance are clearly defined</h3>",
+        f"<h3 style='color:{active_color}; display:flex; align-items:center; gap:8px;'>{material_icon('fact_check', 22, active_color)}<span>Accountable: responsibilities, auditing, and governance are clearly defined</span></h3>",
         unsafe_allow_html=True,
     )
     st.write(
@@ -493,7 +485,7 @@ else:
     col1, col2 = st.columns([1, 1])
 
     with col1:
-        owner_role = st.selectbox("Decision owner (role)", ["Unit manager", "Agency director", "Case officer", "Project lead"])
+        owner_role = st.selectbox("Decision owner", ["Unit manager", "Agency director", "Case officer", "Project lead"])
         policy_review = st.toggle("Review policy enabled", value=True)
         logging = st.toggle("Logging / audit trail enabled", value=True)
         monitoring = st.toggle("Monitoring planned", value=True)
@@ -507,7 +499,7 @@ else:
         ]
         score = sum(1 for _, v in checklist if v)
         for label, ok in checklist:
-            icon = "✅" if ok else "❌"
+            icon = material_icon("check_circle", 16, "#16a34a") if ok else material_icon("cancel", 16, "#dc2626")
             color = "#16a34a" if ok else "#dc2626"
             bg = "#f0fdf4" if ok else "#fef2f2"
             border = "#22c55e" if ok else "#ef4444"
@@ -555,9 +547,7 @@ else:
         }
         st.json(audit)
 
-        st.info(
-            "Message for decision makers: **Accountable AI** creates traceable decisions and clear responsibility."
-        )
+        st.info("Accountable AI creates traceable decisions and clear responsibility.")
 
 st.divider()
-st.caption("This demo uses simulated outputs and simplified indicators to make the policy story clear and portable.")
+st.caption("This demo uses simulated outputs and simplified indicators for clarity.")

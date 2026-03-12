@@ -1,80 +1,23 @@
 import streamlit as st
 
-# -------------------------------------------------------
-# Modern + clean + formal (Style B) — high readability
-# -------------------------------------------------------
-st.set_page_config(page_title="What is Trustworthy AI?", page_icon="🛡️", layout="wide")
+from trust_utils import material_icon, render_callout, render_page_header, render_section_intro, setup_page
 
-# Global styling (light, high contrast, modern)
-st.markdown(
-    """
-    <style>
-      .stApp { background: #ffffff; }
-      h1, h2, h3 { color: #0f172a; }
-      p, li, div { color: #111827; font-size: 1.02rem; }
-      .muted { color: #475569; font-size: 1.0rem; line-height: 1.55; }
-      .chip {
-        display:inline-block; padding:6px 10px; border-radius:999px;
-        background:#eef2ff; border:1px solid #c7d2fe; color:#1e3a8a;
-        font-size:0.92rem; margin-right:8px;
-      }
-      .hero {
-        border: 1px solid #e5e7eb; border-radius: 14px; padding: 18px 18px;
-        background: linear-gradient(180deg, #ffffff, #f8fafc);
-      }
-      .callout {
-        border-left: 4px solid #1d4ed8;
-        background: #eff6ff;
-        padding: 12px 14px; border-radius: 10px;
-        color: #0f172a;
-      }
-      .card {
-        border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px 14px;
-        background: #ffffff;
-      }
-      .card-title { font-weight: 750; color: #0f172a; margin-bottom: 4px; }
-      .card-desc { color: #475569; line-height: 1.5; }
-      .section-title { margin-top: 10px; }
-      .mini { color:#64748b; font-size:0.95rem; }
-      hr { border: none; height: 1px; background: #e5e7eb; margin: 18px 0; }
-    </style>
-    """,
-    unsafe_allow_html=True,
+setup_page("what_is", "What is Trustworthy AI?")
+
+render_page_header(
+    title="What is Trustworthy AI?",
+  subtitle="A practical, EU-aligned overview for decision makers.",
+    icon_name="verified_user",
+    accent="#2563eb",
+    chips=["Policy-aligned", "Risk-based", "Governance-aware", "Not only accuracy"],
+    eyebrow="Foundations",
 )
 
-# -------------------------------------------------------
-# Header / Hero
-# -------------------------------------------------------
-st.markdown(
-    """
-    <div class="hero">
-      <div style="display:flex; align-items:center; gap:10px;">
-        <div style="font-size:1.8rem;">🛡️</div>
-        <div>
-          <h1 style="margin:0;">What is Trustworthy AI?</h1>
-          <div class="muted">
-            An academically grounded and EU-aligned overview for decision makers.
-          </div>
-        </div>
-      </div>
-
-      <div style="margin-top:14px;" class="callout">
-        <div style="font-size:1.05rem;">
-          <strong>Definition:</strong> Trustworthy AI refers to AI systems developed and governed to be
-          <strong>lawful</strong>, <strong>ethical</strong>, and <strong>technically robust</strong>,
-          so they can be used responsibly in real-world contexts under appropriate oversight.
-        </div>
-      </div>
-
-      <div style="margin-top:12px;">
-        <span class="chip">Policy-aligned</span>
-        <span class="chip">Risk-based</span>
-        <span class="chip">Governance-aware</span>
-        <span class="chip">Not only accuracy</span>
-      </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
+render_callout(
+    title="Definition",
+  body="Trustworthy AI means AI that is lawful, ethical, and robust enough to use responsibly under real oversight.",
+    icon_name="menu_book",
+    accent="#1d4ed8",
 )
 
 st.markdown("<hr>", unsafe_allow_html=True)
@@ -102,14 +45,14 @@ with right:
     st.markdown(
         """
         <div class="card">
-          <div class="card-title">✅ What it is</div>
+          <div class="card-title">""" + material_icon("check_circle", 18, "#16a34a") + """ What it is</div>
           <div class="card-desc">
             A <strong>risk and governance</strong> approach for AI-assisted decisions.
           </div>
         </div>
         <div style="height:10px;"></div>
         <div class="card">
-          <div class="card-title">❌ What it isn’t</div>
+          <div class="card-title">""" + material_icon("cancel", 18, "#dc2626") + """ What it isn’t</div>
           <div class="card-desc">
             Not just “high accuracy”, and not “automation that replaces humans”.
           </div>
@@ -123,15 +66,10 @@ st.markdown("<hr>", unsafe_allow_html=True)
 # -------------------------------------------------------
 # Core recurring dimensions (7 themes)
 # -------------------------------------------------------
-st.markdown("## Core dimensions that appear across major frameworks")
-st.markdown(
-    """
-    <div class="muted">
-      Different organizations structure Trustworthy AI differently (e.g., EU, OECD, NIST, ISO/IEC, sector frameworks),
-      but the following <strong>recurring dimensions</strong> consistently appear.
-    </div>
-    """,
-    unsafe_allow_html=True,
+render_section_intro(
+    title="Core dimensions that appear across major frameworks",
+  body="Different frameworks use different labels, but they point to the same core ideas.",
+    icon_name="view_carousel",
 )
 
 dims = [
@@ -164,15 +102,10 @@ st.markdown("<hr>", unsafe_allow_html=True)
 # -------------------------------------------------------
 # EU 7 requirements (explicit, readable list)
 # -------------------------------------------------------
-st.markdown("## EU perspective: 7 key requirements (Ethics Guidelines for Trustworthy AI, 2019)")
-st.markdown(
-    """
-    <div class="muted">
-      The EU High-Level Expert Group describes seven requirements for Trustworthy AI.
-      These are widely cited in European policy discussions.
-    </div>
-    """,
-    unsafe_allow_html=True,
+render_section_intro(
+    title="EU perspective: 7 key requirements",
+  body="The EU High-Level Expert Group set out seven requirements that still shape European policy discussions.",
+    icon_name="fact_check",
 )
 
 eu7 = [
@@ -202,19 +135,14 @@ st.markdown("<hr>", unsafe_allow_html=True)
 # -------------------------------------------------------
 # Interactive: “Different organizations group it differently”
 # -------------------------------------------------------
-st.markdown("## How different organizations structure Trustworthy AI (interactive)")
-st.markdown(
-    """
-    <div class="muted">
-      There is <strong>no single universal pillar set</strong>. Organizations group the same core dimensions differently
-      depending on whether they focus on policy, engineering risk, or auditable management systems.
-    </div>
-    """,
-    unsafe_allow_html=True,
+render_section_intro(
+    title="How different organizations structure Trustworthy AI",
+  body="There is no single pillar set. Organizations group the same ideas differently depending on their focus.",
+    icon_name="hub",
 )
 
 framework = st.selectbox(
-    "Select a framework to see its focus (brief, decision-maker friendly):",
+  "Choose a framework:",
     [
         "EU (HLEG 2019) — 7 requirements",
         "OECD — AI Principles",
@@ -299,4 +227,4 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.caption("Use the Interactive mini-demo to show concrete examples of risk, bias, transparency, and governance in action.")
+st.caption("Next step: open the Interactive mini-demo for a concrete example.")

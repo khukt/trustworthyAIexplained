@@ -1,50 +1,347 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Sequence
 import numpy as np
 import pandas as pd
 import streamlit as st
 
 
-def apply_dark_theme() -> None:
-    """Inject the global CSS used across all pages."""
+PAGE_ICONS = {
+    "home": ":material/robot_2:",
+    "what_is": ":material/verified_user:",
+    "why": ":material/warning:",
+    "risk": ":material/policy:",
+    "demo": ":material/tune:",
+    "stories": ":material/auto_stories:",
+    "roadmap": ":material/route:",
+}
+
+
+NAV_ITEMS = [
+    ("home", "app.py", "Home"),
+    ("what_is", "pages/1_What_is_Trustworthy_AI.py", "1) What is Trustworthy AI?"),
+    ("why", "pages/2_Why_should_we_care.py", "2) Why it matters"),
+    ("risk", "pages/3_EU_AI_Act_Risk_Categories.py", "3) EU AI Act risk categories"),
+    ("demo", "pages/3_Interactive_mini_demo.py", "4) Interactive mini-demo"),
+    ("stories", "pages/4_Failure_stories.py", "5) Failure stories"),
+    ("roadmap", "pages/5_Roadmap.py", "6) Roadmap"),
+]
+
+
+def inject_icon_font() -> None:
+    """Load Material Symbols for consistent icon rendering in custom HTML."""
     st.markdown(
         """
         <style>
-        [data-testid="stAppViewContainer"] {
-            background: #ffffff;
+        @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0');
+
+        .material-symbols-rounded {
+            font-family: 'Material Symbols Rounded';
+            font-weight: normal;
+            font-style: normal;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+            font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
         }
-        [data-testid="stSidebar"] {
-            background: #f8fafc;
-        }
-        [data-testid="metric-container"] {
-            background: #eff6ff;
-            border: 1px solid #2563eb;
-            border-radius: 10px;
-            padding: 12px;
-        }
-        details summary {
-            font-size: 1.05rem;
-            font-weight: 600;
-        }
-        h1, h2, h3 { color: #1e40af !important; }
-        .stAlert { border-radius: 10px; }
-        hr { border-color: #e2e8f0; }
-        .pillar-card {
-            background: #eff6ff;
-            border: 1px solid #2563eb;
-            border-radius: 12px;
-            padding: 18px 16px;
-            text-align: center;
-            height: 100%;
-        }
-        .pillar-card h3 { color: #1e40af !important; margin-bottom: 6px; }
-        .pillar-card p { color: #475569; font-size: 0.9rem; margin: 0; }
         </style>
         """,
         unsafe_allow_html=True,
     )
+
+
+def material_icon(name: str, size: int = 24, color: str = "currentColor") -> str:
+    """Return a Material Symbols icon span for use in custom HTML blocks."""
+    return (
+        f"<span class='material-symbols-rounded' "
+        f"style='font-size:{size}px; color:{color};' aria-hidden='true'>{name}</span>"
+    )
+
+
+def _join_chips(chips: Sequence[str]) -> str:
+    return "".join(f"<span class='chip'>{chip}</span>" for chip in chips)
+
+
+def render_sidebar(active_page: str) -> None:
+    """Render the shared story-first sidebar navigation."""
+    current_label = next((label for key, _, label in NAV_ITEMS if key == active_page), "Current page")
+    with st.sidebar:
+        st.markdown(
+            f"<div class='sidebar-panel'>"
+            f"<div class='sidebar-title'>{material_icon('explore', 20, '#1d4ed8')} Start here</div>"
+            f"<div class='sidebar-copy'>A short, decision-maker friendly walkthrough from definition to action.</div>"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+        for key, path, label in NAV_ITEMS:
+            st.page_link(path, label=label, icon=PAGE_ICONS[key])
+
+        st.divider()
+        st.markdown(
+            f"<div class='sidebar-note'>"
+            f"<strong>{material_icon('flag', 16, '#0f172a')} Current focus:</strong><br>{current_label}"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+        st.page_link(
+            "pages/3_Interactive_mini_demo.py",
+            label="Open the live mini-demo",
+            icon=":material/play_circle:",
+        )
+
+
+def inject_global_styles() -> None:
+    """Inject the shared visual design system used across pages."""
+    st.markdown(
+        """
+        <style>
+        :root {
+            --bg: #f8fbff;
+            --surface: rgba(255, 255, 255, 0.92);
+            --surface-strong: #ffffff;
+            --border: #dbe5f1;
+            --text: #0f172a;
+            --muted: #475569;
+            --accent: #2563eb;
+            --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+        }
+        .stApp {
+            background:
+                radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 30%),
+                linear-gradient(180deg, #f8fbff 0%, #ffffff 38%, #f8fafc 100%);
+        }
+        [data-testid="stAppViewContainer"] {
+            background: transparent;
+        }
+        [data-testid="stSidebar"] {
+            background: linear-gradient(180deg, #f8fbff 0%, #f8fafc 100%);
+            border-right: 1px solid var(--border);
+        }
+        .block-container {
+            padding-top: 2rem;
+            padding-bottom: 3rem;
+            max-width: 1180px;
+        }
+        [data-testid="metric-container"] {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 14px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+        }
+        h1, h2, h3 {
+            color: var(--text) !important;
+            letter-spacing: -0.02em;
+        }
+        p, li, div {
+            color: #111827;
+        }
+        details summary {
+            font-size: 1.02rem;
+            font-weight: 600;
+        }
+        .stAlert {
+            border-radius: 16px;
+        }
+        hr {
+            border-color: #e2e8f0;
+            margin: 1.15rem 0;
+        }
+        .hero-panel {
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(248,250,252,0.98));
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px 26px;
+            box-shadow: var(--shadow);
+        }
+        .hero-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+        .hero-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(37, 99, 235, 0.10);
+            flex-shrink: 0;
+        }
+        .muted {
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .hero-kicker {
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 11px;
+            border-radius: 999px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1d4ed8;
+            font-size: 0.92rem;
+            margin: 8px 8px 0 0;
+        }
+        .callout {
+            border-left: 4px solid var(--accent);
+            background: #eff6ff;
+            padding: 14px 16px;
+            border-radius: 14px;
+            color: var(--text);
+            margin-top: 16px;
+        }
+        .section-intro {
+            margin-bottom: 12px;
+        }
+        .section-intro h2 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 16px 18px;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+        }
+        .card-title {
+            font-weight: 750;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .card-desc {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        .sidebar-panel, .sidebar-note {
+            background: rgba(255,255,255,0.9);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 14px;
+            margin-bottom: 12px;
+        }
+        .sidebar-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 750;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .sidebar-copy {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .sidebar-note {
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+        .surface-strip {
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.92);
+            border-radius: 18px;
+            padding: 14px 18px;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def setup_page(page_key: str, page_title: str, layout: str = "wide") -> None:
+    """Configure a page and apply the shared chrome."""
+    st.set_page_config(page_title=page_title, page_icon=PAGE_ICONS[page_key], layout=layout)
+    inject_icon_font()
+    inject_global_styles()
+    render_sidebar(page_key)
+
+
+def render_page_header(
+    title: str,
+    subtitle: str,
+    icon_name: str,
+    accent: str = "#2563eb",
+    chips: Optional[Sequence[str]] = None,
+    eyebrow: Optional[str] = None,
+) -> None:
+    """Render the shared page hero section."""
+    chips_html = _join_chips(chips or [])
+    eyebrow_html = f"<div class='hero-kicker'>{eyebrow}</div>" if eyebrow else ""
+    st.markdown(
+        f"""
+        <div class='hero-panel' style='--accent:{accent};'>
+          <div class='hero-row'>
+            <div class='hero-icon' style='background:{accent}12;'>
+              {material_icon(icon_name, 30, accent)}
+            </div>
+            <div>
+              {eyebrow_html}
+              <h1 style='margin:0;'>{title}</h1>
+              <div class='muted'>{subtitle}</div>
+            </div>
+          </div>
+          {f"<div style='margin-top:10px;'>{chips_html}</div>" if chips_html else ""}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_callout(title: str, body: str, icon_name: str = "info", accent: str = "#2563eb") -> None:
+    """Render a consistent callout panel."""
+    st.markdown(
+        f"""
+        <div class='callout' style='--accent:{accent};'>
+          <strong>{material_icon(icon_name, 18, accent)} {title}</strong><br>
+          <span>{body}</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_section_intro(title: str, body: str, icon_name: Optional[str] = None, accent: str = "#2563eb") -> None:
+    """Render a section heading with optional icon and short explanation."""
+    title_html = (
+        f"<h2>{material_icon(icon_name, 20, accent)}<span>{title}</span></h2>"
+        if icon_name
+        else f"<h2>{title}</h2>"
+    )
+    st.markdown(
+        f"<div class='section-intro'>{title_html}<div class='muted'>{body}</div></div>",
+        unsafe_allow_html=True,
+    )
+
+
+def apply_dark_theme() -> None:
+    """Inject the global CSS used across all pages."""
+    inject_icon_font()
+    inject_global_styles()
 
 
 @dataclass

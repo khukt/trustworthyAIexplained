@@ -1,115 +1,141 @@
-import streamlit as st
 import plotly.graph_objects as go
-from trust_utils import apply_dark_theme
+import streamlit as st
 
-st.set_page_config(
-    page_title="Trustworthy AI Explained",
-    page_icon="🤖",
-    layout="wide",
+from trust_utils import NAV_ITEMS, PAGE_ICONS, material_icon, render_callout, render_page_header, render_section_intro, setup_page
+
+
+setup_page("home", "Trustworthy AI Explained")
+
+render_page_header(
+    title="Trustworthy AI — Explained",
+    subtitle="A fast walkthrough for leaders: what trustworthy AI means, why it matters, where risk sits, and what to do next.",
+    icon_name="robot_2",
+    accent="#2563eb",
+    chips=["Board-ready", "Interactive", "EU-aligned", "Action-focused"],
+    eyebrow="Decision-maker briefing",
 )
 
+render_callout(
+    title="Best way to use this app",
+    body="Read the first three pages, open the mini-demo for one concrete example, then finish with the failure stories and roadmap.",
+    icon_name="map",
+    accent="#1d4ed8",
+)
 
-# -----------------------------------------------------------------------------
-# SIDEBAR NAV (story-first)
-# -----------------------------------------------------------------------------
-with st.sidebar:
-    st.markdown("## 🧭 Start here (recommended order)")
-    st.caption("A short flow built for decision-makers.")
+summary_left, summary_right = st.columns([1.15, 0.85], gap="large")
 
-    st.page_link("app.py", label="Home", icon="🏠")
-
-    st.page_link("pages/1_What_is_Trustworthy_AI.py", label="1) What is Trustworthy AI?", icon="🛡️")
-    st.page_link("pages/2_Why_should_we_care.py", label="2) Why it matters", icon="⚠️")
-
-    # Add this page when you create it (recommended)
-    st.page_link("pages/3_EU_AI_Act_Risk_Categories.py", label="3) EU AI Act: Risk categories", icon="🇪🇺")
-
-    # Shift numbering of existing pages OR keep file names and just link them in this order
-    st.page_link("pages/3_Interactive_mini_demo.py", label="4) Interactive mini-demo", icon="🎛️")
-    st.page_link("pages/4_Failure_stories.py", label="5) Failure stories", icon="📖")
-    st.page_link("pages/5_Roadmap.py", label="6) Roadmap", icon="🧩")
-
-    st.divider()
-    st.markdown("### Quick jump")
-    st.page_link("pages/3_Interactive_mini_demo.py", label="Show the demo now", icon="▶️")
-
-
-# -----------------------------------------------------------------------------
-# HOME HERO
-# -----------------------------------------------------------------------------
-col_hero, col_chart = st.columns([1.1, 1], gap="large")
-
-with col_hero:
-    st.markdown(
-        """
-        <h1 style='font-size:2.6rem; color:#0f172a;'>🤖 Trustworthy AI — Explained</h1>
-        <p style='font-size:1.1rem; color:#475569;'>
-          An interactive overview for decision-makers: risks → regulation → safeguards → action
-        </p>
-        """,
-        unsafe_allow_html=True,
+with summary_left:
+    render_section_intro(
+        title="Follow the story",
+        body="Each page uses the same layout and navigation, so the message is faster to scan.",
+        icon_name="route",
     )
 
-    st.markdown(
-        """
-        <div style='background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px;
-                    padding:14px 16px; margin:14px 0;'>
-          <div style='color:#0f172a; font-weight:750; margin-bottom:6px;'>How to use this demo</div>
-          <div style='color:#475569; line-height:1.55;'>
-            Start with <strong>What it is</strong>, then <strong>Why it matters</strong>.
-            If you need one powerful moment, open the <strong>Interactive mini-demo</strong>.
-          </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    descriptions = {
+        "home": "Start with the overview.",
+        "what_is": "See the core idea and key dimensions.",
+        "why": "See the leadership, trust, and budget impact.",
+        "risk": "See how the EU AI Act classifies risk.",
+        "demo": "Walk through one live example.",
+        "stories": "Review common failures and fixes.",
+        "roadmap": "Leave with a practical action plan.",
+    }
+    accents = {
+        "home": "#2563eb",
+        "what_is": "#2563eb",
+        "why": "#ea580c",
+        "risk": "#7c3aed",
+        "demo": "#0f766e",
+        "stories": "#2563eb",
+        "roadmap": "#9333ea",
+    }
+    icons = {
+        "home": "home",
+        "what_is": "verified_user",
+        "why": "warning",
+        "risk": "policy",
+        "demo": "tune",
+        "stories": "auto_stories",
+        "roadmap": "route",
+    }
 
-    st.markdown("### 📌 Recommended flow (click to open)")
-    cards = [
-        ("🛡️", "What is Trustworthy AI?", "Definition + how major frameworks describe it", "pages/1_What_is_Trustworthy_AI.py"),
-        ("⚠️", "Why it matters", "Harm, trust, budgets + EU AI Act fines (Article 99)", "pages/2_Why_should_we_care.py"),
-        ("🇪🇺", "EU AI Act risk categories", "How the EU classifies AI risk (Unacceptable → Minimal)", "pages/3_EU_AI_Act_Risk_Categories.py"),
-        ("🎛️", "Interactive mini-demo", "See how safeguards change outcomes", "pages/3_Interactive_mini_demo.py"),
-        ("📖", "Failure stories", "Concrete examples of what goes wrong without safeguards", "pages/4_Failure_stories.py"),
-        ("🧩", "Roadmap", "What leaders can require (minimum)", "pages/5_Roadmap.py"),
-    ]
-
-    for icon, title, desc, path in cards:
+    for key, path, label in NAV_ITEMS:
+        accent = accents[key]
         st.markdown(
             f"""
-            <div style="border:1px solid #e5e7eb; border-radius:12px; padding:12px 14px;
-                        background:#ffffff; margin:8px 0;">
-              <div style="display:flex; align-items:center; justify-content:space-between;">
-                <div style="display:flex; gap:10px; align-items:flex-start;">
-                  <div style="font-size:1.4rem;">{icon}</div>
-                  <div>
-                    <div style="font-weight:750; color:#0f172a;">{title}</div>
-                    <div style="color:#475569; font-size:0.95rem;">{desc}</div>
-                  </div>
+            <div class='card' style='margin-bottom:12px;'>
+              <div style='display:flex; gap:12px; align-items:flex-start;'>
+                <div class='hero-icon' style='width:44px; height:44px; border-radius:14px; background:{accent}14;'>
+                  {material_icon(icons[key], 22, accent)}
+                </div>
+                <div style='flex:1;'>
+                  <div class='card-title'>{label}</div>
+                  <div class='card-desc'>{descriptions[key]}</div>
                 </div>
               </div>
             </div>
             """,
             unsafe_allow_html=True,
         )
-        st.page_link(path, label=f"Open: {title}", icon="➡️")
+        st.page_link(path, label=f"Open {label}", icon=PAGE_ICONS[key])
 
-with col_chart:
-    # Keep your radar chart if you still want it on Home (optional)
+with summary_right:
+    render_section_intro(
+        title="Trust snapshot",
+        body="A quick view of the five qualities emphasized throughout the app.",
+        icon_name="radar",
+    )
+
     categories = ["Reliable", "Safe", "Fair", "Transparent", "Accountable"]
     fig = go.Figure()
-    fig.add_trace(go.Scatterpolar(
-        r=[0.9, 0.85, 0.8, 0.88, 0.82],
-        theta=categories,
-        fill="toself",
-        name="Trustworthy AI",
-        line_color="#2563eb",
-        fillcolor="rgba(37,99,235,0.25)",
-    ))
+    fig.add_trace(
+        go.Scatterpolar(
+            r=[0.88, 0.84, 0.78, 0.86, 0.81],
+            theta=categories,
+            fill="toself",
+            line_color="#2563eb",
+            fillcolor="rgba(37,99,235,0.18)",
+            name="Trustworthy AI",
+        )
+    )
     fig.update_layout(
-        polar=dict(bgcolor="#f8fafc", radialaxis=dict(visible=True, range=[0, 1])),
-        paper_bgcolor="#ffffff",
-        margin=dict(l=40, r=40, t=40, b=40),
-        title=dict(text="Trustworthy AI (quick view)", font=dict(color="#0f172a", size=16)),
+        polar=dict(
+            bgcolor="rgba(255,255,255,0)",
+            radialaxis=dict(visible=True, range=[0, 1], gridcolor="#dbe5f1"),
+        ),
+        paper_bgcolor="rgba(255,255,255,0)",
+        margin=dict(l=10, r=10, t=20, b=20),
+        showlegend=False,
     )
     st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown(
+        """
+        <div class='surface-strip'>
+          <div class='card-title'>What improved in the redesign</div>
+          <div class='card-desc'>
+            One visual system, one story-first sidebar, and more consistent page sections.
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+st.divider()
+
+insight_a, insight_b, insight_c = st.columns(3, gap="large")
+for column, title, desc, accent, icon in [
+    (insight_a, "Clearer navigation", "The same sidebar appears on every page.", "#2563eb", "explore"),
+    (insight_b, "Less duplication", "Shared helpers now handle layout and styling.", "#0f766e", "layers"),
+    (insight_c, "Faster scanning", "Headers, cards, and intros now follow one pattern.", "#9333ea", "bolt"),
+]:
+    with column:
+        st.markdown(
+            f"""
+            <div class='card' style='height:100%;'>
+              <div class='card-title'>{material_icon(icon, 18, accent)} {title}</div>
+              <div class='card-desc'>{desc}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
