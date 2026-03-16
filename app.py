@@ -261,21 +261,33 @@ with main_right:
         )
         for item in TRUST_DIMENSIONS
     )
+    compass_cardinals_html = (
+        "<div class='trust-compass-cardinal trust-compass-cardinal-n'>N</div>"
+        "<div class='trust-compass-cardinal trust-compass-cardinal-e'>E</div>"
+        "<div class='trust-compass-cardinal trust-compass-cardinal-s'>S</div>"
+        "<div class='trust-compass-cardinal trust-compass-cardinal-w'>W</div>"
+    )
     compass_center_html = (
-        "<div class='trust-compass-center'>"
-        "<div class='trust-compass-kicker'>Start here</div>"
-        "<div class='trust-compass-center-title'>Ask these five questions before you trust the system.</div>"
-        "<div class='trust-compass-center-copy'>If one answer is weak or unclear, adoption should slow down until safeguards are stronger.</div>"
-        "</div>"
+        "<div class='trust-compass-needle trust-compass-needle-main'></div>"
+        "<div class='trust-compass-needle trust-compass-needle-tail'></div>"
+        "<div class='trust-compass-hub'>Trust</div>"
     )
     trust_compass_html = (
         "<div class='trust-compass-panel'>"
         "<div class='trust-compass-visual'>"
         "<div class='trust-compass-ring'></div>"
+        "<div class='trust-compass-ring trust-compass-ring-inner'></div>"
         "<div class='trust-compass-axis trust-compass-axis-vertical'></div>"
         "<div class='trust-compass-axis trust-compass-axis-horizontal'></div>"
+        "<div class='trust-compass-axis trust-compass-axis-diagonal-a'></div>"
+        "<div class='trust-compass-axis trust-compass-axis-diagonal-b'></div>"
+        f"{compass_cardinals_html}"
         f"{compass_points_html}"
         f"{compass_center_html}"
+        "</div>"
+        "<div class='trust-compass-caption'>"
+        "<strong>How to use it:</strong> Scan all five directions before relying on an AI system. "
+        "If one direction is weak or unclear, slow down adoption until safeguards are stronger."
         "</div>"
         f"<div class='trust-compass-legend'>{trust_checks_html}</div>"
         "</div>"

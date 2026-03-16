@@ -546,7 +546,7 @@ def inject_global_styles() -> None:
         }
         .trust-compass-visual {
             position: relative;
-            min-height: 320px;
+            min-height: 360px;
             border: 1px solid rgba(203, 213, 225, 0.9);
             border-radius: 24px;
             background: rgba(255,255,255,0.92);
@@ -556,12 +556,18 @@ def inject_global_styles() -> None:
         .trust-compass-ring {
             position: absolute;
             inset: 50% auto auto 50%;
-            width: 220px;
-            height: 220px;
+            width: 250px;
+            height: 250px;
             transform: translate(-50%, -50%);
             border: 1.5px solid rgba(148, 163, 184, 0.35);
             border-radius: 999px;
             background: radial-gradient(circle, rgba(219, 234, 254, 0.26) 0%, rgba(219, 234, 254, 0.08) 54%, transparent 55%);
+        }
+        .trust-compass-ring-inner {
+            width: 150px;
+            height: 150px;
+            border-color: rgba(148, 163, 184, 0.22);
+            background: none;
         }
         .trust-compass-axis {
             position: absolute;
@@ -572,43 +578,88 @@ def inject_global_styles() -> None:
         }
         .trust-compass-axis-vertical {
             width: 1px;
-            height: 210px;
+            height: 238px;
         }
         .trust-compass-axis-horizontal {
-            width: 210px;
+            width: 238px;
             height: 1px;
         }
-        .trust-compass-center {
+        .trust-compass-axis-diagonal-a {
+            width: 210px;
+            height: 1px;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+        .trust-compass-axis-diagonal-b {
+            width: 210px;
+            height: 1px;
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+        .trust-compass-cardinal {
             position: absolute;
-            inset: 50% auto auto 50%;
-            width: 180px;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            padding: 14px 14px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.96);
-            border: 1px solid rgba(191, 219, 254, 0.95);
-            box-shadow: 0 14px 26px rgba(15, 23, 42, 0.07);
-        }
-        .trust-compass-kicker {
-            color: #0f766e;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-size: 0.72rem;
-            font-weight: 800;
-            margin-bottom: 0.45rem;
-        }
-        .trust-compass-center-title {
-            color: var(--text);
-            font-size: 1.05rem;
-            font-weight: 800;
-            line-height: 1.35;
-            margin-bottom: 0.45rem;
-        }
-        .trust-compass-center-copy {
             color: #64748b;
-            font-size: 0.86rem;
-            line-height: 1.55;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .trust-compass-cardinal-n {
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .trust-compass-cardinal-e {
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .trust-compass-cardinal-s {
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .trust-compass-cardinal-w {
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .trust-compass-needle {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+        }
+        .trust-compass-needle-main {
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 88px solid #2563eb;
+            transform: translate(-50%, -92%);
+            filter: drop-shadow(0 10px 12px rgba(37, 99, 235, 0.18));
+        }
+        .trust-compass-needle-tail {
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-top: 62px solid rgba(148, 163, 184, 0.72);
+            transform: translate(-50%, -2%);
+        }
+        .trust-compass-hub {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 74px;
+            height: 74px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.98);
+            border: 1px solid rgba(191, 219, 254, 0.95);
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+            color: var(--text);
+            font-size: 0.88rem;
+            font-weight: 800;
         }
         .trust-compass-point {
             position: absolute;
@@ -625,26 +676,26 @@ def inject_global_styles() -> None:
             box-shadow: 0 10px 20px rgba(15, 23, 42, 0.05);
         }
         .trust-compass-point-north {
-            top: 18px;
+            top: 46px;
             left: 50%;
             transform: translateX(-50%);
         }
         .trust-compass-point-east {
             top: 50%;
-            right: 12px;
+            right: 28px;
             transform: translateY(-50%);
         }
         .trust-compass-point-south_east {
-            right: 34px;
-            bottom: 24px;
+            right: 64px;
+            bottom: 46px;
         }
         .trust-compass-point-south_west {
-            left: 34px;
-            bottom: 24px;
+            left: 64px;
+            bottom: 46px;
         }
         .trust-compass-point-west {
             top: 50%;
-            left: 12px;
+            left: 28px;
             transform: translateY(-50%);
         }
         .trust-compass-point-dot {
@@ -652,6 +703,15 @@ def inject_global_styles() -> None:
             height: 10px;
             border-radius: 999px;
             flex-shrink: 0;
+        }
+        .trust-compass-caption {
+            margin-bottom: 1rem;
+            color: #475569;
+            line-height: 1.65;
+            font-size: 0.94rem;
+        }
+        .trust-compass-caption strong {
+            color: var(--text);
         }
         .trust-compass-legend {
             display: grid;
