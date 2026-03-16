@@ -261,25 +261,27 @@ with main_right:
         """
         for item in TRUST_DIMENSIONS
     )
+    compass_center_html = (
+        "<div class='trust-compass-center'>"
+        "<div class='trust-compass-kicker'>Start here</div>"
+        "<div class='trust-compass-center-title'>Ask these five questions before you trust the system.</div>"
+        "<div class='trust-compass-center-copy'>If one answer is weak or unclear, adoption should slow down until safeguards are stronger.</div>"
+        "</div>"
+    )
+    trust_compass_html = (
+        "<div class='trust-compass-panel'>"
+        "<div class='trust-compass-visual'>"
+        "<div class='trust-compass-ring'></div>"
+        "<div class='trust-compass-axis trust-compass-axis-vertical'></div>"
+        "<div class='trust-compass-axis trust-compass-axis-horizontal'></div>"
+        f"{compass_points_html}"
+        f"{compass_center_html}"
+        "</div>"
+        f"<div class='trust-compass-legend'>{trust_checks_html}</div>"
+        "</div>"
+    )
     st.markdown(
-        f"""
-        <div class='trust-compass-panel'>
-          <div class='trust-compass-visual'>
-            <div class='trust-compass-ring'></div>
-            <div class='trust-compass-axis trust-compass-axis-vertical'></div>
-            <div class='trust-compass-axis trust-compass-axis-horizontal'></div>
-            {compass_points_html}
-            <div class='trust-compass-center'>
-              <div class='trust-compass-kicker'>Start here</div>
-              <div class='trust-compass-center-title'>Ask these five questions before you trust the system.</div>
-              <div class='trust-compass-center-copy'>If one answer is weak or unclear, adoption should slow down until safeguards are stronger.</div>
-            </div>
-          </div>
-          <div class='trust-compass-legend'>
-            {trust_checks_html}
-          </div>
-        </div>
-        """,
+        trust_compass_html,
         unsafe_allow_html=True,
     )
 
