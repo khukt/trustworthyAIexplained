@@ -22,72 +22,94 @@ render_callout(
     accent="#1d4ed8",
 )
 
-summary_left, summary_right = st.columns([1.15, 0.85], gap="large")
+descriptions = {
+    "what_is": "Define the core idea and the dimensions leaders should expect any serious AI program to address.",
+    "why": "Connect trustworthiness to public trust, delivery risk, cost, and leadership accountability.",
+    "risk": "See the EU AI Act risk ladder and where obligations become stricter.",
+    "demo": "Walk through a concrete example and watch safeguards change the outcome.",
+    "stories": "Review common failure patterns and the controls that could have prevented them.",
+    "roadmap": "Leave with a practical checklist for policy, governance, and rollout.",
+}
+accents = {
+    "what_is": "#2563eb",
+    "why": "#ea580c",
+    "risk": "#7c3aed",
+    "demo": "#0f766e",
+    "stories": "#2563eb",
+    "roadmap": "#9333ea",
+}
+icons = {
+    "what_is": "verified_user",
+    "why": "warning",
+    "risk": "policy",
+    "demo": "tune",
+    "stories": "auto_stories",
+    "roadmap": "route",
+}
+story_items = [item for item in NAV_ITEMS if item[0] != "home"]
+
+
+def story_title(label: str) -> str:
+    return label.split(") ", 1)[1] if ") " in label else label
+
+
+briefing_stats = [
+    ("6", "Short sections to move from basics to action."),
+    ("1", "Live mini-demo to make the safeguards discussion concrete."),
+    ("10 min", "Approximate read-through for a leadership briefing."),
+]
+
+summary_left, summary_right = st.columns([1.25, 0.9], gap="large")
 
 with summary_left:
     render_section_intro(
         title="Follow the story",
-        body="Each page uses the same layout and navigation, so the message is faster to scan.",
+        body="The sequence is designed like a briefing: concept first, then risk, then action.",
         icon_name="route",
     )
 
-    descriptions = {
-        "what_is": "See the core idea and key dimensions.",
-        "why": "See the leadership, trust, and budget impact.",
-        "risk": "See how the EU AI Act classifies risk.",
-        "demo": "Walk through one live example.",
-        "stories": "Review common failures and fixes.",
-        "roadmap": "Leave with a practical action plan.",
-    }
-    accents = {
-        "what_is": "#2563eb",
-        "why": "#ea580c",
-        "risk": "#7c3aed",
-        "demo": "#0f766e",
-        "stories": "#2563eb",
-        "roadmap": "#9333ea",
-    }
-    icons = {
-        "what_is": "verified_user",
-        "why": "warning",
-        "risk": "policy",
-        "demo": "tune",
-        "stories": "auto_stories",
-        "roadmap": "route",
-    }
-
-    story_items = [item for item in NAV_ITEMS if item[0] != "home"]
-
-    for start in range(0, len(story_items), 3):
-        row_items = story_items[start:start + 3]
-        row_columns = st.columns(3, gap="large")
-        for column, (key, path, label) in zip(row_columns, row_items):
-            accent = accents[key]
-            with column:
-                st.markdown(
-                    f"""
-                    <div class='card' style='margin-bottom:0;'>
-                        <div style='display:flex; gap:12px; align-items:flex-start;'>
-                            <div class='hero-icon' style='width:44px; height:44px; border-radius:14px; background:{accent}14;'>
-                                {material_icon(icons[key], 22, accent)}
-                            </div>
-                            <div style='flex:1;'>
-                                <div class='card-title'>{label}</div>
-                                <div class='card-desc'>{descriptions[key]}</div>
-                            </div>
-                        </div>
+    left_column, right_column = st.columns(2, gap="large")
+    for index, (key, path, label) in enumerate(story_items):
+        accent = accents[key]
+        target = left_column if index % 2 == 0 else right_column
+        with target:
+            st.markdown(
+                f"""
+                <div class='story-card'>
+                  <div class='story-step'>Step {index + 1}</div>
+                  <div class='story-card-head'>
+                    <div class='story-card-icon' style='background:{accent}14;'>
+                      {material_icon(icons[key], 22, accent)}
                     </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-                st.page_link(path, label="Open section", icon=PAGE_ICONS[key])
+                    <div>
+                      <div class='story-card-title'>{story_title(label)}</div>
+                      <div class='story-card-desc'>{descriptions[key]}</div>
+                    </div>
+                  </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            st.page_link(path, label="Open section", icon=PAGE_ICONS[key])
 
 with summary_right:
     render_section_intro(
-        title="Trust snapshot",
-        body="A quick view of the five qualities emphasized throughout the app.",
-        icon_name="radar",
+        title="Briefing snapshot",
+        body="A quick summary of scope, pace, and the trust dimensions emphasized throughout the walkthrough.",
+        icon_name="dashboard",
+        accent="#0f766e",
     )
+
+    stats_html = "".join(
+        f"""
+        <div class='home-stat'>
+          <div class='home-stat-value'>{value}</div>
+          <div class='home-stat-label'>{label}</div>
+        </div>
+        """
+        for value, label in briefing_stats
+    )
+    st.markdown(f"<div class='home-stat-grid'>{stats_html}</div>", unsafe_allow_html=True)
 
     categories = ["Reliable", "Safe", "Fair", "Transparent", "Accountable"]
     fig = go.Figure()
@@ -102,23 +124,26 @@ with summary_right:
         )
     )
     fig.update_layout(
+        height=340,
         polar=dict(
             bgcolor="rgba(255,255,255,0)",
             radialaxis=dict(visible=True, range=[0, 1], gridcolor="#dbe5f1"),
         ),
         paper_bgcolor="rgba(255,255,255,0)",
-        margin=dict(l=10, r=10, t=20, b=20),
+        margin=dict(l=20, r=20, t=20, b=10),
         showlegend=False,
     )
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown(
         """
-        <div class='surface-strip'>
-          <div class='card-title'>What improved in the redesign</div>
-          <div class='card-desc'>
-            One visual system, one story-first sidebar, and more consistent page sections.
-          </div>
+        <div class='card'>
+          <div class='card-title'>What leaders should take away</div>
+          <ul class='home-bullet-list'>
+            <li>Trustworthy AI is about governance and operational discipline, not just model accuracy.</li>
+            <li>The regulatory question is risk-based: the higher the impact, the tighter the controls.</li>
+            <li>Human oversight, documentation, and monitoring are recurring themes across frameworks.</li>
+          </ul>
         </div>
         """,
         unsafe_allow_html=True,
@@ -126,11 +151,17 @@ with summary_right:
 
 st.divider()
 
+render_section_intro(
+    title="What this briefing gives you",
+    body="Three outcomes the rest of the walkthrough reinforces.",
+    icon_name="checklist",
+)
+
 insight_a, insight_b, insight_c = st.columns(3, gap="large")
 for column, title, desc, accent, icon in [
-    (insight_a, "Clearer navigation", "The same sidebar appears on every page.", "#2563eb", "explore"),
-    (insight_b, "Less duplication", "Shared helpers now handle layout and styling.", "#0f766e", "layers"),
-    (insight_c, "Faster scanning", "Headers, cards, and intros now follow one pattern.", "#9333ea", "bolt"),
+    (insight_a, "Shared vocabulary", "A clearer way to explain trustworthy AI beyond generic ethics language.", "#2563eb", "forum"),
+    (insight_b, "Risk lens", "A practical view of where regulation and operational obligations become stronger.", "#0f766e", "shield"),
+    (insight_c, "Action checklist", "A compact roadmap for what leaders can require from teams and vendors.", "#9333ea", "task_alt"),
 ]:
     with column:
         st.markdown(
