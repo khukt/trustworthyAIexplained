@@ -1,115 +1,207 @@
 import plotly.graph_objects as go
 import streamlit as st
 
-from trust_utils import NAV_ITEMS, PAGE_ICONS, material_icon, render_callout, render_page_header, render_section_intro, setup_page
+from trust_utils import PAGE_ICONS, material_icon, render_section_intro, setup_page
 
 
 setup_page("home", "Trustworthy AI Explained")
 
-render_page_header(
-    title="Trustworthy AI — Explained",
-    subtitle="A fast walkthrough for leaders: what trustworthy AI means, why it matters, where risk sits, and what to do next.",
-    icon_name="robot_2",
-    accent="#2563eb",
-    chips=["Board-ready", "Interactive", "EU-aligned", "Action-focused"],
-    eyebrow="Decision-maker briefing",
-)
-
-render_callout(
-    title="Best way to use this app",
-    body="Read the first three pages, open the mini-demo for one concrete example, then finish with the failure stories and roadmap.",
-    icon_name="map",
-    accent="#1d4ed8",
-)
-
-descriptions = {
-    "what_is": "Define the core idea and the dimensions leaders should expect any serious AI program to address.",
-    "why": "Connect trustworthiness to public trust, delivery risk, cost, and leadership accountability.",
-    "risk": "See the EU AI Act risk ladder and where obligations become stricter.",
-    "demo": "Walk through a concrete example and watch safeguards change the outcome.",
-    "stories": "Review common failure patterns and the controls that could have prevented them.",
-    "roadmap": "Leave with a practical checklist for policy, governance, and rollout.",
+PAGES = {
+    "what_is": {
+        "path": "pages/1_What_is_Trustworthy_AI.py",
+        "label": "What is Trustworthy AI?",
+        "summary": "Start with the shared definition, the recurring dimensions, and what trustworthy AI means in practice.",
+        "icon": "verified_user",
+        "accent": "#2563eb",
+    },
+    "why": {
+        "path": "pages/2_Why_should_we_care.py",
+        "label": "Why it matters",
+        "summary": "Connect trustworthiness to legitimacy, operational risk, budgets, and leadership accountability.",
+        "icon": "warning",
+        "accent": "#ea580c",
+    },
+    "risk": {
+        "path": "pages/3_EU_AI_Act_Risk_Categories.py",
+        "label": "EU AI Act risk categories",
+        "summary": "See how the EU frames AI risk and where obligations become significantly stricter.",
+        "icon": "policy",
+        "accent": "#7c3aed",
+    },
+    "demo": {
+        "path": "pages/3_Interactive_mini_demo.py",
+        "label": "Interactive mini-demo",
+        "summary": "Use a live example to see how safeguards and human review change decisions.",
+        "icon": "tune",
+        "accent": "#0f766e",
+    },
+    "stories": {
+        "path": "pages/4_Failure_stories.py",
+        "label": "Failure stories",
+        "summary": "Review common breakdowns and the controls that would have reduced harm.",
+        "icon": "auto_stories",
+        "accent": "#2563eb",
+    },
+    "roadmap": {
+        "path": "pages/5_Roadmap.py",
+        "label": "Roadmap",
+        "summary": "Finish with a practical checklist for policy, governance, and rollout.",
+        "icon": "route",
+        "accent": "#9333ea",
+    },
 }
-accents = {
-    "what_is": "#2563eb",
-    "why": "#ea580c",
-    "risk": "#7c3aed",
-    "demo": "#0f766e",
-    "stories": "#2563eb",
-    "roadmap": "#9333ea",
-}
-icons = {
-    "what_is": "verified_user",
-    "why": "warning",
-    "risk": "policy",
-    "demo": "tune",
-    "stories": "auto_stories",
-    "roadmap": "route",
-}
-story_items = [item for item in NAV_ITEMS if item[0] != "home"]
 
-
-def story_title(label: str) -> str:
-    return label.split(") ", 1)[1] if ") " in label else label
-
-
-briefing_stats = [
-    ("6", "Short sections to move from basics to action."),
-    ("1", "Live mini-demo to make the safeguards discussion concrete."),
-    ("10 min", "Approximate read-through for a leadership briefing."),
+ACTS = [
+    {
+        "title": "Act I — Understand",
+        "body": "Build shared language first so later risk and policy decisions are easier to frame.",
+        "icon": "menu_book",
+        "accent": "#2563eb",
+        "items": ["what_is", "why"],
+    },
+    {
+        "title": "Act II — Assess",
+        "body": "Move from abstract principles into risk classification and one concrete operational example.",
+        "icon": "radar",
+        "accent": "#0f766e",
+        "items": ["risk", "demo"],
+    },
+    {
+        "title": "Act III — Decide",
+        "body": "Close with failure patterns and a short action list leaders can immediately use.",
+        "icon": "task_alt",
+        "accent": "#9333ea",
+        "items": ["stories", "roadmap"],
+    },
 ]
 
-summary_left, summary_right = st.columns([1.25, 0.9], gap="large")
 
-with summary_left:
+def render_page_summary(page_key: str) -> None:
+    page = PAGES[page_key]
+    st.markdown(
+        f"""
+        <div class='home-page-summary'>
+          <div class='home-page-title'>
+            <span class='home-page-dot' style='background:{page["accent"]};'></span>
+            {page["label"]}
+          </div>
+          <div class='home-page-copy'>{page["summary"]}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+hero_left, hero_right = st.columns([1.18, 0.82], gap="large")
+
+with hero_left:
+    st.markdown(
+        f"""
+        <div class='home-hero-card'>
+          <div class='home-hero-kicker'>Decision-maker briefing</div>
+          <div class='home-hero-title-row'>
+            <div class='home-hero-mark'>{material_icon('robot_2', 30, '#2563eb')}</div>
+            <div>
+              <div class='home-hero-title'>Trustworthy AI — Explained</div>
+              <div class='home-hero-copy'>
+                A guided walkthrough for leaders who need a clear view of trust, risk, regulation, and what to require from teams.
+              </div>
+            </div>
+          </div>
+          <div class='home-chip-row'>
+            <span class='chip'>Board-ready</span>
+            <span class='chip'>EU-aligned</span>
+            <span class='chip'>Interactive demo</span>
+            <span class='chip'>Action-focused</span>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with hero_right:
+    st.markdown(
+        f"""
+        <div class='home-side-card'>
+          <div class='home-side-label'>{material_icon('explore', 18, '#1d4ed8')} Recommended route</div>
+          <div class='home-side-title'>Read the first act, then test the demo, then finish on the roadmap.</div>
+          <div class='home-side-copy'>
+            The sequence is designed to move from understanding to assessment to action without forcing technical detail too early.
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    action_a, action_b = st.columns(2, gap="small")
+    with action_a:
+        st.page_link(PAGES["what_is"]["path"], label="Start briefing", icon=PAGE_ICONS["what_is"])
+    with action_b:
+        st.page_link(PAGES["demo"]["path"], label="Open demo", icon=PAGE_ICONS["demo"])
+
+    st.markdown(
+        """
+        <div class='home-kpi-grid'>
+          <div class='home-kpi'>
+            <div class='home-kpi-value'>3</div>
+            <div class='home-kpi-label'>Acts in the story</div>
+          </div>
+          <div class='home-kpi'>
+            <div class='home-kpi-value'>6</div>
+            <div class='home-kpi-label'>Short sections</div>
+          </div>
+          <div class='home-kpi'>
+            <div class='home-kpi-value'>1</div>
+            <div class='home-kpi-label'>Live demo</div>
+          </div>
+          <div class='home-kpi'>
+            <div class='home-kpi-value'>10 min</div>
+            <div class='home-kpi-label'>Approximate briefing time</div>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+main_left, main_right = st.columns([1.12, 0.88], gap="large")
+
+with main_left:
     render_section_intro(
-        title="Follow the story",
-        body="The sequence is designed like a briefing: concept first, then risk, then action.",
+        title="Read it in three acts",
+        body="The home page now works like a table of contents: each act groups two pages with a clear purpose.",
         icon_name="route",
     )
 
-    left_column, right_column = st.columns(2, gap="large")
-    for index, (key, path, label) in enumerate(story_items):
-        accent = accents[key]
-        target = left_column if index % 2 == 0 else right_column
-        with target:
-            st.markdown(
-                f"""
-                <div class='story-card'>
-                  <div class='story-step'>Step {index + 1}</div>
-                  <div class='story-card-head'>
-                    <div class='story-card-icon' style='background:{accent}14;'>
-                      {material_icon(icons[key], 22, accent)}
-                    </div>
-                    <div>
-                      <div class='story-card-title'>{story_title(label)}</div>
-                      <div class='story-card-desc'>{descriptions[key]}</div>
-                    </div>
-                  </div>
+    for act in ACTS:
+        st.markdown(
+            f"""
+            <div class='home-act-card'>
+              <div class='home-act-header'>
+                <div class='home-act-icon' style='background:{act["accent"]}14;'>
+                  {material_icon(act["icon"], 22, act["accent"])}
                 </div>
-                """,
-                unsafe_allow_html=True,
-            )
-            st.page_link(path, label="Open section", icon=PAGE_ICONS[key])
+                <div>
+                  <div class='home-act-title'>{act["title"]}</div>
+                  <div class='home-act-copy'>{act["body"]}</div>
+                </div>
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        for page_key in act["items"]:
+            render_page_summary(page_key)
+        buttons = st.columns(2, gap="small")
+        for column, page_key in zip(buttons, act["items"]):
+            with column:
+                st.page_link(PAGES[page_key]["path"], label=PAGES[page_key]["label"], icon=PAGE_ICONS[page_key])
 
-with summary_right:
+with main_right:
     render_section_intro(
-        title="Briefing snapshot",
-        body="A quick summary of scope, pace, and the trust dimensions emphasized throughout the walkthrough.",
+        title="Trust compass",
+        body="A compact view of the five qualities that appear repeatedly across frameworks and governance discussions.",
         icon_name="dashboard",
         accent="#0f766e",
     )
-
-    stats_html = "".join(
-        f"""
-        <div class='home-stat'>
-          <div class='home-stat-value'>{value}</div>
-          <div class='home-stat-label'>{label}</div>
-        </div>
-        """
-        for value, label in briefing_stats
-    )
-    st.markdown(f"<div class='home-stat-grid'>{stats_html}</div>", unsafe_allow_html=True)
 
     categories = ["Reliable", "Safe", "Fair", "Transparent", "Accountable"]
     fig = go.Figure()
@@ -124,7 +216,7 @@ with summary_right:
         )
     )
     fig.update_layout(
-        height=340,
+        height=360,
         polar=dict(
             bgcolor="rgba(255,255,255,0)",
             radialaxis=dict(visible=True, range=[0, 1], gridcolor="#dbe5f1"),
@@ -138,12 +230,24 @@ with summary_right:
     st.markdown(
         """
         <div class='card'>
-          <div class='card-title'>What leaders should take away</div>
+          <div class='card-title'>Questions to take into a meeting</div>
           <ul class='home-bullet-list'>
-            <li>Trustworthy AI is about governance and operational discipline, not just model accuracy.</li>
-            <li>The regulatory question is risk-based: the higher the impact, the tighter the controls.</li>
-            <li>Human oversight, documentation, and monitoring are recurring themes across frameworks.</li>
+            <li>Where could this AI system create meaningful harm if it fails?</li>
+            <li>What human oversight exists when confidence is low or context changes?</li>
+            <li>What evidence would prove the system is reliable, fair, and accountable enough to use?</li>
           </ul>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <div class='surface-strip'>
+          <div class='card-title'>Why this structure works</div>
+          <div class='card-desc'>
+            It starts with shared vocabulary, shifts into concrete risk, and ends with decision-ready actions.
+          </div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -152,16 +256,16 @@ with summary_right:
 st.divider()
 
 render_section_intro(
-    title="What this briefing gives you",
-    body="Three outcomes the rest of the walkthrough reinforces.",
+    title="What you leave with",
+    body="The briefing is designed to produce three immediate outcomes.",
     icon_name="checklist",
 )
 
-insight_a, insight_b, insight_c = st.columns(3, gap="large")
+outcome_a, outcome_b, outcome_c = st.columns(3, gap="large")
 for column, title, desc, accent, icon in [
-    (insight_a, "Shared vocabulary", "A clearer way to explain trustworthy AI beyond generic ethics language.", "#2563eb", "forum"),
-    (insight_b, "Risk lens", "A practical view of where regulation and operational obligations become stronger.", "#0f766e", "shield"),
-    (insight_c, "Action checklist", "A compact roadmap for what leaders can require from teams and vendors.", "#9333ea", "task_alt"),
+    (outcome_a, "Shared language", "A clearer explanation of trustworthy AI that goes beyond generic ethics slogans.", "#2563eb", "forum"),
+    (outcome_b, "Risk awareness", "A better sense of when AI use becomes high-stakes and demands stronger controls.", "#0f766e", "shield"),
+    (outcome_c, "Actionable next steps", "A compact roadmap for governance, oversight, and safer deployment decisions.", "#9333ea", "task_alt"),
 ]:
     with column:
         st.markdown(
