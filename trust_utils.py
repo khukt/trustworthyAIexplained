@@ -534,6 +534,141 @@ def inject_global_styles() -> None:
             line-height: 1.6;
             font-size: 0.95rem;
         }
+        .trust-compass-panel {
+            border: 1px solid rgba(191, 219, 254, 0.95);
+            border-radius: 24px;
+            padding: 18px 18px;
+            background:
+                radial-gradient(circle at top right, rgba(15,118,110,0.10), transparent 32%),
+                linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.96));
+            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.06);
+            margin-bottom: 1rem;
+        }
+        .trust-compass-hero {
+            display: flex;
+            align-items: stretch;
+            gap: 14px;
+            margin-bottom: 1rem;
+        }
+        .trust-compass-kicker {
+            color: #0f766e;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.72rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+        }
+        .trust-compass-score {
+            color: var(--text);
+            font-size: 2.8rem;
+            font-weight: 850;
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.45rem;
+        }
+        .trust-compass-copy {
+            color: #64748b;
+            line-height: 1.65;
+            max-width: 18rem;
+        }
+        .trust-compass-side {
+            min-width: 170px;
+            border: 1px solid rgba(203, 213, 225, 0.9);
+            border-radius: 18px;
+            padding: 13px 14px;
+            background: rgba(255,255,255,0.92);
+        }
+        .trust-compass-side-label {
+            color: #64748b;
+            font-size: 0.76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-bottom: 0.22rem;
+        }
+        .trust-compass-side-value {
+            color: var(--text);
+            font-size: 1.02rem;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+        .trust-compass-bars {
+            display: grid;
+            gap: 0.8rem;
+        }
+        .trust-row {
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            border-radius: 18px;
+            padding: 12px 13px;
+            background: rgba(255,255,255,0.92);
+        }
+        .trust-row-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 0.45rem;
+        }
+        .trust-row-label {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            color: var(--text);
+            font-weight: 750;
+        }
+        .trust-row-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            flex-shrink: 0;
+        }
+        .trust-row-score {
+            color: #334155;
+            font-size: 0.88rem;
+            font-weight: 800;
+        }
+        .trust-status {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0.22rem 0.62rem;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+        .trust-status-strong {
+            background: rgba(220, 252, 231, 0.95);
+            color: #166534;
+            border: 1px solid rgba(134, 239, 172, 0.9);
+        }
+        .trust-status-moderate {
+            background: rgba(254, 249, 195, 0.95);
+            color: #854d0e;
+            border: 1px solid rgba(253, 224, 71, 0.85);
+        }
+        .trust-status-attention {
+            background: rgba(254, 226, 226, 0.95);
+            color: #991b1b;
+            border: 1px solid rgba(252, 165, 165, 0.9);
+        }
+        .trust-row-bar {
+            height: 10px;
+            border-radius: 999px;
+            background: #e2e8f0;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        .trust-row-bar span {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+        }
+        .trust-row-note {
+            color: #64748b;
+            font-size: 0.9rem;
+            line-height: 1.55;
+        }
         .story-card {
             border: 1px solid var(--border);
             border-radius: 18px;
