@@ -240,25 +240,25 @@ with main_right:
     )
 
     compass_points_html = "".join(
-        f"""
-        <div class='trust-compass-point trust-compass-point-{item["direction"]}'>
-          <span class='trust-compass-point-dot' style='background:{item["accent"]};'></span>
-          <span>{item["label"]}</span>
-        </div>
-        """
+        (
+            f"<div class='trust-compass-point trust-compass-point-{item['direction']}'>"
+            f"<span class='trust-compass-point-dot' style='background:{item['accent']};'></span>"
+            f"<span>{item['label']}</span>"
+            "</div>"
+        )
         for item in TRUST_DIMENSIONS
     )
     trust_checks_html = "".join(
-        f"""
-        <div class='trust-check-card'>
-          <div class='trust-check-title'>
-            <span class='trust-row-dot' style='background:{item["accent"]};'></span>
-            {item["label"]}
-          </div>
-          <div class='trust-check-question'>{item["question"]}</div>
-          <div class='trust-check-note'>{item["note"]}</div>
-        </div>
-        """
+        (
+            "<div class='trust-check-card'>"
+            "<div class='trust-check-title'>"
+            f"<span class='trust-row-dot' style='background:{item['accent']};'></span>"
+            f"{item['label']}"
+            "</div>"
+            f"<div class='trust-check-question'>{item['question']}</div>"
+            f"<div class='trust-check-note'>{item['note']}</div>"
+            "</div>"
+        )
         for item in TRUST_DIMENSIONS
     )
     compass_center_html = (
