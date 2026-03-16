@@ -52,22 +52,22 @@ PAGES = {
 
 ACTS = [
     {
-        "title": "Stage 1 — Understand",
-        "body": "Build shared language first so later risk and policy decisions are easier to frame.",
+        "title": "Stage 1 — Definition & stakes",
+        "body": "Start with what trustworthy AI means, then connect it to leadership risk, trust, and public impact.",
         "icon": "menu_book",
         "accent": "#2563eb",
         "items": ["what_is", "why"],
     },
     {
-        "title": "Stage 2 — Assess",
-        "body": "Move from abstract principles into risk classification and one concrete operational example.",
+        "title": "Stage 2 — Risk & safeguards",
+        "body": "See how the EU risk lens works and how safeguards change decisions in a live example.",
         "icon": "radar",
         "accent": "#0f766e",
         "items": ["risk", "demo"],
     },
     {
-        "title": "Stage 3 — Decide",
-        "body": "Close with failure patterns and a short action list leaders can immediately use.",
+        "title": "Stage 3 — Failures & action",
+        "body": "Finish with common failure patterns and a practical roadmap for governance and rollout.",
         "icon": "task_alt",
         "accent": "#9333ea",
         "items": ["stories", "roadmap"],
@@ -77,33 +77,38 @@ ACTS = [
 TRUST_DIMENSIONS = [
     {
         "label": "Reliable",
-        "score": 0.88,
+        "direction": "north",
         "accent": "#2563eb",
-        "note": "Performs consistently enough to support real decisions.",
+        "question": "Will it work consistently in the situations we expect?",
+        "note": "Ask for evidence of stable performance, known limits, and monitoring after launch.",
     },
     {
         "label": "Safe",
-        "score": 0.84,
+        "direction": "east",
         "accent": "#0f766e",
-        "note": "Controls reduce harm when the system is uncertain or wrong.",
+        "question": "What stops harm when the system is uncertain or wrong?",
+        "note": "Look for thresholds, fallback paths, escalation rules, and human intervention points.",
     },
     {
         "label": "Fair",
-        "score": 0.78,
+        "direction": "south_east",
         "accent": "#ea580c",
-        "note": "Outcomes should avoid unjustified differences across people or groups.",
+        "question": "Could it produce unfair outcomes for some people or groups?",
+        "note": "Check who may be affected, how bias is tested, and what happens if a problem is found.",
     },
     {
         "label": "Transparent",
-        "score": 0.86,
+        "direction": "south_west",
         "accent": "#7c3aed",
-        "note": "People should know when AI is used and how decisions can be traced.",
+        "question": "Will people know when AI is used and how a decision can be traced?",
+        "note": "Expect documentation, traceability, and explanations that non-experts can follow.",
     },
     {
         "label": "Accountable",
-        "score": 0.81,
+        "direction": "west",
         "accent": "#9333ea",
-        "note": "Clear ownership, oversight, and review stay with people and institutions.",
+        "question": "Who is responsible when something goes wrong?",
+        "note": "Clarify ownership, governance roles, review rights, and escalation authority.",
     },
 ]
 
@@ -122,15 +127,6 @@ def render_page_summary(page_key: str) -> None:
         """,
         unsafe_allow_html=True,
     )
-
-
-def trust_status(score: float) -> tuple[str, str]:
-    if score >= 0.84:
-        return ("Strong", "trust-status-strong")
-    if score >= 0.78:
-        return ("Moderate", "trust-status-moderate")
-    return ("Needs attention", "trust-status-attention")
-
 
 hero_left, hero_right = st.columns([1.18, 0.82], gap="large")
 
@@ -163,10 +159,10 @@ with hero_right:
     st.markdown(
         f"""
         <div class='home-side-card'>
-          <div class='home-side-label'>{material_icon('explore', 18, '#1d4ed8')} Recommended route</div>
-          <div class='home-side-title'>Read the first stage, then test the demo, then finish on the roadmap.</div>
+          <div class='home-side-label'>{material_icon('groups', 18, '#1d4ed8')} Who this is for</div>
+          <div class='home-side-title'>Built for leaders, policy teams, and anyone who needs a practical overview without deep technical detail.</div>
           <div class='home-side-copy'>
-            The sequence is designed to move from understanding to assessment to action without forcing technical detail too early.
+            Use it to build shared language, understand risk, and decide what safeguards and governance you should expect before adoption.
           </div>
         </div>
         """,
@@ -174,16 +170,16 @@ with hero_right:
     )
     action_a, action_b = st.columns(2, gap="small")
     with action_a:
-        st.page_link(PAGES["what_is"]["path"], label="Start briefing", icon=PAGE_ICONS["what_is"])
+        st.page_link(PAGES["what_is"]["path"], label="Start with basics", icon=PAGE_ICONS["what_is"])
     with action_b:
-        st.page_link(PAGES["demo"]["path"], label="Open demo", icon=PAGE_ICONS["demo"])
+        st.page_link(PAGES["demo"]["path"], label="See the demo", icon=PAGE_ICONS["demo"])
 
     st.markdown(
         """
         <div class='home-kpi-grid'>
           <div class='home-kpi'>
             <div class='home-kpi-value'>3</div>
-            <div class='home-kpi-label'>Acts in the story</div>
+            <div class='home-kpi-label'>Stages in the story</div>
           </div>
           <div class='home-kpi'>
             <div class='home-kpi-value'>6</div>
@@ -194,8 +190,8 @@ with hero_right:
             <div class='home-kpi-label'>Live demo</div>
           </div>
           <div class='home-kpi'>
-            <div class='home-kpi-value'>10 min</div>
-            <div class='home-kpi-label'>Approximate briefing time</div>
+            <div class='home-kpi-value'>2</div>
+            <div class='home-kpi-label'>Lenses: policy and practice</div>
           </div>
         </div>
         """,
@@ -207,7 +203,7 @@ main_left, main_right = st.columns([1.12, 0.88], gap="large")
 with main_left:
     render_section_intro(
         title="Read it in three stages",
-        body="The home page now works like a table of contents: each stage groups two pages with a clear purpose.",
+        body="Move from basics to risk to action. Each stage groups two pages around one concrete question.",
         icon_name="route",
     )
 
@@ -238,29 +234,29 @@ with main_left:
 with main_right:
     render_section_intro(
         title="Trust compass",
-        body="A compact view of the five qualities that appear repeatedly across frameworks and governance discussions.",
+        body="Use these five checks before you rely on an AI system in policy, operations, or service delivery.",
         icon_name="dashboard",
         accent="#0f766e",
     )
 
-    average_score = sum(item["score"] for item in TRUST_DIMENSIONS) / len(TRUST_DIMENSIONS)
-    average_label, average_class = trust_status(average_score)
-    strongest_dimension = max(TRUST_DIMENSIONS, key=lambda item: item["score"])
-    weakest_dimension = min(TRUST_DIMENSIONS, key=lambda item: item["score"])
-    bars_html = "".join(
+    compass_points_html = "".join(
         f"""
-        <div class='trust-row'>
-          <div class='trust-row-top'>
-            <div class='trust-row-label'>
-              <span class='trust-row-dot' style='background:{item["accent"]};'></span>
-              {item["label"]}
-            </div>
-            <div class='trust-status {trust_status(item["score"])[1]}'>{trust_status(item["score"])[0]}</div>
+        <div class='trust-compass-point trust-compass-point-{item["direction"]}'>
+          <span class='trust-compass-point-dot' style='background:{item["accent"]};'></span>
+          <span>{item["label"]}</span>
+        </div>
+        """
+        for item in TRUST_DIMENSIONS
+    )
+    trust_checks_html = "".join(
+        f"""
+        <div class='trust-check-card'>
+          <div class='trust-check-title'>
+            <span class='trust-row-dot' style='background:{item["accent"]};'></span>
+            {item["label"]}
           </div>
-          <div class='trust-row-bar'>
-            <span style='width:{item["score"] * 100:.0f}%; background:{item["accent"]};'></span>
-          </div>
-          <div class='trust-row-note'>{item["note"]}</div>
+          <div class='trust-check-question'>{item["question"]}</div>
+          <div class='trust-check-note'>{item["note"]}</div>
         </div>
         """
         for item in TRUST_DIMENSIONS
@@ -268,36 +264,20 @@ with main_right:
     st.markdown(
         f"""
         <div class='trust-compass-panel'>
-          <div class='trust-compass-hero'>
-            <div>
-              <div class='trust-compass-kicker'>Briefing view</div>
-              <div class='trust-compass-score'>{average_label}</div>
-              <div class='trust-compass-copy'>Overall signal across the five trust dimensions emphasized throughout this walkthrough.</div>
-            </div>
-            <div class='trust-compass-side'>
-              <div class='trust-compass-side-label'>Strongest signal</div>
-              <div class='trust-compass-side-value'>{strongest_dimension["label"]}</div>
-              <div class='trust-compass-side-label' style='margin-top:0.75rem;'>Needs more scrutiny</div>
-              <div class='trust-compass-side-value'>{weakest_dimension["label"]}</div>
+          <div class='trust-compass-visual'>
+            <div class='trust-compass-ring'></div>
+            <div class='trust-compass-axis trust-compass-axis-vertical'></div>
+            <div class='trust-compass-axis trust-compass-axis-horizontal'></div>
+            {compass_points_html}
+            <div class='trust-compass-center'>
+              <div class='trust-compass-kicker'>Start here</div>
+              <div class='trust-compass-center-title'>Ask these five questions before you trust the system.</div>
+              <div class='trust-compass-center-copy'>If one answer is weak or unclear, adoption should slow down until safeguards are stronger.</div>
             </div>
           </div>
-          <div class='trust-compass-bars'>
-            {bars_html}
+          <div class='trust-compass-legend'>
+            {trust_checks_html}
           </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        """
-        <div class='card'>
-          <div class='card-title'>Questions to ask before adoption</div>
-          <ul class='home-bullet-list'>
-            <li>Where could this AI system create meaningful harm if it fails?</li>
-            <li>What human oversight exists when confidence is low or context changes?</li>
-            <li>What evidence would prove the system is reliable, fair, and accountable enough to use?</li>
-          </ul>
         </div>
         """,
         unsafe_allow_html=True,
@@ -306,16 +286,16 @@ with main_right:
 st.divider()
 
 render_section_intro(
-    title="What you leave with",
-    body="The briefing is designed to produce three immediate outcomes.",
+    title="What you should leave with",
+    body="The home page should set up three practical outcomes for the rest of the walkthrough.",
     icon_name="checklist",
 )
 
 outcome_a, outcome_b, outcome_c = st.columns(3, gap="large")
 for column, title, desc, accent, icon in [
-    (outcome_a, "Shared language", "A clearer explanation of trustworthy AI that goes beyond generic ethics slogans.", "#2563eb", "forum"),
-    (outcome_b, "Risk awareness", "A better sense of when AI use becomes high-stakes and demands stronger controls.", "#0f766e", "shield"),
-    (outcome_c, "Actionable next steps", "A compact roadmap for governance, oversight, and safer deployment decisions.", "#9333ea", "task_alt"),
+    (outcome_a, "Shared language", "A plain-language way to explain trustworthy AI beyond vague ethics terminology.", "#2563eb", "forum"),
+    (outcome_b, "Clearer risk judgment", "A better sense of when AI use becomes high-stakes and needs stronger safeguards.", "#0f766e", "shield"),
+    (outcome_c, "Practical next steps", "A short roadmap for governance, oversight, and safer deployment decisions.", "#9333ea", "task_alt"),
 ]:
     with column:
         st.markdown(

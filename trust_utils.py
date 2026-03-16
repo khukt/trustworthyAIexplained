@@ -544,11 +544,51 @@ def inject_global_styles() -> None:
             box-shadow: 0 16px 32px rgba(15, 23, 42, 0.06);
             margin-bottom: 1rem;
         }
-        .trust-compass-hero {
-            display: flex;
-            align-items: stretch;
-            gap: 14px;
+        .trust-compass-visual {
+            position: relative;
+            min-height: 320px;
+            border: 1px solid rgba(203, 213, 225, 0.9);
+            border-radius: 24px;
+            background: rgba(255,255,255,0.92);
+            overflow: hidden;
             margin-bottom: 1rem;
+        }
+        .trust-compass-ring {
+            position: absolute;
+            inset: 50% auto auto 50%;
+            width: 220px;
+            height: 220px;
+            transform: translate(-50%, -50%);
+            border: 1.5px solid rgba(148, 163, 184, 0.35);
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(219, 234, 254, 0.26) 0%, rgba(219, 234, 254, 0.08) 54%, transparent 55%);
+        }
+        .trust-compass-axis {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            background: rgba(148, 163, 184, 0.35);
+            transform: translate(-50%, -50%);
+        }
+        .trust-compass-axis-vertical {
+            width: 1px;
+            height: 210px;
+        }
+        .trust-compass-axis-horizontal {
+            width: 210px;
+            height: 1px;
+        }
+        .trust-compass-center {
+            position: absolute;
+            inset: 50% auto auto 50%;
+            width: 180px;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 14px 14px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.96);
+            border: 1px solid rgba(191, 219, 254, 0.95);
+            box-shadow: 0 14px 26px rgba(15, 23, 42, 0.07);
         }
         .trust-compass-kicker {
             color: #0f766e;
@@ -556,65 +596,80 @@ def inject_global_styles() -> None:
             letter-spacing: 0.08em;
             font-size: 0.72rem;
             font-weight: 800;
-            margin-bottom: 0.4rem;
-        }
-        .trust-compass-score {
-            color: var(--text);
-            font-size: 2.8rem;
-            font-weight: 850;
-            line-height: 0.95;
-            letter-spacing: -0.04em;
             margin-bottom: 0.45rem;
         }
-        .trust-compass-copy {
-            color: #64748b;
-            line-height: 1.65;
-            max-width: 18rem;
-        }
-        .trust-compass-side {
-            min-width: 170px;
-            border: 1px solid rgba(203, 213, 225, 0.9);
-            border-radius: 18px;
-            padding: 13px 14px;
-            background: rgba(255,255,255,0.92);
-        }
-        .trust-compass-side-label {
-            color: #64748b;
-            font-size: 0.76rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.07em;
-            margin-bottom: 0.22rem;
-        }
-        .trust-compass-side-value {
+        .trust-compass-center-title {
             color: var(--text);
-            font-size: 1.02rem;
+            font-size: 1.05rem;
             font-weight: 800;
             line-height: 1.35;
+            margin-bottom: 0.45rem;
         }
-        .trust-compass-bars {
+        .trust-compass-center-copy {
+            color: #64748b;
+            font-size: 0.86rem;
+            line-height: 1.55;
+        }
+        .trust-compass-point {
+            position: absolute;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.38rem 0.72rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.96);
+            border: 1px solid rgba(203, 213, 225, 0.95);
+            color: var(--text);
+            font-size: 0.82rem;
+            font-weight: 750;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.05);
+        }
+        .trust-compass-point-north {
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .trust-compass-point-east {
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+        }
+        .trust-compass-point-south_east {
+            right: 34px;
+            bottom: 24px;
+        }
+        .trust-compass-point-south_west {
+            left: 34px;
+            bottom: 24px;
+        }
+        .trust-compass-point-west {
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+        }
+        .trust-compass-point-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            flex-shrink: 0;
+        }
+        .trust-compass-legend {
             display: grid;
             gap: 0.8rem;
         }
-        .trust-row {
+        .trust-check-card {
             border: 1px solid rgba(226, 232, 240, 0.95);
             border-radius: 18px;
             padding: 12px 13px;
             background: rgba(255,255,255,0.92);
         }
-        .trust-row-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 0.45rem;
-        }
-        .trust-row-label {
+        .trust-check-title {
             display: flex;
             align-items: center;
             gap: 0.55rem;
             color: var(--text);
             font-weight: 750;
+            margin-bottom: 0.45rem;
         }
         .trust-row-dot {
             width: 10px;
@@ -622,49 +677,14 @@ def inject_global_styles() -> None:
             border-radius: 999px;
             flex-shrink: 0;
         }
-        .trust-row-score {
-            color: #334155;
-            font-size: 0.88rem;
-            font-weight: 800;
+        .trust-check-question {
+            color: var(--text);
+            font-size: 0.96rem;
+            font-weight: 650;
+            line-height: 1.55;
+            margin-bottom: 0.35rem;
         }
-        .trust-status {
-            display: inline-flex;
-            align-items: center;
-            border-radius: 999px;
-            padding: 0.22rem 0.62rem;
-            font-size: 0.76rem;
-            font-weight: 800;
-            letter-spacing: 0.03em;
-            white-space: nowrap;
-        }
-        .trust-status-strong {
-            background: rgba(220, 252, 231, 0.95);
-            color: #166534;
-            border: 1px solid rgba(134, 239, 172, 0.9);
-        }
-        .trust-status-moderate {
-            background: rgba(254, 249, 195, 0.95);
-            color: #854d0e;
-            border: 1px solid rgba(253, 224, 71, 0.85);
-        }
-        .trust-status-attention {
-            background: rgba(254, 226, 226, 0.95);
-            color: #991b1b;
-            border: 1px solid rgba(252, 165, 165, 0.9);
-        }
-        .trust-row-bar {
-            height: 10px;
-            border-radius: 999px;
-            background: #e2e8f0;
-            overflow: hidden;
-            margin-bottom: 0.5rem;
-        }
-        .trust-row-bar span {
-            display: block;
-            height: 100%;
-            border-radius: inherit;
-        }
-        .trust-row-note {
+        .trust-check-note {
             color: #64748b;
             font-size: 0.9rem;
             line-height: 1.55;
