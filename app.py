@@ -58,29 +58,29 @@ with summary_left:
 
     story_items = [item for item in NAV_ITEMS if item[0] != "home"]
 
-    for start in range(0, len(story_items), 2):
-        row_items = story_items[start:start + 2]
-        row_columns = st.columns(2, gap="large")
+    for start in range(0, len(story_items), 3):
+        row_items = story_items[start:start + 3]
+        row_columns = st.columns(3, gap="large")
         for column, (key, path, label) in zip(row_columns, row_items):
             accent = accents[key]
             with column:
                 st.markdown(
                     f"""
-                    <div class='card' style='margin-bottom:2px;'>
-                      <div style='display:flex; gap:12px; align-items:flex-start;'>
-                        <div class='hero-icon' style='width:44px; height:44px; border-radius:14px; background:{accent}14;'>
-                          {material_icon(icons[key], 22, accent)}
+                    <div class='card' style='margin-bottom:0;'>
+                        <div style='display:flex; gap:12px; align-items:flex-start;'>
+                            <div class='hero-icon' style='width:44px; height:44px; border-radius:14px; background:{accent}14;'>
+                                {material_icon(icons[key], 22, accent)}
+                            </div>
+                            <div style='flex:1;'>
+                                <div class='card-title'>{label}</div>
+                                <div class='card-desc'>{descriptions[key]}</div>
+                            </div>
                         </div>
-                        <div style='flex:1;'>
-                          <div class='card-title'>{label}</div>
-                          <div class='card-desc'>{descriptions[key]}</div>
-                        </div>
-                      </div>
                     </div>
                     """,
                     unsafe_allow_html=True,
                 )
-                st.page_link(path, label="Open page", icon=PAGE_ICONS[key])
+                st.page_link(path, label="Open section", icon=PAGE_ICONS[key])
 
 with summary_right:
     render_section_intro(

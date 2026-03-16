@@ -29,11 +29,58 @@ NAV_ITEMS = [
 ]
 
 
+NAV_GROUPS = [
+    ("Overview", ["home"]),
+    ("Core brief", ["what_is", "why", "risk"]),
+    ("From risk to action", ["demo", "stories", "roadmap"]),
+]
+
+
+NAV_DETAILS = {
+    "home": {
+        "summary": "Get the storyline, key themes, and how to use the app.",
+        "accent": "#2563eb",
+        "eyebrow": "Start",
+    },
+    "what_is": {
+        "summary": "Define trustworthy AI in practical, governance-focused terms.",
+        "accent": "#2563eb",
+        "eyebrow": "Step 1",
+    },
+    "why": {
+        "summary": "See why leadership, trust, and delivery risk are connected.",
+        "accent": "#ea580c",
+        "eyebrow": "Step 2",
+    },
+    "risk": {
+        "summary": "Understand the EU AI Act's risk ladder and obligations.",
+        "accent": "#7c3aed",
+        "eyebrow": "Step 3",
+    },
+    "demo": {
+        "summary": "Test how safeguards change outcomes in one live example.",
+        "accent": "#0f766e",
+        "eyebrow": "Step 4",
+    },
+    "stories": {
+        "summary": "Review concrete failure patterns and what would have helped.",
+        "accent": "#2563eb",
+        "eyebrow": "Step 5",
+    },
+    "roadmap": {
+        "summary": "End with a compact action plan for teams and decision-makers.",
+        "accent": "#9333ea",
+        "eyebrow": "Step 6",
+    },
+}
+
+
 def inject_icon_font() -> None:
     """Load Material Symbols for consistent icon rendering in custom HTML."""
     st.markdown(
         """
         <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0');
 
         .material-symbols-rounded {
@@ -73,30 +120,78 @@ def _join_chips(chips: Sequence[str]) -> str:
 
 def render_sidebar(active_page: str) -> None:
     """Render the shared story-first sidebar navigation."""
-    current_label = next((label for key, _, label in NAV_ITEMS if key == active_page), "Current page")
+    nav_lookup = {key: (path, label) for key, path, label in NAV_ITEMS}
+    story_keys = [key for key, _, _ in NAV_ITEMS if key != "home"]
+    total_steps = len(story_keys)
+    current_step = story_keys.index(active_page) + 1 if active_page in story_keys else 0
+    progress = current_step / total_steps if total_steps else 0
+    _, current_label = nav_lookup.get(active_page, ("", "Current page"))
+    current_details = NAV_DETAILS.get(active_page, {})
+    next_item = None
+    if active_page == "home" and story_keys:
+        next_key = story_keys[0]
+        next_path, next_label = nav_lookup[next_key]
+        next_item = (next_key, next_path, next_label)
+    elif 0 < current_step < total_steps:
+        next_key = story_keys[current_step]
+        next_path, next_label = nav_lookup[next_key]
+        next_item = (next_key, next_path, next_label)
+
     with st.sidebar:
         st.markdown(
-            f"<div class='sidebar-panel'>"
-            f"<div class='sidebar-title'>{material_icon('explore', 20, '#1d4ed8')} Start here</div>"
-            f"<div class='sidebar-copy'>A short, decision-maker friendly walkthrough from definition to action.</div>"
+            f"<div class='sidebar-hero'>"
+            f"<div class='sidebar-eyebrow'>Navigator</div>"
+            f"<div class='sidebar-title'>{material_icon('explore', 20, '#1d4ed8')} Trustworthy AI Explained</div>"
+            f"<div class='sidebar-copy'>Move from the core idea to the action plan in one guided pass.</div>"
+            f"<div class='sidebar-progress-row'>"
+            f"<span class='sidebar-pill'>{current_details.get('eyebrow', 'Overview')}</span>"
+            f"<span class='sidebar-pill sidebar-pill-muted'>{current_step}/{total_steps} story steps</span>"
+            f"</div>"
+            f"<div class='sidebar-progress-track'><span style='width:{progress * 100:.0f}%;'></span></div>"
             f"</div>",
             unsafe_allow_html=True,
         )
-        for key, path, label in NAV_ITEMS:
-            st.page_link(path, label=label, icon=PAGE_ICONS[key])
 
-        st.divider()
+        for group_title, group_keys in NAV_GROUPS:
+            st.markdown(f"<div class='sidebar-group-label'>{group_title}</div>", unsafe_allow_html=True)
+            for key in group_keys:
+                path, label = nav_lookup[key]
+                details = NAV_DETAILS.get(key, {})
+                step_copy = details.get("eyebrow", "Overview")
+                if key != "home":
+                    step_copy = f"{step_copy} of {total_steps}"
+                st.page_link(path, label=label, icon=PAGE_ICONS[key])
+                st.markdown(
+                    (
+                        f"<div class='sidebar-link-meta{' sidebar-link-meta-active' if key == active_page else ''}'>"
+                        f"<span class='sidebar-link-kicker'>{step_copy}</span>"
+                        f"<span>{details.get('summary', '')}</span>"
+                        f"</div>"
+                    ),
+                    unsafe_allow_html=True,
+                )
+
         st.markdown(
             f"<div class='sidebar-note'>"
-            f"<strong>{material_icon('flag', 16, '#0f172a')} Current focus:</strong><br>{current_label}"
+            f"<div class='sidebar-note-title'>{material_icon('flag', 16, current_details.get('accent', '#0f172a'))} Current focus</div>"
+            f"<div class='sidebar-note-copy'>{current_label}</div>"
+            f"<div class='sidebar-note-subcopy'>{current_details.get('summary', 'Use the menu to move through the story.')}</div>"
             f"</div>",
             unsafe_allow_html=True,
         )
-        st.page_link(
-            "pages/3_Interactive_mini_demo.py",
-            label="Open the live mini-demo",
-            icon=":material/play_circle:",
-        )
+        if next_item:
+            next_key, next_path, next_label = next_item
+            st.markdown("<div class='sidebar-group-label'>Recommended next</div>", unsafe_allow_html=True)
+            st.markdown(
+                (
+                    "<div class='sidebar-link-meta sidebar-link-meta-next'>"
+                    f"<span class='sidebar-link-kicker'>{next_label}</span>"
+                    f"<span>{NAV_DETAILS[next_key]['eyebrow']}</span><br>"
+                    f"<span>{NAV_DETAILS[next_key]['summary']}</span>"
+                    "</div>"
+                ),
+                unsafe_allow_html=True,
+            )
 
 
 def inject_global_styles() -> None:
@@ -118,9 +213,13 @@ def inject_global_styles() -> None:
             background:
                 radial-gradient(circle at top left, rgba(37, 99, 235, 0.06), transparent 34%),
                 linear-gradient(180deg, #f6f8fc 0%, #ffffff 42%, #f8fafc 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
         [data-testid="stAppViewContainer"] {
             background: transparent;
+        }
+        [data-testid="stSidebarNav"] {
+            display: none;
         }
         [data-testid="stSidebar"] {
             background: linear-gradient(180deg, #f8fbff 0%, #f8fafc 100%);
@@ -256,12 +355,27 @@ def inject_global_styles() -> None:
         .card li + li {
             margin-top: 0.28rem;
         }
-        .sidebar-panel, .sidebar-note {
-            background: rgba(255,255,255,0.9);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 12px 12px;
-            margin-bottom: 10px;
+        .sidebar-hero,
+        .sidebar-note {
+            background: rgba(255,255,255,0.92);
+            border: 1px solid rgba(191, 219, 254, 0.9);
+            border-radius: 18px;
+            padding: 14px 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 14px 30px rgba(37, 99, 235, 0.08);
+        }
+        .sidebar-hero {
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.98), rgba(239,246,255,0.96)),
+                radial-gradient(circle at top right, rgba(37,99,235,0.16), transparent 36%);
+        }
+        .sidebar-eyebrow {
+            color: #1d4ed8;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.72rem;
+            font-weight: 800;
+            margin-bottom: 0.35rem;
         }
         .sidebar-title {
             display: flex;
@@ -269,17 +383,95 @@ def inject_global_styles() -> None:
             gap: 8px;
             font-weight: 750;
             color: var(--text);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
         .sidebar-copy {
             color: var(--muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        .sidebar-note {
-            color: var(--muted);
             font-size: 0.92rem;
             line-height: 1.5;
+        }
+        .sidebar-progress-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 0.85rem;
+        }
+        .sidebar-pill {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0.24rem 0.62rem;
+            background: rgba(219, 234, 254, 0.9);
+            color: #1d4ed8;
+            font-size: 0.74rem;
+            font-weight: 700;
+        }
+        .sidebar-pill-muted {
+            background: rgba(241, 245, 249, 0.95);
+            color: #334155;
+        }
+        .sidebar-progress-track {
+            width: 100%;
+            height: 8px;
+            border-radius: 999px;
+            margin-top: 0.8rem;
+            background: rgba(191, 219, 254, 0.45);
+            overflow: hidden;
+        }
+        .sidebar-progress-track span {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #2563eb 0%, #0f766e 100%);
+        }
+        .sidebar-group-label {
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.7rem;
+            font-weight: 800;
+            margin: 1rem 0 0.45rem;
+        }
+        .sidebar-link-meta {
+            margin: -0.18rem 0 0.7rem 0;
+            padding: 0 0.25rem 0 0.3rem;
+            color: #64748b;
+            font-size: 0.82rem;
+            line-height: 1.45;
+        }
+        .sidebar-link-meta-active {
+            color: #0f172a;
+        }
+        .sidebar-link-meta-next {
+            color: #334155;
+        }
+        .sidebar-link-kicker {
+            display: inline-block;
+            font-weight: 700;
+            color: #1d4ed8;
+            margin-right: 0.35rem;
+        }
+        .sidebar-note {
+            margin-top: 0.8rem;
+            color: var(--muted);
+        }
+        .sidebar-note-title {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-weight: 750;
+            color: var(--text);
+            margin-bottom: 0.35rem;
+        }
+        .sidebar-note-copy {
+            font-weight: 700;
+            color: var(--text);
+        }
+        .sidebar-note-subcopy {
+            margin-top: 0.35rem;
+            font-size: 0.86rem;
+            line-height: 1.5;
+            color: #64748b;
         }
         .surface-strip {
             border: 1px solid var(--border);
@@ -289,18 +481,19 @@ def inject_global_styles() -> None:
             box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
         }
         [data-testid="stMain"] [data-testid="stPageLink"] {
-            margin-top: 0.35rem;
-            margin-bottom: 0.9rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.75rem;
         }
         [data-testid="stMain"] [data-testid="stPageLink"] a {
             display: inline-flex;
             align-items: center;
             gap: 0.35rem;
-            width: auto;
+            width: 100%;
             min-height: 2rem;
-            padding: 0.4rem 0.72rem;
+            justify-content: center;
+            padding: 0.5rem 0.8rem;
             border: 1px solid var(--border);
-            border-radius: 999px;
+            border-radius: 10px;
             background: #eef2ff;
             color: #1d4ed8;
             font-weight: 600;
@@ -313,10 +506,31 @@ def inject_global_styles() -> None:
         }
         [data-testid="stSidebar"] [data-testid="stPageLink"] {
             margin-top: 0;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.2rem;
         }
         [data-testid="stSidebar"] [data-testid="stPageLink"] a {
-            border-radius: 12px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid rgba(203, 213, 225, 0.95);
+            padding: 0.75rem 0.78rem;
+            width: 100%;
+            justify-content: flex-start;
+            font-weight: 650;
+            color: #0f172a;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+            transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
+        }
+        [data-testid="stSidebar"] [data-testid="stPageLink"] a:hover {
+            transform: translateY(-1px);
+            border-color: #93c5fd;
+            background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+            box-shadow: 0 12px 22px rgba(37, 99, 235, 0.08);
+        }
+        [data-testid="stSidebar"] [data-testid="stPageLink"] a[aria-current="page"] {
+            border-color: #60a5fa;
+            background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+            color: #1d4ed8;
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.14);
         }
         </style>
         """,
