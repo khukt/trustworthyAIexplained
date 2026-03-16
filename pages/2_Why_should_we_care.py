@@ -289,19 +289,18 @@ leader_steps = [
     ("5", "Monitor and respond", "Track drift, incidents, failures, complaints, and model updates after launch, not only before it."),
 ]
 
-steps_html = "".join(
-    f"""
-    <div class="checklist-item">
-      <div class="checklist-number">{number}</div>
-      <div>
-        <div class="checklist-title">{title}</div>
-        <div class="checklist-copy">{copy}</div>
-      </div>
-    </div>
-    """
-    for number, title, copy in leader_steps
-)
-
-st.markdown(f"<div class='checklist-grid'>{steps_html}</div>", unsafe_allow_html=True)
+for number, title, copy in leader_steps:
+    st.markdown(
+        (
+            '<div class="checklist-item">'
+            f'<div class="checklist-number">{number}</div>'
+            '<div>'
+            f'<div class="checklist-title">{title}</div>'
+            f'<div class="checklist-copy">{copy}</div>'
+            "</div>"
+            "</div>"
+        ),
+        unsafe_allow_html=True,
+    )
 
 st.caption("Next: the interactive mini-demo shows how safeguards change outcomes in practice.")
