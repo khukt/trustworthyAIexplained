@@ -66,13 +66,6 @@ with intro_right:
             Not just “high accuracy”, not branding language, and not a claim that automation should replace human judgment.
           </div>
         </div>
-        <div style="height:10px;"></div>
-        <div class="card">
-          <div class="card-title">""" + material_icon("person_search", 18, "#2563eb") + """ Why the term exists</div>
-          <div class="card-desc">
-            It gives leaders a way to talk about <strong>safety, fairness, transparency, oversight, and responsibility</strong> in one frame.
-          </div>
-        </div>
         """,
         unsafe_allow_html=True,
     )
@@ -141,13 +134,23 @@ eu_left, eu_right = st.columns([1, 1], gap="large")
 with eu_left:
     st.markdown(
         """
-        <div class="card">
-          <div class="card-title">Common pattern across frameworks</div>
-          <ul>
-            <li>Systems should be reliable and safe enough for their context.</li>
-            <li>People should be treated fairly and be able to understand the role of AI.</li>
-            <li>Organizations should keep clear oversight, accountability, and documentation.</li>
-          </ul>
+        <div class="compare-card">
+          <div class="compare-kicker">Shared core</div>
+          <div class="compare-title">What most frameworks already agree on</div>
+          <div class="compare-list">
+            <div class="compare-item">
+              <span class="compare-dot"></span>
+              <div class="compare-copy">AI should be reliable and safe enough for the context in which it is used.</div>
+            </div>
+            <div class="compare-item">
+              <span class="compare-dot"></span>
+              <div class="compare-copy">People should be treated fairly and be able to understand the role AI plays.</div>
+            </div>
+            <div class="compare-item">
+              <span class="compare-dot"></span>
+              <div class="compare-copy">Organizations should keep clear oversight, accountability, and documentation.</div>
+            </div>
+          </div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -156,27 +159,65 @@ with eu_left:
 with eu_right:
     st.markdown(
         """
-        <div class="card">
-          <div class="card-title">EU emphasis</div>
-          <ul>
-            <li><strong>Human agency and oversight</strong> are explicit, not assumed.</li>
-            <li><strong>Privacy and data governance</strong> are treated as core trust issues.</li>
-            <li><strong>Societal impact</strong> matters alongside technical performance.</li>
-          </ul>
+        <div class="compare-card compare-card-eu">
+          <div class="compare-kicker">EU emphasis</div>
+          <div class="compare-title">What the European framing makes more explicit</div>
+          <div class="compare-list">
+            <div class="compare-item">
+              <span class="compare-dot"></span>
+              <div class="compare-copy"><strong>Human agency and oversight</strong> are named directly, not treated as background assumptions.</div>
+            </div>
+            <div class="compare-item">
+              <span class="compare-dot"></span>
+              <div class="compare-copy"><strong>Privacy and data governance</strong> are central trust questions, not separate compliance topics.</div>
+            </div>
+            <div class="compare-item">
+              <span class="compare-dot"></span>
+              <div class="compare-copy"><strong>Societal and environmental impact</strong> matters alongside technical performance.</div>
+            </div>
+          </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
+render_section_intro(
+    title="EU High-Level Expert Group: 7 requirements",
+    body="These seven requirements make the European framing easier to scan than a long paragraph.",
+    icon_name="format_list_bulleted",
+    accent="#7c3aed",
+)
+
+eu_requirements = [
+    ("1", "Human agency and oversight", "AI should support human decision-making and leave room for intervention."),
+    ("2", "Technical robustness and safety", "Systems should be resilient, secure, and safe under expected and unexpected conditions."),
+    ("3", "Privacy and data governance", "Data protection, quality, integrity, and access control are part of trustworthiness."),
+    ("4", "Transparency", "People should know when AI is used and decisions should be traceable and explainable."),
+    ("5", "Diversity, non-discrimination and fairness", "Systems should avoid unfair bias and remain accessible and equitable."),
+    ("6", "Societal and environmental well-being", "Wider effects on society, institutions, democracy, and sustainability matter."),
+    ("7", "Accountability", "There should be clear responsibility, auditability, and routes for review or redress."),
+]
+
+for start in range(0, len(eu_requirements), 3):
+    row = eu_requirements[start:start + 3]
+    columns = st.columns(3, gap="large")
+    for column, (number, title, desc) in zip(columns, row):
+        with column:
+            st.markdown(
+                f"""
+                <div class="requirement-card">
+                  <div class="requirement-number">{number}</div>
+                  <div class="requirement-title">{title}</div>
+                  <div class="requirement-copy">{desc}</div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
 st.markdown(
     """
-    <div class="card">
-      <div class="card-title">EU High-Level Expert Group: 7 requirements</div>
-      <div class="card-desc">
-        The HLEG framework names seven requirements: human agency and oversight; technical robustness and safety; privacy and data governance;
-        transparency; diversity, non-discrimination and fairness; societal and environmental well-being; and accountability.
-        The exact labels vary across frameworks, but the underlying message is consistent: trustworthy AI is <strong>not only a technical question</strong>.
-      </div>
+    <div class="section-note">
+      The labels vary across frameworks, but the underlying message is consistent: trustworthy AI is <strong>not only a technical question</strong>.
     </div>
     """,
     unsafe_allow_html=True,
@@ -186,68 +227,144 @@ st.markdown("<hr>", unsafe_allow_html=True)
 
 render_section_intro(
     title="How major organizations group the same idea",
-    body="There is no single official pillar set. The differences are usually about emphasis, not about a completely different definition.",
+    body="The frameworks below are broadly aligned. What changes is the angle: policy, rights, engineering risk, or management systems.",
     icon_name="hub",
 )
 
+framework_options = [
+    "EU (HLEG 2019) — 7 requirements",
+    "OECD — AI Principles",
+    "NIST — AI Risk Management Framework",
+    "ISO/IEC — standards (management system + risk)",
+]
+
 framework = st.selectbox(
     "Choose a framework:",
-    [
-        "EU (HLEG 2019) — 7 requirements",
-        "OECD — AI Principles",
-        "NIST — AI Risk Management Framework",
-        "ISO/IEC — standards (management system + risk)",
-    ],
+    framework_options,
 )
 
 if framework.startswith("EU"):
-    st.markdown(
-        """
-        <div class="card">
-          <div class="card-title">EU (HLEG 2019)</div>
-          <div class="card-desc">
-            A policy-oriented structure that explicitly combines <strong>human oversight</strong>, <strong>data governance</strong>,
-            <strong>societal impact</strong>, and the more familiar themes of robustness, fairness, transparency, and accountability.
-          </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
+    framework_title = "EU (HLEG 2019)"
+    framework_kicker = "Policy-oriented"
+    framework_summary = (
+        "The EU framing makes oversight, data governance, and societal impact especially visible alongside "
+        "robustness, fairness, transparency, and accountability."
     )
+    framework_meta = [
+        ("Best for", "Public policy and governance discussions"),
+        ("Main lens", "Rights, oversight, and public-interest safeguards"),
+        ("Style", "Normative and policy-facing"),
+    ]
+    framework_focus = [
+        "Human agency and oversight are explicitly named.",
+        "Privacy and data governance are central, not peripheral.",
+        "Societal and environmental well-being sits alongside technical performance.",
+    ]
 elif framework.startswith("OECD"):
-    st.markdown(
-        """
-        <div class="card">
-          <div class="card-title">OECD AI Principles</div>
-          <div class="card-desc">
-            A high-level international policy frame centered on <strong>inclusive growth</strong>, <strong>human rights and democratic values</strong>,
-            <strong>transparency</strong>, <strong>robustness</strong>, and <strong>accountability</strong>.
-          </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
+    framework_title = "OECD AI Principles"
+    framework_kicker = "International policy baseline"
+    framework_summary = (
+        "The OECD principles give governments and organizations a broad policy vocabulary focused on values, transparency, robustness, and accountability."
     )
+    framework_meta = [
+        ("Best for", "Cross-country or cross-sector policy framing"),
+        ("Main lens", "Human rights, democratic values, and inclusive growth"),
+        ("Style", "High-level principles"),
+    ]
+    framework_focus = [
+        "Strong emphasis on human rights and democratic values.",
+        "Useful as a common policy baseline across jurisdictions.",
+        "Less operational detail than engineering or standards-based frameworks.",
+    ]
 elif framework.startswith("NIST"):
+    framework_title = "NIST AI RMF"
+    framework_kicker = "Engineering and risk management"
+    framework_summary = (
+        "NIST translates trustworthiness into operational characteristics and risk-management activities that teams can build into development and deployment."
+    )
+    framework_meta = [
+        ("Best for", "Operational governance and technical risk management"),
+        ("Main lens", "Measurable trust characteristics and lifecycle controls"),
+        ("Style", "Practical and implementation-oriented"),
+    ]
+    framework_focus = [
+        "Frames trustworthiness in operational terms such as valid, safe, explainable, and resilient.",
+        "Useful for teams that need a working risk-management process.",
+        "Feels closer to engineering practice than broad policy language.",
+    ]
+else:
+    framework_title = "ISO/IEC standards"
+    framework_kicker = "Management system and auditability"
+    framework_summary = (
+        "ISO/IEC standards focus on making trustworthiness systematic, auditable, and repeatable through governance processes, controls, and documentation."
+    )
+    framework_meta = [
+        ("Best for", "Organizations building formal management systems"),
+        ("Main lens", "Governance, process, and audit readiness"),
+        ("Style", "Standards-based and repeatable"),
+    ]
+    framework_focus = [
+        "Useful when the goal is structured governance rather than principles alone.",
+        "Emphasizes documentation, monitoring, and management-system discipline.",
+        "Helps organizations turn trust goals into auditable processes.",
+    ]
+
+focus_html = "".join(
+    f"""
+    <div class="framework-focus-item">
+      <span class="framework-focus-dot"></span>
+      <div class="framework-focus-copy">{item}</div>
+    </div>
+    """
+    for item in framework_focus
+)
+meta_html = "".join(
+    f"""
+    <div class="framework-meta">
+      <div class="framework-meta-label">{label}</div>
+      <div class="framework-meta-value">{value}</div>
+    </div>
+    """
+    for label, value in framework_meta
+)
+
+st.markdown(
+    f"""
+    <div class="framework-panel">
+      <div class="framework-kicker">{framework_kicker}</div>
+      <div class="framework-title">{framework_title}</div>
+      <div class="framework-summary">{framework_summary}</div>
+      <div class="framework-meta-grid">{meta_html}</div>
+      <div class="framework-focus-grid">{focus_html}</div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+framework_note_left, framework_note_right = st.columns([1, 1], gap="large")
+with framework_note_left:
     st.markdown(
         """
         <div class="card">
-          <div class="card-title">NIST AI RMF</div>
+          <div class="card-title">What stays the same across all of them</div>
           <div class="card-desc">
-            An engineering and risk-management frame that translates trustworthiness into operational characteristics such as
-            <strong>valid and reliable</strong>, <strong>safe</strong>, <strong>secure and resilient</strong>, <strong>explainable</strong>,
-            <strong>privacy-enhanced</strong>, <strong>fair</strong>, and <strong>accountable</strong>.
+            None of these frameworks reduce trustworthiness to model accuracy. They all point back to a mix of
+            <strong>technical performance</strong>, <strong>human oversight</strong>, <strong>fairness</strong>,
+            <strong>transparency</strong>, and <strong>accountability</strong>.
           </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
-else:
+
+with framework_note_right:
     st.markdown(
         """
         <div class="card">
-          <div class="card-title">ISO/IEC standards</div>
+          <div class="card-title">How to read the differences</div>
           <div class="card-desc">
-            A standards-based view focused on making trustworthiness <strong>auditable and repeatable</strong> through management systems,
-            documentation, governance processes, monitoring, and risk controls.
+            Treat the differences as differences in <strong>emphasis and use case</strong>:
+            policy frameworks guide principles, risk frameworks guide operations, and standards guide management systems.
           </div>
         </div>
         """,
