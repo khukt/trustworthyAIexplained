@@ -12,7 +12,7 @@ render_page_header(
     subtitle="A practical sequence for teams that want AI to be useful, reviewable, and safe enough for the context.",
     icon_name="route",
     accent="#9333ea",
-    chips=["Days 0-30", "Days 30-90", "Ongoing"],
+    chips=["Immediate safeguards", "Governance setup", "Operating model"],
     eyebrow="Action plan",
 )
 
@@ -33,7 +33,7 @@ render_section_intro(
 stages = [
     {
         "stage": "Stage 1",
-        "window": "Days 0-30",
+        "window": "Immediate safeguards",
         "name": "Constrain the use case",
         "subtitle": "Stop avoidable harm before the system becomes routine.",
         "color": "#22c55e",
@@ -51,7 +51,7 @@ stages = [
     },
     {
         "stage": "Stage 2",
-        "window": "Days 30-90",
+        "window": "Governance setup",
         "name": "Make it governable",
         "subtitle": "Turn ad hoc safeguards into repeatable operating rules.",
         "color": "#3b82f6",
@@ -69,7 +69,7 @@ stages = [
     },
     {
         "stage": "Stage 3",
-        "window": "Ongoing",
+        "window": "Operating model",
         "name": "Operate and improve",
         "subtitle": "Treat AI as a managed capability, not a one-time launch.",
         "color": "#a855f7",
