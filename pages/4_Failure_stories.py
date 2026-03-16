@@ -1,6 +1,4 @@
 import streamlit as st
-import plotly.express as px
-import pandas as pd
 
 from trust_utils import material_icon, render_callout, render_page_header, render_section_intro, setup_page
 
@@ -9,7 +7,7 @@ setup_page("stories", "Failure stories")
 
 render_page_header(
     title="Common AI Failure Stories",
-    subtitle="Most AI incidents are not caused by 'evil AI'. They are usually caused by missing safeguards.",
+    subtitle="Most AI incidents do not come from science fiction scenarios. They usually come from ordinary governance gaps.",
     icon_name="auto_stories",
     accent="#2563eb",
     chips=["Bias", "Stale data", "Wrong context", "No monitoring"],
@@ -17,141 +15,178 @@ render_page_header(
 )
 
 render_callout(
-    title="What to look for",
-    body="Each example pairs a common failure pattern with the practical control that prevents it.",
+    title="How to read this page",
+    body="Each story follows the same pattern: what happened, what failed, and what practical control would have reduced the risk.",
     icon_name="search_insights",
     accent="#1d4ed8",
 )
 
-st.divider()
+st.markdown("<hr>", unsafe_allow_html=True)
+
+render_section_intro(
+    title="A simple pattern appears again and again",
+    body="The failure is rarely 'AI became evil'. The pattern is usually a system used with weak controls, weak oversight, or the wrong assumptions.",
+    icon_name="pattern",
+)
+
+intro_a, intro_b = st.columns(2, gap="large")
+with intro_a:
+    st.markdown(
+        """
+        <div class="card">
+          <div class="card-title">What failure stories are really about</div>
+          <div class="card-desc">
+            They show where organizations rely on AI <strong>without enough checks, review, or monitoring</strong>.
+            The point is not to memorize incidents. It is to recognize recurring failure patterns before they happen again.
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with intro_b:
+    st.markdown(
+        """
+        <div class="card">
+          <div class="card-title">What to look for in every case</div>
+          <ul>
+            <li>Was the system used outside its safe limits?</li>
+            <li>Did people understand what the AI was doing?</li>
+            <li>Were monitoring and escalation paths already in place?</li>
+          </ul>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+st.markdown("<hr>", unsafe_allow_html=True)
 
 stories = [
     {
-        "icon": material_icon("balance", 22, "#f59e0b"),
-        "title": "Bias in data → unfair decisions",
-        "color": "#f59e0b",
-        "what_went_wrong": "Historical data reflected unequal treatment; the AI learned and repeated it.",
-        "what_prevents": "Fairness checks, representative data, and regular audits.",
-        "risk": 85,
-        "prevention": 90,
+        "kicker": "Bias pattern",
+        "title": "Historical bias is repeated as if it were objective truth",
+        "icon": "balance",
+        "accent": "#f59e0b",
+        "what_happened": "An AI system learned from past decisions that already reflected unequal treatment. It then repeated those patterns at scale.",
+        "what_failed": "Past outcomes were treated as if they were neutral ground truth, and outcome gaps were not checked seriously enough.",
+        "what_helps": "Representative data, outcome monitoring across groups, and a clear fairness review process before and after deployment.",
+        "lesson": "If historical decisions were unequal, an AI system can make that inequality faster and harder to notice.",
+        "tags": ["Fairness", "Data", "Audits"],
     },
     {
-        "icon": material_icon("calendar_month", 22, "#ef4444"),
-        "title": "Out-of-date data → wrong recommendations",
-        "color": "#ef4444",
-        "what_went_wrong": "Reality changed, but the model still used older patterns and assumptions.",
-        "what_prevents": "Data freshness checks + monitoring + scheduled re-evaluation.",
-        "risk": 75,
-        "prevention": 85,
+        "kicker": "Data pattern",
+        "title": "Stale data makes the system confident about the wrong world",
+        "icon": "calendar_month",
+        "accent": "#ef4444",
+        "what_happened": "Conditions changed, but the model still relied on older patterns and assumptions. Outputs looked plausible while becoming less relevant.",
+        "what_failed": "Data freshness was not treated as a live governance issue, and the organization had weak monitoring after deployment.",
+        "what_helps": "Data freshness checks, scheduled re-evaluation, trigger points for retraining, and visible ownership for monitoring performance drift.",
+        "lesson": "A model can fail quietly when the world changes faster than the governance around it.",
+        "tags": ["Monitoring", "Data age", "Drift"],
     },
     {
-        "icon": material_icon("public", 22, "#a855f7"),
-        "title": "Used outside intended context → unpredictable behavior",
-        "color": "#a855f7",
-        "what_went_wrong": "AI trained for one setting was deployed in another (new region, new population, new conditions).",
-        "what_prevents": "Clear scope documentation + out-of-context detection + human review.",
-        "risk": 80,
-        "prevention": 80,
+        "kicker": "Scope pattern",
+        "title": "A system built for one setting is used in another",
+        "icon": "public",
+        "accent": "#a855f7",
+        "what_happened": "An AI system trained for one population, region, or workflow was used in a different context where its assumptions no longer held.",
+        "what_failed": "The deployment team treated the model as general-purpose and did not manage out-of-context risk explicitly.",
+        "what_helps": "Clear scope documentation, validation for the new context, out-of-context detection, and human review when cases look unusual.",
+        "lesson": "A system that works well somewhere can still become unreliable when the context changes.",
+        "tags": ["Scope", "Validation", "Human review"],
     },
     {
-        "icon": material_icon("siren", 22, "#3b82f6"),
-        "title": "No monitoring after deployment → problems discovered too late",
-        "color": "#3b82f6",
-        "what_went_wrong": "Performance drifted silently; errors accumulated before anyone noticed.",
-        "what_prevents": "Monitoring, alerts, incident response, and logging/audit trails.",
-        "risk": 90,
-        "prevention": 92,
+        "kicker": "Operations pattern",
+        "title": "No monitoring means problems are discovered after damage accumulates",
+        "icon": "siren",
+        "accent": "#3b82f6",
+        "what_happened": "Performance drifted or error patterns grew over time, but no one had a clear signal, alert, or review process to spot it early.",
+        "what_failed": "Deployment was treated as the finish line. Logging, incident handling, and post-market-style monitoring were too weak or absent.",
+        "what_helps": "Monitoring dashboards, alerts, audit trails, incident response, and a named team responsible for acting on warning signs.",
+        "lesson": "If no one is watching the system after launch, small issues can become institutional failures.",
+        "tags": ["Monitoring", "Audit trail", "Ownership"],
     },
 ]
 
-for story in stories:
-    with st.expander(f"{story['icon']}  {story['title']}", expanded=True):
-        col_text, col_bar = st.columns([2, 1], gap="large")
-        with col_text:
-            st.markdown(
-                f"<div style='background:#fef2f2; border-left:4px solid #ef4444; border-radius:6px; padding:12px 16px; margin-bottom:10px;'>"
-                f"<strong style='color:#dc2626;'>{material_icon('warning', 18, '#dc2626')} What went wrong:</strong><br>"
-                f"<span style='color:#991b1b;'>{story['what_went_wrong']}</span>"
-                f"</div>",
-                unsafe_allow_html=True,
-            )
-            st.markdown(
-                f"<div style='background:#f0fdf4; border-left:4px solid #22c55e; border-radius:6px; padding:12px 16px;'>"
-                f"<strong style='color:#16a34a;'>{material_icon('verified', 18, '#16a34a')} What prevents it:</strong><br>"
-                f"<span style='color:#166534;'>{story['what_prevents']}</span>"
-                f"</div>",
-                unsafe_allow_html=True,
-            )
-        with col_bar:
-            df_bar = pd.DataFrame(
-                {
-                    "": ["Risk level", "Prevention effectiveness"],
-                    "Score": [story["risk"], story["prevention"]],
-                }
-            )
-            fig = px.bar(
-                df_bar,
-                x="Score",
-                y="",
-                orientation="h",
-                color="",
-                color_discrete_map={"Risk level": "#ef4444", "Prevention effectiveness": "#22c55e"},
-                text="Score",
-            )
-            fig.update_traces(texttemplate="%{text}%", textposition="inside")
-            fig.update_layout(
-                paper_bgcolor="#ffffff",
-                plot_bgcolor="#ffffff",
-                font=dict(color="#334155"),
-                showlegend=False,
-                xaxis=dict(range=[0, 100], showgrid=False, title=""),
-                yaxis=dict(title=""),
-                margin=dict(l=0, r=10, t=10, b=10),
-                height=100,
-            )
-            st.plotly_chart(fig, use_container_width=True)
+render_section_intro(
+    title="Four recurring failure patterns",
+    body="These examples are generalized patterns, but they reflect the kinds of problems organizations repeatedly encounter.",
+    icon_name="warning",
+)
 
-st.divider()
+for story in stories:
+    tags_html = "".join(f'<span class="failure-tag">{tag}</span>' for tag in story["tags"])
+    st.markdown(
+        (
+            '<div class="failure-story-card">'
+            f'<div class="failure-story-kicker">{story["kicker"]}</div>'
+            f'<div class="failure-story-title">{material_icon(story["icon"], 20, story["accent"])} {story["title"]}</div>'
+            f"{tags_html}"
+            f'<div class="failure-story-copy">{story["what_happened"]}</div>'
+            '<div class="failure-panel failure-panel-bad">'
+            '<div class="failure-panel-title">What failed</div>'
+            f'<div class="failure-panel-copy">{story["what_failed"]}</div>'
+            "</div>"
+            '<div class="failure-panel failure-panel-good">'
+            '<div class="failure-panel-title">What would have helped</div>'
+            f'<div class="failure-panel-copy">{story["what_helps"]}</div>'
+            "</div>"
+            f'<div class="failure-lesson"><strong>Lesson:</strong> {story["lesson"]}</div>'
+            "</div>"
+        ),
+        unsafe_allow_html=True,
+    )
+    st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
+
+st.markdown("<hr>", unsafe_allow_html=True)
 
 render_section_intro(
-    title="Risk vs prevention effectiveness across all stories",
-    body="The chart below compares how risky each failure pattern is against how effective known safeguards can be.",
-    icon_name="monitoring",
+    title="What these stories have in common",
+    body="The same lesson appears across all four examples: the failure usually comes from governance gaps, not from the mere fact that AI exists.",
+    icon_name="insights",
 )
-df_summary = pd.DataFrame(
-    {
-        "Story": [story["title"][:35] + "..." if len(story["title"]) > 35 else story["title"] for story in stories],
-        "Risk level": [story["risk"] for story in stories],
-        "Prevention effectiveness": [story["prevention"] for story in stories],
-    }
-)
-fig_sum = px.scatter(
-    df_summary,
-    x="Risk level",
-    y="Prevention effectiveness",
-    text="Story",
-    size=[20, 20, 20, 20],
-    color="Risk level",
-    color_continuous_scale=["#22c55e", "#f59e0b", "#ef4444"],
-    range_color=[60, 100],
-)
-fig_sum.update_traces(textposition="top center", marker_sizemin=15)
-fig_sum.update_layout(
-    paper_bgcolor="#ffffff",
-    plot_bgcolor="#ffffff",
-    font=dict(color="#334155"),
-    coloraxis_showscale=False,
-    xaxis=dict(range=[60, 100], title="Risk level (%)", showgrid=False),
-    yaxis=dict(range=[70, 100], title="Prevention effectiveness (%)", showgrid=False),
-    margin=dict(l=10, r=10, t=20, b=10),
-    height=300,
-)
-st.plotly_chart(fig_sum, use_container_width=True)
+
+common_a, common_b, common_c = st.columns(3, gap="large")
+for column, title, desc, accent, icon in [
+    (
+        common_a,
+        "Weak assumptions",
+        "The organization assumes the training data, context, or old performance still holds.",
+        "#f59e0b",
+        "rule",
+    ),
+    (
+        common_b,
+        "Weak controls",
+        "Thresholds, review rules, documentation, or monitoring are missing or too weak.",
+        "#0f766e",
+        "tune",
+    ),
+    (
+        common_c,
+        "Weak ownership",
+        "No one is clearly responsible for checking the system, responding to issues, and stopping harmful use.",
+        "#2563eb",
+        "person_alert",
+    ),
+]:
+    with column:
+        st.markdown(
+            f"""
+            <div class="card">
+              <div class="card-title">{material_icon(icon, 18, accent)} {title}</div>
+              <div class="card-desc">{desc}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 st.markdown(
-    f"<div style='background:#eff6ff; border:1px solid #2563eb; border-radius:10px; padding:16px 20px; color:#1e40af; font-size:1rem;'>"
-    f"{material_icon('lightbulb', 18, '#1d4ed8')} <strong>Key takeaway:</strong> Every failure story on this page has a known, practical prevention. "
-    f"The question is whether organisations invest in safeguards <em>before</em> incidents occur."
-    f"</div>",
+    (
+        '<div class="section-note">'
+        "<strong>Key takeaway:</strong> Every story on this page has a practical prevention. "
+        "The real question is whether the organization adds safeguards before something goes wrong rather than after."
+        "</div>"
+    ),
     unsafe_allow_html=True,
 )

@@ -1,7 +1,6 @@
+from html import escape
+
 import streamlit as st
-import plotly.express as px
-import plotly.graph_objects as go
-import pandas as pd
 
 from trust_utils import material_icon, render_callout, render_page_header, render_section_intro, setup_page
 
@@ -9,177 +8,257 @@ from trust_utils import material_icon, render_callout, render_page_header, rende
 setup_page("roadmap", "Roadmap")
 
 render_page_header(
-    title="What we recommend — a decision-ready roadmap",
-    subtitle="A simple roadmap leaders can act on.",
+    title="Roadmap: from pilot to governed use",
+    subtitle="A practical sequence for teams that want AI to be useful, reviewable, and safe enough for the context.",
     icon_name="route",
     accent="#9333ea",
-    chips=["Quick wins", "Governance", "Continuous improvement"],
+    chips=["Days 0-30", "Days 30-90", "Ongoing"],
     eyebrow="Action plan",
 )
 
 render_callout(
     title="How to use this roadmap",
-    body="Treat Phase A as the baseline, Phase B as the governance layer, and Phase C as the improvement loop.",
+    body="Use it as a sequencing guide. Put guardrails in place first, formalize ownership and evidence next, then monitor and improve continuously. This is a governance roadmap, not a substitute for legal review.",
     icon_name="conversion_path",
     accent="#9333ea",
 )
 
-phases = [
+render_section_intro(
+    title="Three stages of adoption",
+    body="The order matters. Constrain the task first, then make the system governable, then run it like a live service that can drift, fail, and need intervention.",
+    icon_name="route",
+    accent="#9333ea",
+)
+
+stages = [
     {
-        "phase": "Phase A",
-        "name": "Minimum Safety Baseline",
-        "subtitle": "Quick wins",
+        "stage": "Stage 1",
+        "window": "Days 0-30",
+        "name": "Constrain the use case",
+        "subtitle": "Stop avoidable harm before the system becomes routine.",
         "color": "#22c55e",
-        "bg": "#f0fdf4",
-        "icon": material_icon("verified_user", 28, "#22c55e"),
-        "effort": 2,
-        "impact": 8,
+        "soft": "rgba(34,197,94,0.10)",
+        "icon": material_icon("shield", 28, "#16a34a"),
+        "icon_bg": "rgba(220,252,231,0.95)",
+        "owner": "Service or product lead",
         "items": [
-            "Define what the AI is for — and not for",
-            "Add confidence thresholds",
-            "Add human review for risky cases",
-            "Add basic data quality and freshness checks",
+            "Define what the AI is for, where it helps, and where it should not be used.",
+            "Add confidence thresholds, refusal rules, and a clear fallback path.",
+            "Require human review for risky, unusual, or low-confidence cases.",
+            "Check that critical data is recent enough and fit for the task.",
         ],
+        "gate": "Do not widen use until people can intervene and the service can fail safely.",
     },
     {
-        "phase": "Phase B",
-        "name": "Robust Governance",
-        "subtitle": "Structural safeguards",
+        "stage": "Stage 2",
+        "window": "Days 30-90",
+        "name": "Make it governable",
+        "subtitle": "Turn ad hoc safeguards into repeatable operating rules.",
         "color": "#3b82f6",
-        "bg": "#eff6ff",
-        "icon": material_icon("account_balance", 28, "#3b82f6"),
-        "effort": 5,
-        "impact": 9,
+        "soft": "rgba(59,130,246,0.10)",
+        "icon": material_icon("account_balance", 28, "#2563eb"),
+        "icon_bg": "rgba(219,234,254,0.95)",
+        "owner": "Business owner with risk and legal support",
         "items": [
-            "Add monitoring and alerts",
-            "Keep audit trails",
-            "Set clear ownership",
-            "Repeat documented fairness checks",
+            "Name an accountable owner and define an escalation path when something goes wrong.",
+            "Keep records of model versions, key decisions, approvals, and exceptions.",
+            "Run repeatable fairness, reliability, and documentation checks.",
+            "Document who can approve changes, pauses, or temporary overrides.",
         ],
+        "gate": "Scaling should require evidence and named accountability, not optimism.",
     },
     {
-        "phase": "Phase C",
-        "name": "Continuous Improvement",
-        "subtitle": "Long-term excellence",
+        "stage": "Stage 3",
+        "window": "Ongoing",
+        "name": "Operate and improve",
+        "subtitle": "Treat AI as a managed capability, not a one-time launch.",
         "color": "#a855f7",
-        "bg": "#faf5ff",
-        "icon": material_icon("autorenew", 28, "#a855f7"),
-        "effort": 8,
-        "impact": 10,
+        "soft": "rgba(168,85,247,0.10)",
+        "icon": material_icon("autorenew", 28, "#9333ea"),
+        "icon_bg": "rgba(243,232,255,0.95)",
+        "owner": "Service owner with technical and operational leads",
         "items": [
-            "Re-evaluate and update regularly",
-            "Improve data coverage and reduce bias",
-            "Use independent review for high-impact cases",
-            "Learn from incidents",
+            "Monitor drift, complaints, overrides, incidents, and changes in the operating context.",
+            "Re-review the system when data, users, workflows, or legal obligations change.",
+            "Use independent challenge for high-impact or high-sensitivity use cases.",
+            "Feed lessons from failures, near misses, and audits back into the controls.",
         ],
+        "gate": "If conditions change, the system should be adjusted, paused, or withdrawn.",
     },
 ]
 
-cols = st.columns(3, gap="large")
-for col, phase in zip(cols, phases):
+stage_columns = st.columns(3, gap="large")
+for col, stage in zip(stage_columns, stages):
     with col:
-        items_html = "".join(f"<li style='margin:4px 0; color:#334155;'>{item}</li>" for item in phase["items"])
+        items_html = "".join(f"<li>{escape(item)}</li>" for item in stage["items"])
         st.markdown(
-            f"""
-            <div style='background:{phase['bg']}; border:1px solid {phase['color']};
-                        border-top:5px solid {phase['color']}; border-radius:12px;
-                        padding:20px 16px; min-height:300px;'>
-              <div style='font-size:2rem; margin-bottom:6px;'>{phase['icon']}</div>
-              <div style='color:{phase['color']}; font-size:0.8rem; font-weight:600;
-                          text-transform:uppercase; letter-spacing:1px;'>{phase['phase']}</div>
-              <div style='color:#1e293b; font-weight:700; font-size:1.1rem;
-                          margin:4px 0 2px;'>{phase['name']}</div>
-              <div style='color:#64748b; font-size:0.85rem; margin-bottom:12px;'>{phase['subtitle']}</div>
-              <ul style='padding-left:18px; margin:0;'>{items_html}</ul>
-            </div>
-            """,
+            (
+                f"<div class='roadmap-stage-card' style='--roadmap-accent:{stage['color']}; --roadmap-soft:{stage['soft']};'>"
+                "<div class='roadmap-stage-top'>"
+                f"<span class='roadmap-stage-step'>{escape(stage['stage'])}</span>"
+                f"<span class='roadmap-stage-window'>{escape(stage['window'])}</span>"
+                "</div>"
+                "<div class='roadmap-stage-head'>"
+                f"<div class='roadmap-stage-icon' style='background:{stage['icon_bg']};'>{stage['icon']}</div>"
+                "<div>"
+                f"<div class='roadmap-stage-title'>{escape(stage['name'])}</div>"
+                f"<div class='roadmap-stage-copy'>{escape(stage['subtitle'])}</div>"
+                "</div>"
+                "</div>"
+                "<div class='roadmap-stage-meta'>"
+                "<span class='roadmap-stage-meta-label'>Primary owner</span>"
+                f"<span class='roadmap-stage-meta-value'>{escape(stage['owner'])}</span>"
+                "</div>"
+                "<div class='roadmap-stage-list-label'>What should exist by the end of this stage</div>"
+                f"<ul class='roadmap-stage-list'>{items_html}</ul>"
+                f"<div class='roadmap-stage-gate'><strong>Decision gate:</strong> {escape(stage['gate'])}</div>"
+                "</div>"
+            ),
             unsafe_allow_html=True,
         )
 
 st.divider()
 
-left, right = st.columns([1, 1], gap="large")
+left, right = st.columns([1.15, 0.85], gap="large")
 
 with left:
     render_section_intro(
-        title="Effort vs impact by phase",
-        body="A simple view of effort versus expected value.",
-        icon_name="scatter_plot",
+        title="Minimum before wider rollout",
+        body="If these elements are missing, the system is not ready to scale or to sit in an important workflow.",
+        icon_name="fact_check",
+        accent="#2563eb",
     )
-    df_bubble = pd.DataFrame(
-        {
-            "Phase": [phase["phase"] + ": " + phase["name"] for phase in phases],
-            "Effort": [phase["effort"] for phase in phases],
-            "Impact": [phase["impact"] for phase in phases],
-            "Size": [30, 40, 50],
-            "Color": [phase["color"] for phase in phases],
-        }
+    readiness_checks = [
+        (
+            "Clear scope",
+            "The task, boundaries, fallback path, and non-approved uses are documented in plain language.",
+        ),
+        (
+            "Named accountability",
+            "One owner is answerable for the use case, even though several teams contribute controls.",
+        ),
+        (
+            "Human intervention",
+            "People can review, override, or stop the system when confidence is weak or context changes.",
+        ),
+        (
+            "Evidence pack",
+            "There is current evidence for reliability, fairness, data quality, and the conditions under which the system was tested.",
+        ),
+        (
+            "Monitoring and response",
+            "Logs, alerts, complaint handling, and incident escalation exist after launch, not only before it.",
+        ),
+    ]
+    checklist_html = "".join(
+        (
+            "<div class='roadmap-check-item'>"
+            f"<div class='roadmap-check-number'>{index}</div>"
+            "<div>"
+            f"<div class='roadmap-check-title'>{escape(title)}</div>"
+            f"<div class='roadmap-check-copy'>{escape(copy)}</div>"
+            "</div>"
+            "</div>"
+        )
+        for index, (title, copy) in enumerate(readiness_checks, start=1)
     )
-    fig = px.scatter(
-        df_bubble,
-        x="Effort",
-        y="Impact",
-        size="Size",
-        color="Phase",
-        color_discrete_map={row["Phase"]: phases[i]["color"] for i, row in df_bubble.iterrows()},
-        text="Phase",
-    )
-    fig.update_traces(textposition="top center")
-    fig.update_layout(
-        paper_bgcolor="#ffffff",
-        plot_bgcolor="#ffffff",
-        font=dict(color="#334155"),
-        legend=dict(font=dict(color="#334155"), bgcolor="#ffffff"),
-        xaxis=dict(title="Implementation effort (1-10)", range=[0, 11], showgrid=False),
-        yaxis=dict(title="Expected impact (1-10)", range=[5, 11], showgrid=False),
-        margin=dict(l=10, r=10, t=10, b=10),
-        showlegend=False,
-    )
-    st.plotly_chart(fig, use_container_width=True)
+    st.markdown(f"<div class='roadmap-checklist'>{checklist_html}</div>", unsafe_allow_html=True)
 
 with right:
     render_section_intro(
-        title="Cumulative safeguard coverage",
-        body="Coverage rises as teams move from a baseline toward stronger governance and improvement.",
-        icon_name="show_chart",
+        title="Who should own what",
+        body="Trustworthy AI is cross-functional, but accountability should be clear enough that issues never fall between teams.",
+        icon_name="groups",
+        accent="#0f766e",
     )
-    phase_names = ["Baseline\n(no safeguards)", "After Phase A", "After Phase B", "After Phase C"]
-    coverage = [15, 55, 80, 95]
-    df_line = pd.DataFrame({"Phase": phase_names, "Coverage (%)": coverage})
-    fig2 = px.line(
-        df_line,
-        x="Phase",
-        y="Coverage (%)",
-        markers=True,
-        line_shape="spline",
-        color_discrete_sequence=["#22c55e"],
-    )
-    fig2.add_hline(y=80, line_dash="dash", line_color="#f59e0b", annotation_text="Target minimum", annotation_font_color="#f59e0b")
-    fig2.update_traces(marker=dict(size=12, color="#22c55e"), line=dict(width=3))
-    fig2.update_layout(
-        paper_bgcolor="#ffffff",
-        plot_bgcolor="#ffffff",
-        font=dict(color="#334155"),
-        yaxis=dict(range=[0, 100], showgrid=False, title="Safeguard coverage (%)"),
-        xaxis=dict(showgrid=False, title=""),
-        margin=dict(l=10, r=10, t=10, b=10),
-    )
-    st.plotly_chart(fig2, use_container_width=True)
+    owners = [
+        (
+            "Business or service owner",
+            "Decides whether the use case is worth the risk and what level of error or harm is acceptable.",
+        ),
+        (
+            "Product or operations lead",
+            "Designs the workflow, escalation path, and fallback when the system should not decide alone.",
+        ),
+        (
+            "Technical lead",
+            "Maintains models, data pipelines, versioning, monitoring, and change control.",
+        ),
+        (
+            "Risk, legal, or compliance",
+            "Checks that governance, records, and regulatory obligations match the context and risk level.",
+        ),
+    ]
+    for title, copy in owners:
+        st.markdown(
+            (
+                "<div class='roadmap-owner-card'>"
+                f"<div class='roadmap-owner-title'>{escape(title)}</div>"
+                f"<div class='roadmap-owner-copy'>{escape(copy)}</div>"
+                "</div>"
+            ),
+            unsafe_allow_html=True,
+        )
+        st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
 
 st.divider()
 
-st.markdown(
-    f"### {material_icon('keep', 20, '#1d4ed8')} One-slide summary (what to say in a meeting)",
-    unsafe_allow_html=True,
+render_section_intro(
+    title="If you only do three things this quarter",
+    body="This is the shortest credible version of the roadmap for teams that are early in adoption.",
+    icon_name="keep",
+    accent="#9333ea",
 )
+
+priority_cols = st.columns(3, gap="large")
+priorities = [
+    (
+        "Priority 1",
+        "Narrow the task",
+        "Use AI for a defined job with clear limits instead of letting it quietly become general-purpose.",
+    ),
+    (
+        "Priority 2",
+        "Name one accountable owner",
+        "Cross-functional support matters, but one person or function still has to own the decision to deploy.",
+    ),
+    (
+        "Priority 3",
+        "Instrument the service",
+        "If you cannot see drift, complaints, overrides, and failures after launch, you are not governing the system yet.",
+    ),
+]
+for col, (kicker, title, copy) in zip(priority_cols, priorities):
+    with col:
+        st.markdown(
+            (
+                "<div class='roadmap-priority-card'>"
+                f"<div class='roadmap-priority-kicker'>{escape(kicker)}</div>"
+                f"<div class='roadmap-priority-title'>{escape(title)}</div>"
+                f"<div class='roadmap-priority-copy'>{escape(copy)}</div>"
+                "</div>"
+            ),
+            unsafe_allow_html=True,
+        )
+
+st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
+
 st.markdown(
-    "<div style='background:#eff6ff; border:1px solid #2563eb; border-radius:12px; padding:24px 28px; text-align:center;'>"
-    "<p style='color:#1e40af; font-size:1.3rem; font-weight:700; margin:0 0 12px;'>We don't need perfect AI.</p>"
-    "<div style='display:flex; justify-content:center; gap:16px; flex-wrap:wrap;'>"
-    + f"<span style='background:#f0fdf4; border:1px solid #22c55e; border-radius:20px; padding:6px 16px; color:#16a34a; font-weight:600;'>{material_icon('health_and_safety', 18, '#16a34a')} Fails safely</span>"
-    + f"<span style='background:#eff6ff; border:1px solid #3b82f6; border-radius:20px; padding:6px 16px; color:#1e40af; font-weight:600;'>{material_icon('manage_search', 18, '#1e40af')} Is reviewable</span>"
-    + f"<span style='background:#fffbeb; border:1px solid #f59e0b; border-radius:20px; padding:6px 16px; color:#92400e; font-weight:600;'>{material_icon('gavel', 18, '#92400e')} Is governed</span>"
-    + f"<span style='background:#faf5ff; border:1px solid #a855f7; border-radius:20px; padding:6px 16px; color:#7c3aed; font-weight:600;'>{material_icon('handshake', 18, '#7c3aed')} Earns public trust</span>"
-    + "</div></div>",
+    (
+        "<div class='roadmap-summary'>"
+        "<div class='roadmap-summary-kicker'>Decision standard</div>"
+        "<div class='roadmap-summary-title'>Do not ask whether the AI is perfect. Ask whether the organization can rely on it responsibly.</div>"
+        "<div class='roadmap-summary-copy'>"
+        "Proceed when the task is narrow, the evidence is current, a human can intervene, and someone remains accountable after launch. "
+        "That is the difference between an interesting pilot and a governable service."
+        "</div>"
+        "<div class='roadmap-summary-chip-row'>"
+        f"<span class='roadmap-summary-chip'>{material_icon('shield', 16, '#5b21b6')} Scoped use</span>"
+        f"<span class='roadmap-summary-chip'>{material_icon('manage_search', 16, '#5b21b6')} Reviewable evidence</span>"
+        f"<span class='roadmap-summary-chip'>{material_icon('person_alert', 16, '#5b21b6')} Human intervention</span>"
+        f"<span class='roadmap-summary-chip'>{material_icon('monitoring', 16, '#5b21b6')} Ongoing monitoring</span>"
+        "</div>"
+        "</div>"
+    ),
     unsafe_allow_html=True,
 )
