@@ -608,6 +608,256 @@ def inject_global_styles() -> None:
             line-height: 1.6;
             font-size: 0.94rem;
         }
+        .risk-tier {
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            border-radius: 20px;
+            padding: 16px 16px;
+            background: rgba(255,255,255,0.96);
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.05);
+            height: 100%;
+        }
+        .risk-tier-badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0.28rem 0.72rem;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.7rem;
+        }
+        .risk-tier-red {
+            background: rgba(254, 226, 226, 0.96);
+            color: #991b1b;
+            border: 1px solid rgba(252, 165, 165, 0.9);
+        }
+        .risk-tier-orange {
+            background: rgba(255, 237, 213, 0.96);
+            color: #9a3412;
+            border: 1px solid rgba(253, 186, 116, 0.92);
+        }
+        .risk-tier-yellow {
+            background: rgba(254, 249, 195, 0.96);
+            color: #854d0e;
+            border: 1px solid rgba(253, 224, 71, 0.9);
+        }
+        .risk-tier-green {
+            background: rgba(220, 252, 231, 0.96);
+            color: #166534;
+            border: 1px solid rgba(134, 239, 172, 0.9);
+        }
+        .risk-tier-title {
+            color: var(--text);
+            font-size: 1.05rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin-bottom: 0.45rem;
+        }
+        .risk-tier-copy {
+            color: #475569;
+            line-height: 1.65;
+            margin-bottom: 0.7rem;
+        }
+        .risk-tier ul {
+            margin: 0;
+            padding-left: 1.1rem;
+            color: #64748b;
+            line-height: 1.65;
+        }
+        .risk-ladder {
+            display: grid;
+            gap: 0.8rem;
+        }
+        .risk-ladder-item {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 0.9rem;
+            align-items: start;
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            border-radius: 18px;
+            padding: 0.9rem 1rem;
+            background: rgba(255,255,255,0.95);
+        }
+        .risk-ladder-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(124, 58, 237, 0.10);
+            color: #7c3aed;
+            font-size: 0.86rem;
+            font-weight: 800;
+        }
+        .risk-ladder-title {
+            color: var(--text);
+            font-size: 1rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin-bottom: 0.24rem;
+        }
+        .risk-ladder-copy {
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 0.94rem;
+        }
+        .obligation-card {
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            border-radius: 18px;
+            padding: 14px 14px;
+            background: rgba(255,255,255,0.96);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+            height: 100%;
+        }
+        .obligation-title {
+            color: var(--text);
+            font-size: 1rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin-bottom: 0.35rem;
+        }
+        .obligation-copy {
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 0.94rem;
+        }
+        .demo-case-card {
+            border: 1px solid rgba(203, 213, 225, 0.95);
+            border-radius: 22px;
+            padding: 18px 18px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.96));
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.05);
+            height: 100%;
+        }
+        .demo-case-kicker {
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.72rem;
+            font-weight: 800;
+            margin-bottom: 0.45rem;
+        }
+        .demo-case-title {
+            color: var(--text);
+            font-size: 1.1rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin-bottom: 0.45rem;
+        }
+        .demo-case-copy {
+            color: #475569;
+            line-height: 1.65;
+        }
+        .demo-signal-list {
+            display: grid;
+            gap: 0.65rem;
+        }
+        .demo-signal {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            padding: 0.7rem 0.8rem;
+            border-radius: 16px;
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            background: rgba(255,255,255,0.94);
+        }
+        .demo-signal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            flex-shrink: 0;
+            margin-top: 0.38rem;
+            background: #2563eb;
+        }
+        .demo-signal-copy {
+            color: #475569;
+            line-height: 1.6;
+            font-size: 0.94rem;
+        }
+        .demo-outcome-card {
+            border: 1px solid rgba(203, 213, 225, 0.95);
+            border-radius: 22px;
+            padding: 18px 18px;
+            background: rgba(255,255,255,0.96);
+            box-shadow: 0 12px 26px rgba(15, 23, 42, 0.05);
+            height: 100%;
+        }
+        .demo-outcome-card-good {
+            border-color: rgba(134, 239, 172, 0.95);
+            background:
+                radial-gradient(circle at top right, rgba(34,197,94,0.10), transparent 34%),
+                linear-gradient(180deg, rgba(255,255,255,0.98), rgba(240,253,244,0.95));
+        }
+        .demo-outcome-card-risky {
+            border-color: rgba(253, 186, 116, 0.95);
+            background:
+                radial-gradient(circle at top right, rgba(245,158,11,0.10), transparent 34%),
+                linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,247,237,0.95));
+        }
+        .demo-outcome-kicker {
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.72rem;
+            font-weight: 800;
+            margin-bottom: 0.45rem;
+        }
+        .demo-outcome-title {
+            color: var(--text);
+            font-size: 1.15rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin-bottom: 0.55rem;
+        }
+        .demo-pill {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0.24rem 0.62rem;
+            font-size: 0.76rem;
+            font-weight: 800;
+            margin-bottom: 0.7rem;
+        }
+        .demo-pill-green {
+            background: rgba(220, 252, 231, 0.95);
+            color: #166534;
+            border: 1px solid rgba(134, 239, 172, 0.9);
+        }
+        .demo-pill-yellow {
+            background: rgba(254, 249, 195, 0.95);
+            color: #854d0e;
+            border: 1px solid rgba(253, 224, 71, 0.9);
+        }
+        .demo-pill-red {
+            background: rgba(254, 226, 226, 0.95);
+            color: #991b1b;
+            border: 1px solid rgba(252, 165, 165, 0.9);
+        }
+        .demo-outcome-copy {
+            color: #475569;
+            line-height: 1.65;
+            margin-bottom: 0.7rem;
+        }
+        .demo-reason-list {
+            display: grid;
+            gap: 0.5rem;
+        }
+        .demo-reason {
+            border-radius: 14px;
+            padding: 0.65rem 0.75rem;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            color: #475569;
+            line-height: 1.55;
+            font-size: 0.93rem;
+        }
+        .demo-note {
+            border-left: 3px solid #0f766e;
+            padding: 0.1rem 0 0.1rem 0.9rem;
+            color: #475569;
+            line-height: 1.65;
+        }
         .framework-panel {
             border: 1px solid rgba(203, 213, 225, 0.95);
             border-radius: 22px;
